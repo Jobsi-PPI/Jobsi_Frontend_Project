@@ -1,21 +1,46 @@
+import { useNavigate } from "react-router-dom";
 import React from 'react'
 
 function Register() {
+    const navigate = useNavigate();
 return (<> 
     <div className="flex min-h-screen w-full">
         {/* Div blanco de la izquierda */}
         <div className="flex items-center justify-start min-h-screen w-1/2 bg-white relative">
 
-        {/* Líneas superiores lado azul */}
-        <div className="absolute top-6 left-0 space-y-4">
-            <div className=" w-175 h-[10px] bg-[#1e3a8a]"></div>
-            <div className=" w-75 h-[10px] bg-[#1e3a8a]"></div>
-        </div>
+            {/* Líneas superiores lado azul */}
+            <div className="absolute top-6 left-0 space-y-4">
+                <div className=" w-175 h-[10px] bg-[#1e3a8a]"></div>
+                <div className=" w-75 h-[10px] bg-[#1e3a8a]"></div>
+            </div>
 
-        {/* Línea inferior azul */}
-        <div className="absolute bottom-6 right-0 w-1/2 h-[10px] bg-[#1e3a8a] z-40"></div>
+            {/* Botón fijo abajo-izquierda */}
+            <button
+                type="button"
+                onClick={() => navigate("/login")}
+                className="fixed bottom-10 left-6 z-50 btn-azul text-white py-2 px-6 rounded-lg transition"
+            >
+                Volver
+            </button>
 
-            
+            <img
+                    src="/src/assets/jobsi-mascota-jobito_render.png"
+                    alt="Logo Jobsi"
+                    className="absolute left-[50%] top-[10%] z-50 -translate-x-1/2 -translate-y-1/2 w-[140px] h-[120px] object-cover"
+            />
+
+            <img
+                    src="/src/assets/Poli_jic_graduacion.png"
+                    alt="Logo Jobsi"
+                    className="absolute left-[50%] top-[43%] -translate-x-1/2 -translate-y-1/2 w-[540px] h-[480px] object-cover"
+            />
+            <h2 className="absolute left-[50%] bottom-[25%] -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-[#1e293b] whitespace-nowrap">Tranqui, nosotros te resolvemos!</h2>
+            <h3 className="absolute left-[50%] bottom-[9%] -translate-x-1/2 -translate-y-1/2 font-light text-[24px] text-center text-black whitespace-nowrap">Con Jobsi tendrás cientas de oportunidades para 
+                <br /> solucionar tus problemas en cuestión de  solo <br />minutos, echemonos una mano en conjunto.  </h3>
+
+
+            {/* Línea inferior azul */}
+            <div className="absolute bottom-6 right-0 w-1/2 h-[10px] bg-[#1e3a8a] z-40"></div>
         </div>
 
         {/* Div azul de la derecha */}
@@ -46,14 +71,6 @@ return (<>
                                 <input type="text" placeholder="Digita el nombre de tu institución" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
-                                <label className="block text-base font-bold text-black">Departamento</label>
-                                <select className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black">
-                                    <option value="municipio1">Municipio 1</option>
-                                    <option value="municipio2">Municipio 2</option>
-                                    <option value="municipio3">Municipio 3</option>
-                                </select>
-                            </div>
-                            <div>
                                 <label className="block text-base font-bold text-black">Contraseña</label>
                                 <input type="password" placeholder="Ingresa tu contraseña" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
@@ -77,14 +94,6 @@ return (<>
                             <div>
                                 <label className="block text-base font-bold text-black">Celular</label>
                                 <input type="number" placeholder="Digita tu celular" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
-                            </div>
-                            <div>
-                                <label className="block text-base font-bold text-black">Ciudad</label>
-                                <select className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black">
-                                    <option value="ciudad1">Ciudad 1</option>
-                                    <option value="ciudad2">Ciudad 2</option>
-                                    <option value="ciudad3">Ciudad 3</option>
-                                </select>
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Sexo</label>
