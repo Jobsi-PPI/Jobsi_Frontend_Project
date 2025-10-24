@@ -1,0 +1,21 @@
+
+/* Div principal lado azul */
+.div-azul-side{
+    width: 100%;
+}
+
+/* Estilos de botones */
+.btn-amarillo{
+    background-color: #ffb906;
+}
+.btn-azul{
+    background-color: #1e3a8a;
+}
+
+.btn-amarillo:hover,
+.btn-azul:hover,
+input:hover{
+    border-color: black;
+}
+
+
