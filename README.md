@@ -3,7 +3,7 @@
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwindcss&logoColor=white)
-![Status](https://img.shields.io/badge/estado-en%20desarrollo-yellow)
+![Status](https://img.shields.io/badge/estado-en%20desarrollo-orange)
 
 Proyecto académico del ecosistema **Jobsi**, enfocado en el desarrollo del **frontend web**.  
 Busca aplicar buenas prácticas de arquitectura modular y diseño moderno utilizando *React, Vite y TailwindCSS.*
