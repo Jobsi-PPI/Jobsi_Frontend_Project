@@ -79,9 +79,10 @@ npm install
 
 ---
 
-### **4. Instalar TailwindCSS**
+### **4. Instalar TailwindCSS y ReactIcons**
 ```bash
 npm install tailwindcss @tailwindcss/vite
+npm install react-icons 
 ```
 
 ---
