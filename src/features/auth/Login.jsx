@@ -32,6 +32,7 @@ return (<>
                 </h1>
             </div>
             <form className="space-y-4">
+                
                 <div>
                     <label className="block text-sm font-medium text-black">
                         Correo institucional
@@ -67,7 +68,8 @@ return (<>
                     </button>
 
                     <button
-                    type="submit"
+                    type="button"
+                    onClick={() => navigate("/home")}
                     className="w-1/2 btn-amarillo text-black py-2 rounded-lg transition"
                     >
                     Entrar

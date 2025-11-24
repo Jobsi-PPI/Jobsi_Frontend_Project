@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import React from 'react'
+import React, { useState } from 'react'
 
 function Register() {
     const navigate = useNavigate();
+
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
 return (<> 
     <div className="flex min-h-screen w-full">
         {/* Div blanco de la izquierda */}
@@ -55,7 +60,18 @@ return (<>
                 
             <div className="w-full max-w-3xl bg-[#fbfdff] py-15 pl-10 pr-60 rounded-[100px] shadow-md transform translate-x-[15%] mt-16 z-0">
                 
-                <form className="space-y-4">
+                <form
+                    className="space-y-4"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        if (password !== confirmPassword) {
+                            setPasswordError('Las contraseñas no coinciden.');
+                            return;
+                        }
+                        setPasswordError('');
+                        // continuar con submit / API
+                    }}
+                >
                     <h1 className='text-[#1c4363] text-2xl font-bold mb-6 mt-0'>Registro de cuenta</h1>
 
                     {/* Main grid de las columnas */}
@@ -63,20 +79,51 @@ return (<>
                         {/* Columna izquierda */}
                         <div className="w-1/2 space-y-4">
                             <div>
+                                <label className="block text-base font-bold text-black">Nombre</label>
+                                <input type="text" placeholder="Ingresa tu nombre" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                            </div>
+                            <div>
+                                <label className="block text-base font-bold text-black">Apellidos</label>
+                                <input type="text" placeholder="Ingresa tus apellidos" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                            </div>
+                            <div>
                                 <label className="block text-base font-bold text-black">Correo institucional</label>
                                 <input type="email" placeholder="Ingresa tu correo universitario" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
-                                <label className="block text-base font-bold text-black">Institución</label>
-                                <input type="text" placeholder="Digita el nombre de tu institución" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
-                            </div>
-                            <div>
                                 <label className="block text-base font-bold text-black">Contraseña</label>
-                                <input type="password" placeholder="Ingresa tu contraseña" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        if (passwordError) setPasswordError('');
+                                    }}
+                                    placeholder="Ingresa tu contraseña"
+                                    className={`w-full p-2 rounded-lg focus:ring-2 focus:ring-blue-500 text-black border-2 ${passwordError ? 'border-red-500' : 'border-[#6b7280]'}`}
+                                />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Confirmar contraseña</label>
-                                <input type="password" placeholder="Confirma la contraseña" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => {
+                                        setConfirmPassword(e.target.value);
+                                        if (passwordError) setPasswordError('');
+                                    }}
+                                    placeholder="Confirma la contraseña"
+                                    className={`w-full p-2 rounded-lg focus:ring-2 focus:ring-blue-500 text-black border-2 ${passwordError ? 'border-red-500' : 'border-[#6b7280]'}`}
+                                />
+
+                                {/* Mensaje de error limpio y accesible */}
+                                <p
+                                    className={`mt-2 text-sm ${passwordError ? 'text-red-600' : 'text-transparent'}`}
+                                    role="alert"
+                                    aria-live="polite"
+                                >
+                                    {passwordError || ' '}
+                                </p>
                             </div>
 
                             {/* Botón permanecerá en la columna izquierda */}
@@ -87,6 +134,10 @@ return (<>
 
                         {/* Columna derecha */}
                         <div className="w-1/2 space-y-4">
+                            <div>
+                                <label className="block text-base font-bold text-black">Segundon nombre</label>
+                                <input type="text" placeholder="Digita tu segundo nombre (opcional)" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                            </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Cédula</label>
                                 <input type="number" placeholder="Ingresa tu cédula" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
