@@ -3,7 +3,6 @@ import { useState } from "react";
 import { login } from "/src/services/authServices/";
 import { FiEye, FiEyeOff } from "react-icons/fi"; // react-icons
 import Swal from "sweetalert2";
-
 import "./Login.css";
 
 const Login = () => {

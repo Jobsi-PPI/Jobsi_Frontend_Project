@@ -1,12 +1,125 @@
 import { useNavigate } from "react-router-dom";
 import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
 import { useState } from "react";
+import { useEffect } from "react";
+
+import Swal from "sweetalert2";
+
+import JobCard from "/src/features/home/JobCard.jsx";
+import { crearJob, obtenerJobs } from "/src/services/jobService.js";
+
 
 
 const Home = () => {
 const navigate = useNavigate();
-const username = localStorage.getItem("username") || "Juancho";
+const username = localStorage.getItem("username");
+
 const [showModal, setShowModal] = useState(false);
+const [closing, setClosing] = useState(false);
+
+const [titulo, setTitulo] = useState("");
+const [descripcion, setDescripcion] = useState("");
+const [pago, setPago] = useState("");
+const [ubicacion, setUbicacion] = useState("");
+const [categoria, setCategoria] = useState("ASESORIAS");
+const [tipoPago, setTipoPago] = useState("EFECTIVO");
+
+// Errores por campo
+const [errors, setErrors] = useState({});
+
+// Lista de jobs
+const [jobs, setJobs] = useState([]);
+
+useEffect(() => {
+    const fetchJobs = async () => {
+        try {
+            const data = await obtenerJobs();
+            setJobs(data);
+        } catch (error) {
+            console.error("Error cargando jobs", error);
+        }
+    };
+
+    fetchJobs();
+}, []);
+
+
+const validateFields = () => {
+    let newErrors = {};
+
+    if (!titulo.trim()) newErrors.titulo = "El título es obligatorio";
+    if (!descripcion.trim()) newErrors.descripcion = "La descripción es obligatoria";
+    if (!pago) newErrors.pago = "El pago es obligatorio";
+    if (!ubicacion.trim()) newErrors.ubicacion = "La ubicación es obligatoria";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+};
+
+//Animación para cerrar el modal
+const closeModal = () => {
+    setClosing(true);
+    setTimeout(() => {
+        setShowModal(false);
+        setClosing(false);
+        setErrors({}); // Limpia errores al cerrar el modal
+    }, 250);
+};
+
+const handleCreateJob = async (e) => {
+    e.preventDefault();
+
+    if (!validateFields()) {
+        Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Revisa los campos marcados en rojo",
+        });
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    const jobData = {
+        titulo,
+        descripcion,
+        pago: Number(pago),
+        tipoPago,
+        ubicacion,
+        categoria
+    };
+
+    try {
+        await crearJob(jobData, token);
+
+        Swal.fire({
+        icon: "success",
+        title: "Job publicado 🎉",
+        text: "Tu Job fue publicado exitosamente.",
+        timer: 1500,
+        showConfirmButton: false,
+        });
+
+        // 💥 Limpieza del formulario
+        setTitulo("");
+        setDescripcion("");
+        setPago("");
+        setUbicacion("");
+        setTipoPago("EFECTIVO");
+        setCategoria("SERVICIOS");
+        setErrors({});
+
+        // 💥 Cerrar el modal con animación
+        closeModal();
+    } catch (error) {
+        Swal.fire({
+        icon: "error",
+        title: "Error publicando el Job",
+        text: "Intenta nuevamente.",
+        
+        });
+    }
+};
 
 return (
     <>
@@ -134,6 +247,16 @@ return (
             {/* //apartado de jobs */}
             <div>
                 <h1 className="absolute top-30 left-1/4 -translate-x-1/2 text-3xl font-bold text-[#1e3a8a]">Jobs disponibles</h1>
+
+                {/* Listado de Jobs */}
+                <div className="mt-40 flex flex-wrap justify-center gap-8">
+                    {jobs.length === 0 ? (
+                        <p className="text-gray-600 text-lg">Cargando jobs...</p>
+                    ) : (
+                        jobs.map((job) => <JobCard key={job.id} job={job} />)
+                    )}
+                </div>
+
             </div>
 
             {/* Apartado publicar Job */}
@@ -157,57 +280,111 @@ return (
     {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999]">
             
-            <div className="bg-white w-[90%] max-w-[600px] rounded-2xl shadow-xl p-8 relative">
+            <div className={`bg-white w-[90%] max-w-[600px] rounded-2xl shadow-xl p-8 relative transition-all duration-300
+            ${closing ? "scale-90 opacity-0" : "scale-100 opacity-100"}`}>
+
             
-            {/* Botón cerrar */}
-            <button 
-                className="absolute top-4 right-4 bg-white hover:text-black text-2xl"
-                onClick={() => setShowModal(false)}
-            >
-                <FiX className="w-9 h-9" />
-            </button>
-
-            <h2 className="text-2xl font-bold text-[#1e3a8a] mb-6 text-center">
-                Publicar Job
-            </h2>
-
-            {/* Formulario del modal */}
-            <form className="space-y-4">
-                
-                <div>
-                <label className="block font-medium text-gray-700">Título del Job</label>
-                <input
-                    type="text"
-                    placeholder="Ej. Arreglo de portátil"
-                    className="w-full p-3 border-2 border-gray-300 rounded-lg text-black"
-                />
-                </div>
-
-                <div>
-                <label className="block font-medium text-gray-700">Descripción</label>
-                <textarea
-                    placeholder="Describe tu necesidad..."
-                    className="w-full p-3 border-2 border-gray-300 rounded-lg text-black h-32"
-                />
-                </div>
-
-                <div>
-                <label className="block font-medium text-gray-700">Pago ofrecido</label>
-                <input
-                    type="number"
-                    placeholder="Ej. 20.000"
-                    className="w-full p-3 border-2 border-gray-300 rounded-lg text-black"
-                />
-                </div>
-
-                <button
-                type="submit"
-                className="w-full py-3 bg-yellow-400 text-black font-bold rounded-lg btn-azul"
+                {/* Botón cerrar */}
+                <button 
+                    className="absolute top-4 right-4 btn-blanco text-black hover:text-red-500 text-2xl"
+                    onClick={closeModal}
                 >
-                Publicar
+                    <FiX className="w-9 h-9" />
                 </button>
 
-            </form>
+                <h2 className="text-2xl font-bold text-[#1e3a8a] mb-6 text-center">
+                    Publicar Job
+                </h2>
+
+                {/* Formulario del modal */}
+                <form className="space-y-4" onSubmit={handleCreateJob}>
+                    
+                    <div>
+                        <label className="block font-medium text-gray-700">Título del Job</label>
+                        <input
+                        type="text"
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
+                        placeholder="Ej. Arreglo de portátil"
+                        className={`w-full p-3 border-2 rounded-lg text-black 
+                            ${errors.titulo ? "border-red-500" : "border-gray-300"}`}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700">Descripción</label>
+                        <textarea
+                        value={descripcion}
+                        onChange={(e) => setDescripcion(e.target.value)}
+                        placeholder="Describe tu necesidad..."
+                        className={`w-full p-3 border-2 border-gray-300 rounded-lg text-black h-32
+                            ${errors.descripcion ? "border-red-500" : "border-gray-300"}`}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700">Pago ofrecido</label>
+                        <input
+                        type="number"
+                        value={pago}
+                        onChange={(e) => setPago(e.target.value)}
+                        placeholder="Ej. 20.000"
+                        className={`w-full p-3 border-2 border-gray-300 rounded-lg text-black
+                            ${errors.pago ? "border-red-500" : "border-gray-300"}`}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700">Ubicación del Job</label>
+                        <input
+                        type="text"
+                        value={ubicacion}
+                        onChange={(e) => setUbicacion(e.target.value)}
+                        placeholder="Ej. Almendros"
+                        className={`w-full p-3 border-2 border-gray-300 rounded-lg text-black
+                            ${errors.ubicacion ? "border-red-500" : "border-gray-300"}`}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-base font-bold text-black">Categoría</label>
+                        <select
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}
+                        className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
+                        >
+                        <option value="ASESORIAS">ASESORIAS</option>
+                        <option value="TAREAS">TAREAS</option>
+                        <option value="MATERIALES">MATERIALES</option>
+                        <option value="ENTRENAMIENTOS">ENTRENAMIENTOS</option>
+                        <option value="OTRO">OTRO</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-base font-bold text-black">Tipo de pago</label>
+                        <select
+                        value={tipoPago}
+                        onChange={(e) => setTipoPago(e.target.value)}
+                        className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
+                        >
+                        <option value="EFECTIVO">EFECTIVO</option>
+                        <option value="TRANSFERENCIA">TRANSFERENCIA</option>
+                        <option value="INTERCAMBIO">INTERCAMBIO</option>
+                        <option value="OTRO">OTRO</option>
+                        </select>
+                    </div>
+                    
+                    
+
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-yellow-400 text-white font-bold rounded-lg btn-azul"
+                    >
+                        Publicar
+                    </button>
+
+                </form>
 
             </div>
 
