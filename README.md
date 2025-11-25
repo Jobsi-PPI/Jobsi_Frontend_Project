@@ -72,22 +72,18 @@ cd Jobsi_Frontend_Project
 
 ---
 
-### **3. Instalar dependencias**
+### **3. Instalar dependencias (En orden)**
 ```bash
 npm install
-```
-
----
-
-### **4. Instalar TailwindCSS y ReactIcons**
-```bash
 npm install tailwindcss @tailwindcss/vite
-npm install react-icons 
+npm install react-icons
+npm install sweetalert2 
 ```
 
 ---
 
-### **5. Ejecutar en entorno de desarrollo**
+
+### **4. Ejecutar en entorno de desarrollo**
 ```bash
 npm run dev
 ```
@@ -98,7 +94,7 @@ http://localhost:5173
 
 ---
 
-### **6. Construir para producción**
+### **5. Construir para producción**
 ```bash
 npm run build
 ```
