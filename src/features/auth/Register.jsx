@@ -1,12 +1,58 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react'
+import { register } from "/src/services/authServices/";
+
 
 function Register() {
-    const navigate = useNavigate();
+const navigate = useNavigate();
 
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [nombre, setNombre] = useState("");
+    const [primerApellido, setPrimerApellido] = useState("");
+    const [segundoApellido, setSegundoApellido] = useState("");
+    const [email, setEmail] = useState("");
+    const [cedula, setCedula] = useState("");
+    const [celular, setCelular] = useState("");
+    const [sexo, setSexo] = useState("Masculino");
+    const [fechaNacimiento, setFechaNacimiento] = useState("");
+
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (password !== confirmPassword) {
+            setPasswordError("Las contraseñas no coinciden.");
+            return;
+        }
+        setPasswordError("");
+
+        const data = {
+            documento: Number(cedula),
+            nombre,
+            primerApellido,
+            segundoApellido,
+            email,
+            password,
+            telefono: celular,
+            fechaNacimiento,
+            genero: sexo,
+            rol: null
+        };
+
+        try {
+            const response = await register(data);
+
+            const firstName = nombre.split(" ")[0];
+            localStorage.setItem("username", firstName);
+
+            navigate("/home");
+        } catch (error) {
+            console.error(error);
+            alert("Error registrando usuario. Revisa los datos.");
+        }
+    };
 
 return (<> 
     <div className="flex min-h-screen w-full">
@@ -60,18 +106,7 @@ return (<>
                 
             <div className="w-full max-w-3xl bg-[#fbfdff] py-15 pl-10 pr-60 rounded-[100px] shadow-md transform translate-x-[15%] mt-16 z-0">
                 
-                <form
-                    className="space-y-4"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (password !== confirmPassword) {
-                            setPasswordError('Las contraseñas no coinciden.');
-                            return;
-                        }
-                        setPasswordError('');
-                        // continuar con submit / API
-                    }}
-                >
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     <h1 className='text-[#1c4363] text-2xl font-bold mb-6 mt-0'>Registro de cuenta</h1>
 
                     {/* Main grid de las columnas */}
@@ -80,15 +115,18 @@ return (<>
                         <div className="w-1/2 space-y-4">
                             <div>
                                 <label className="block text-base font-bold text-black">Nombre</label>
-                                <input type="text" placeholder="Ingresa tu nombre" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input type="text" placeholder="Ingresa tu nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} 
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
-                                <label className="block text-base font-bold text-black">Apellidos</label>
-                                <input type="text" placeholder="Ingresa tus apellidos" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <label className="block text-base font-bold text-black">Segundo apellido</label>
+                                <input type="text" placeholder="Ingresa tu segundo apellido" value={segundoApellido} onChange={(e) => setSegundoApellido(e.target.value)}
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Correo institucional</label>
-                                <input type="email" placeholder="Ingresa tu correo universitario" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input type="email" placeholder="Ingresa tu correo universitario" value={email} onChange={(e) => setEmail(e.target.value)} 
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Contraseña</label>
@@ -135,28 +173,33 @@ return (<>
                         {/* Columna derecha */}
                         <div className="w-1/2 space-y-4">
                             <div>
-                                <label className="block text-base font-bold text-black">Segundon nombre</label>
-                                <input type="text" placeholder="Digita tu segundo nombre (opcional)" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <label className="block text-base font-bold text-black">Primer apellido</label>
+                                <input type="text" placeholder="Ingresa tu primer apellido" value={primerApellido} onChange={(e) => setPrimerApellido(e.target.value)}
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Cédula</label>
-                                <input type="number" placeholder="Ingresa tu cédula" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input type="number" placeholder="Ingresa tu cédula" value={cedula} onChange={(e) => setCedula(e.target.value)}
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Celular</label>
-                                <input type="number" placeholder="Digita tu celular" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input type="number" placeholder="Ingresa tu celular" value={celular} onChange={(e) => setCelular(e.target.value)}
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Sexo</label>
-                                <select className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black">
+                                <select value={sexo} onChange={(e) => setSexo(e.target.value)} className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black">
                                     <option value="masculino">Masculino</option>
                                     <option value="femenino">Femenino</option>
+                                    <option value="femenino">Alien</option>
                                     <option value="otro">Otro</option>
                                 </select>
                             </div>
                             <div>
                                 <label className="block text-base font-bold text-black">Fecha de nacimiento</label>
-                                <input type="date" className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
+                                <input type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)}
+                                className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black" />
                             </div>
                         </div>
                     </div>

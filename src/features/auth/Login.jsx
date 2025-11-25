@@ -1,8 +1,32 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { login } from "/src/services/authServices/";
 import "./Login.css";
 
 const Login = () => {
     const navigate = useNavigate();
+
+    // Estados de los inputs
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    // Manejar el login
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await login(email, password);
+
+            // Guarda el token
+            localStorage.setItem("token", response.token);
+
+            // Envía al home
+            navigate("/home");
+        } catch (error) {
+            alert("Error al iniciar sesión. Verifica tus datos.");
+        }
+    };
+
 return (<>
 <div className="flex min-h-screen w-full">
     {/* Div azul de la izquierda */}
@@ -31,8 +55,8 @@ return (<>
                 Inicio de Sesión
                 </h1>
             </div>
-            <form className="space-y-4">
-                
+
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-black">
                         Correo institucional
@@ -40,6 +64,8 @@ return (<>
                     <input
                         type="email"
                         placeholder="Ingresa tu correo universitario"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                     />
                 </div>
@@ -50,6 +76,8 @@ return (<>
                     <input
                         type="password"
                         placeholder="Ingresa tu contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                     />
                 </div>
@@ -68,11 +96,10 @@ return (<>
                     </button>
 
                     <button
-                    type="button"
-                    onClick={() => navigate("/home")}
-                    className="w-1/2 btn-amarillo text-black py-2 rounded-lg transition"
+                        type="submit"
+                        className="w-1/2 btn-amarillo text-black py-2 rounded-lg transition"
                     >
-                    Entrar
+                        Entrar
                     </button>
                 </div>
 
