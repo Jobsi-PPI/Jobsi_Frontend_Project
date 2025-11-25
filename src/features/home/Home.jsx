@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons (Feather)
+import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
 import { useState } from "react";
+
 
 const Home = () => {
 const navigate = useNavigate();

@@ -11,6 +11,10 @@
 .btn-azul{
     background-color: #1e3a8a;
 }
+.btn-blanco{
+    background-color: white;
+}
+
 
 .btn-amarillo:hover,
 .btn-azul:hover,

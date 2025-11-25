@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react'
 import { register } from "/src/services/authServices/";
-
+import Swal from "sweetalert2";
 
 function Register() {
 const navigate = useNavigate();
@@ -19,40 +19,87 @@ const navigate = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (password !== confirmPassword) {
-            setPasswordError("Las contraseñas no coinciden.");
-            return;
-        }
-        setPasswordError("");
+    // Validación de campos vacíos
+    if (
+        !nombre.trim() ||
+        !primerApellido.trim() ||
+        !email.trim() ||
+        !cedula.trim() ||
+        !celular.trim() ||
+        !sexo.trim() ||
+        !fechaNacimiento.trim() ||
+        !password.trim() ||
+        !confirmPassword.trim()
+    ) {
+        Swal.fire({
+            icon: "warning",
+            title: "Campos incompletos",
+            text: "Por favor completa todos los campos del formulario.",
+            confirmButtonColor: "#1e3a8a"
+        });
+        return;
+    }
 
-        const data = {
-            documento: Number(cedula),
-            nombre,
-            primerApellido,
-            segundoApellido,
-            email,
-            password,
-            telefono: celular,
-            fechaNacimiento,
-            genero: sexo,
-            rol: null
-        };
+    // Validación contraseña
+    if (password !== confirmPassword) {
+        setPasswordError("Las contraseñas no coinciden.");
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Las contraseñas no coinciden.",
+            confirmButtonColor: "#1e3a8a"
+        });
+        return;
+    }
 
-        try {
-            const response = await register(data);
+    setPasswordError("");
 
-            const firstName = nombre.split(" ")[0];
-            localStorage.setItem("username", firstName);
-
-            navigate("/home");
-        } catch (error) {
-            console.error(error);
-            alert("Error registrando usuario. Revisa los datos.");
-        }
+    // Construcción del body del usuario
+    const data = {
+        documento: Number(cedula),
+        nombre,
+        primerApellido,
+        segundoApellido,
+        email,
+        password,
+        telefono: celular,
+        fechaNacimiento,
+        genero: sexo,
+        rol: null
     };
+
+    try {
+        await register(data);
+
+        // Guardar primer nombre en localStorage
+        const firstName = nombre.split(" ")[0];
+        localStorage.setItem("username", firstName);
+
+        // Swal de éxito
+        await Swal.fire({
+            icon: "success",
+            title: "¡Cuenta creada!",
+            text: "Tu cuenta ha sido registrada exitosamente 🎉",
+            confirmButtonColor: "#1e3a8a"
+        });
+
+        navigate("/home");
+
+    } catch (error) {
+        console.error(error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error al registrar",
+            text: "Ocurrió un problema registrando tu cuenta. Revisa los datos.",
+            confirmButtonColor: "#1e3a8a"
+        });
+    }
+};
+
 
 return (<> 
     <div className="flex min-h-screen w-full">
