@@ -243,20 +243,21 @@ return (
     </div>
 
     <div className="w-full bg-white relative overflow-x-hidden">
-        <div className="max-w-[900px] mx-auto py-140">
-            {/* //apartado de jobs */}
-            <div>
-                <h1 className="absolute top-30 left-1/4 -translate-x-1/2 text-3xl font-bold text-[#1e3a8a]">Jobs disponibles</h1>
+        <div className="w-full px-10 py-20">
+            {/* Apartado de jobs */}
+            <div className="mt-20 flex flex-col">
+                <h1 className="text-3xl font-bold text-[#1e3a8a] mb-10 text-left pl-22">
+                    Jobs disponibles
+                </h1>
 
                 {/* Listado de Jobs */}
-                <div className="mt-40 flex flex-wrap justify-center gap-8">
+                <div className="flex flex-wrap gap-8 pl-2">
                     {jobs.length === 0 ? (
                         <p className="text-gray-600 text-lg">Cargando jobs...</p>
                     ) : (
                         jobs.map((job) => <JobCard key={job.id} job={job} />)
                     )}
                 </div>
-
             </div>
 
             {/* Apartado publicar Job */}
@@ -270,7 +271,6 @@ return (
                 Publicalo
             </button>
             </div>
-
         </div>
 
 

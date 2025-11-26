@@ -2,7 +2,7 @@ import { FiUser, FiClock } from "react-icons/fi";
 
 const JobCard = ({ job }) => {
     return (
-        <div className="w-[300px] min-h-[380px] bg-white shadow-lg rounded-2xl p-5 border border-gray-200 flex flex-col justify-between hover:scale-[1.02] transition">
+        <div className="w-[300px] min-h-[380px] bg-white shadow-lg rounded-2xl p-5 border-4 border-black flex flex-col justify-between hover:scale-[1.02] transition">
             
             {/* Título */}
             <h2 className="text-xl font-bold text-[#1e3a8a] mb-2">
