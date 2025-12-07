@@ -323,10 +323,10 @@ return (
                         onChange={(e) => setSexo(e.target.value)}
                         className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                         >
-                        <option value="masculino">Masculino</option>
-                        <option value="femenino">Femenino</option>
-                        <option value="Alien">Alien</option>
-                        <option value="otro">Otro</option>
+                        <option value="1">Masculino</option>
+                        <option value="2">Femenino</option>
+                        <option value="3">Alien</option>
+                        <option value="4">Otro</option>
                     </select>
                 </div>
                 <div>

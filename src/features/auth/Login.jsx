@@ -19,8 +19,16 @@ const handleSubmit = async (e) => {
     try {
         const response = await login(email, password);
 
-        // Guarda el token
+/*         // Guarda el token
         localStorage.setItem("token", response.token);
+
+        // Guarda el nombre del usuario
+        const firstName =
+            response.usuario?.nombre?.split(" ")[0] ||
+            response.nombre?.split(" ")[0] ||
+            "Usuario";
+
+        localStorage.setItem("username", firstName); */
 
         // Mostrar SweetAlert de éxito
         await Swal.fire({

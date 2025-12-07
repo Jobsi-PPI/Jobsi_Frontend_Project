@@ -1,0 +1,143 @@
+import React from 'react'
+import { useNavigate } from "react-router-dom";
+import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
+
+import SidebarMenu from '../home/layouts/SidebarMenu';
+import JobPublicadoCard from './misJobs/JobPublicadoCard';
+import { obtenerMisJobs } from '../../services/misJobsService';
+
+const VerMisJobs = () => {
+    
+    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = React.useState(false);
+    const [misJobs, setMisJobs] = React.useState([]);
+
+
+    React.useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        const fetchJobs = async () => {
+            try {
+                const data = await obtenerMisJobs(token);
+                setMisJobs(data);
+            } catch (error) {
+                console.error("Error cargando mis jobs", error);
+            }
+        };
+
+        fetchJobs();
+    }, []);
+
+return (
+    <>
+    {/* Header */}
+        <div className="w-full py-13 shadow-md bg-[#1e3a8a] relative">
+            {/* Left: logo */}
+            <div className="absolute left-6 top-1/2 -translate-y-1/2">
+                <img
+                src="/src/assets/Jobsi_home_logo.png"
+                alt="Logo Jobsi Home"
+                className="w-[270px] h-[100px] object-cover"
+                />
+            </div>
+    
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 max-w-[700px]">
+                <form className="flex items-center gap-3">
+                    <input
+                        type="text"
+                        placeholder="Escribe un Job que estés buscando"
+                        className="flex-1 h-16 px-6 text-lg border-2 border-[#6b7280] rounded-full text-black bg-white"
+                    />
+                    <button
+                        type="button"
+                        aria-label="Buscar"
+                        className="p-3 rounded-full text-white flex items-center justify-center shadow-sm"
+                        onClick={() => { /* acción de búsqueda */ }}
+                    >
+                        <FiSearch className="w-8 h-8" />
+                    </button>
+                </form>
+            </div>
+    
+            {/* Right: botón menú (tres líneas) en blanco */}
+            <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                <button
+                    type="button"
+                    aria-label="Abrir menú"
+                    onClick={() => setMenuOpen(true)}
+                    className="p-2 text-white rounded-full bg-transparent focus:outline-none"
+                >
+                    <FiMenu className="w-9 h-9" />
+                </button>
+            </div>
+        </div> {/*fin del header */}
+
+        {/* Área de Jobs */}
+        <div className="w-full bg-white">
+            <div className="max-w-4xl mx-auto flex flex-col items-center text-center py-16 gap-6">
+                <h1 className="text-3xl font-bold">
+                    <span className="text-yellow-400">Área de Jobs </span>
+                </h1>
+
+                <h3 className="font-light text-[24px] text-black">
+                    ¡Aquí encontraras los jobs que has publicado y también a los que te postulaste!
+                </h3>
+            </div>
+        </div> {/*fin del área de Jobs */}
+
+        
+        {/* Apartado de los Jobs*/}
+        <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
+            <div className="max-w-[900px] mx-auto py-10 flex flex-row justify-center gap-40">
+                
+                <button className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center 
+                !bg-[#4468cf] text-white transition !text-[30px] px-6 overflow-hidden"
+                type="button"
+                >
+                    Publicados
+                </button>
+
+                <button className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center 
+                !bg-[#4468cf] text-white transition !text-[30px] px-6 overflow-hidden"
+                type="button"
+                >
+                    Postulados
+                </button>
+            </div>
+
+            {/* Aquí irían los componentes o elementos que muestran los jobs */}
+            <div className="w-full flex justify-center mt-10 pb-20">
+                <div className="w-[95%] max-w-[95%] bg-[#eef0f5] p-6 rounded-3xl flex flex-col gap-10">
+                    {misJobs.length === 0 ? (
+                        <p className="text-black text-center text-xl">
+                            Aún no has publicado ningún Job 📝
+                        </p>
+                    ) : (
+                        misJobs.map((job) => (
+                            <JobPublicadoCard key={job.id} job={job} />
+                        ))
+                    )}
+                </div>
+            </div>
+
+            <button className="w-full sm:w-auto max-w-[480px] h-10 flex items-center justify-center  
+                !bg-[#4468cf] text-white transition !text-[20px] px-6 overflow-hidden"
+                type="button"
+                onClick={() => navigate("/home")}
+                >
+                    Volver
+            </button>
+            
+        </div> {/* Fin apartado de los Jobs */}
+        
+    <SidebarMenu 
+        open={menuOpen} 
+        closeMenu={() => setMenuOpen(false)}
+        navigate={navigate}
+    />
+    
+    </>
+    )
+    }
+
+export default VerMisJobs
