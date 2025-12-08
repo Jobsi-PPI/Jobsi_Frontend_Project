@@ -100,15 +100,14 @@ const CreateJobModal = ({
                     <div>
                         <label className="block text-base font-bold text-black">Categoría</label>
                         <select
-                            value={categoria}
-                            onChange={(e) => setCategoria(e.target.value)}
+                        value={categoria} onChange={(e) => setCategoria(e.target.value)}
                             className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
                         >
-                            <option value="ASESORIAS">ASESORIAS</option>
-                            <option value="TAREAS">TAREAS</option>
-                            <option value="MATERIALES">MATERIALES</option>
-                            <option value="ENTRENAMIENTOS">ENTRENAMIENTOS</option>
-                            <option value="OTRO">OTRO</option>
+                            <option value="1">ASESORIAS</option>
+                            <option value="2">TAREAS</option>
+                            <option value="3">MATERIALES</option>
+                            <option value="4">ENTRENAMIENTOS</option>
+                            <option value="5">OTRO</option>
                         </select>
                     </div>
 

@@ -1,6 +1,24 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import Swal from "sweetalert2";
 
-const JobPublicadoCard = ({ job }) => {
+const JobPublicadoCard = ({ job, onDelete }) => {
+
+    const handleDeleteClick = async () => {
+        const result = await Swal.fire({
+                title: "Eliminar Job",
+                text: "¿Estás seguro de que quieres eliminar este job?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#1e3a8a",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Borrar",
+                cancelButtonText: "Cancelar"
+            });
+        if (result.isConfirmed) {
+            await onDelete(job.id);
+            }
+        };
+
     return (
         <div className="bg-white p-6 rounded-3xl shadow flex flex-col gap-3">
 
@@ -23,11 +41,16 @@ const JobPublicadoCard = ({ job }) => {
 
             {/* Botones */}
             <div className="flex gap-4 mt-4">
-                <button className="px-6 py-2 btn-amarillo text-black font-semibold rounded-full">
-                    Editar
+                <button className="px-6 py-2 btn-amarillo text-black font-semibold rounded-full flex items-center gap-2"
+                type="button"
+               /*  onClick={} */ >
+                    <FiEdit className="text-black-600" />Editar
                 </button>
 
-                <button className="px-6 py-2 bg-[#0a0f1a] text-white font-semibold rounded-full flex items-center gap-2">
+                <button className="px-6 py-2 bg-[#0a0f1a] text-white font-semibold rounded-full flex items-center gap-2"
+                type="button"
+                onClick={handleDeleteClick}
+                    >                     
                     <FiTrash2 /> Eliminar
                 </button>
             </div>

@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
-import Swal from "sweetalert2";
 
 import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
@@ -15,13 +14,15 @@ const username = localStorage.getItem("username");
 const [menuOpen, setMenuOpen] = useState(false);
 
 
-//Se importa la lógica del hook personalizado
+//Se importa la lógica del hook
 const {
     titulo, descripcion, pago, ubicacion, categoria, tipoPago,
     errors, jobs, showModal, closing, opening,
     setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago,
-    handleCreateJob, closeModal, openModal
+    handleCreateJob, handleTomarJob, closeModal, openModal
 } = useCreateJob();
+
+
 
 return (
     <>
@@ -156,7 +157,7 @@ return (
                     {jobs.length === 0 ? (
                         <p className="text-gray-600 text-lg">Cargando jobs...</p>
                     ) : (
-                        jobs.map((job) => <JobCard key={job.id} job={job} />)
+                        jobs.map((job) => <JobCard key={job.id} job={job} onTomar={handleTomarJob}/>)
                     )}
                 </div>
             </div>
@@ -210,7 +211,6 @@ return (
 );
 };
 
-console.log("RESPUESTA LOGIN:", response);
 
 
 export default Home;

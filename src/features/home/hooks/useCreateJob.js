@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { crearJob, obtenerJobs } from "../../../services/jobService";
+import { crearJob, obtenerJobs } from "../../../services/jobsServices/jobPublicService";
 
 export const useCreateJob = () => {
 const [titulo, setTitulo] = useState("");
@@ -91,7 +91,7 @@ const handleCreateJob = async (e) => {
     setDescripcion("");
     setPago("");
     setUbicacion("");
-    setCategoria("SERVICIOS");
+    setCategoria("ASESORIAS");
     setTipoPago("EFECTIVO");
     setErrors({});
 
@@ -109,6 +109,16 @@ const handleCreateJob = async (e) => {
     }
 };
 
+const handleTomarJob = (jobActualizado) => {
+    setJobs((prevJobs) =>
+        prevJobs.map((j) =>
+            j.id === jobActualizado.id ? jobActualizado : j
+        )
+    );
+};
+
+
+
 return {
     // States
     titulo, descripcion, pago, ubicacion, categoria, tipoPago,
@@ -119,6 +129,7 @@ return {
 
     // funciones
     handleCreateJob,
+    handleTomarJob,
     closeModal,
     openModal,
 };

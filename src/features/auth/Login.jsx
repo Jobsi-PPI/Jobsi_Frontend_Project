@@ -19,7 +19,7 @@ const handleSubmit = async (e) => {
     try {
         const response = await login(email, password);
 
-/*         // Guarda el token
+        // Guarda el token
         localStorage.setItem("token", response.token);
 
         // Guarda el nombre del usuario
@@ -28,7 +28,14 @@ const handleSubmit = async (e) => {
             response.nombre?.split(" ")[0] ||
             "Usuario";
 
-        localStorage.setItem("username", firstName); */
+        localStorage.setItem("username", firstName);
+
+        //Guarda el correo del usuario (decodificando el token JWT)
+        const payload = JSON.parse(atob(response.token.split('.')[1]));
+        localStorage.setItem("userEmail", payload.sub);
+        console.log("Decoded user email:", payload.sub);
+
+        
 
         // Mostrar SweetAlert de éxito
         await Swal.fire({

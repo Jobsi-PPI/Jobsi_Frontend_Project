@@ -1,10 +1,11 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
-import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
+import { FiSearch, FiMenu } from "react-icons/fi"; // react-icons
 
 import SidebarMenu from '../home/layouts/SidebarMenu';
 import JobPublicadoCard from './misJobs/JobPublicadoCard';
-import { obtenerMisJobs } from '../../services/misJobsService';
+import { obtenerMisJobs, deleteJob } from '../../services/jobsServices/misJobsService';
+import Swal from "sweetalert2";
 
 const VerMisJobs = () => {
     
@@ -12,7 +13,7 @@ const VerMisJobs = () => {
     const [menuOpen, setMenuOpen] = React.useState(false);
     const [misJobs, setMisJobs] = React.useState([]);
 
-
+    // Cargar los jobs publicados por el usuario 
     React.useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -27,6 +28,32 @@ const VerMisJobs = () => {
 
         fetchJobs();
     }, []);
+
+    const handleDeleteJob = async (jobId) => {
+
+        try {
+            const token = localStorage.getItem("token");
+            await deleteJob(jobId, token);
+
+            // Actualizar estado para quitar la card eliminada
+            setMisJobs((prev) => prev.filter((job) => job.id !== jobId));
+
+            Swal.fire({
+                icon: "success",
+                title: "Job eliminado",
+                text: "El job se eliminó correctamente.",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+            } catch (error) {
+            console.error("Error eliminando job:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error al eliminar",
+                text: "No se pudo eliminar el job, intenta de nuevo.",
+            });
+        }
+    };
 
 return (
     <>
@@ -114,7 +141,7 @@ return (
                         </p>
                     ) : (
                         misJobs.map((job) => (
-                            <JobPublicadoCard key={job.id} job={job} />
+                            <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} />
                         ))
                     )}
                 </div>
