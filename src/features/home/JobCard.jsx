@@ -19,9 +19,6 @@ const JobCard = ({ job, onTomar }) => {
             return;
         }
 
-        console.log("solicitanteCorreo:", job.solicitanteCorreo);
-        console.log("userEmail localStorage:", userEmail);
-
         try {
             const result = await Swal.fire({
                 title: "¿Tomar este Job?",
@@ -87,13 +84,18 @@ const JobCard = ({ job, onTomar }) => {
             </p>
 
             <div className="mt-4">
-                <p className="font-bold text-[#1e3a8a]">Efectivo</p>
-                <p className="font-bold text-black">${job.pago}</p>
+                <p className="font-bold text-[#1e3a8a]">{job.tipoPago}</p>
+                <p className="font-bold text-black">${job.pago.toLocaleString()}</p>
 
                 <p className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                     
                     <FiClock /> Hace poco
                 </p>
+            </div>
+
+            <div className="mt-4">
+                <p className="font-bold text-[#1e3a8a]">Ubicación</p>
+                <p className="font-bold text-black">{job.ubicacion}</p>
             </div>
 
             <div className="mt-4">

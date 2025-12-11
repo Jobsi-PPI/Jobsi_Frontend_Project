@@ -4,7 +4,9 @@ import { FiSearch, FiMenu } from "react-icons/fi"; // react-icons
 
 import SidebarMenu from '../home/layouts/SidebarMenu';
 import JobPublicadoCard from './misJobs/JobPublicadoCard';
-import { obtenerMisJobs, deleteJob } from '../../services/jobsServices/misJobsService';
+import JobPostuladoCard from './misJobs/JobPostuladoCard';
+import { obtenerMisJobs, obtenerJobsTomados, deleteJob } from '../../services/jobsServices/misJobsService';
+
 import Swal from "sweetalert2";
 
 const VerMisJobs = () => {
@@ -12,6 +14,9 @@ const VerMisJobs = () => {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = React.useState(false);
     const [misJobs, setMisJobs] = React.useState([]);
+    const [jobsTomados, setJobsTomados] = React.useState([]);
+    const [activeTab, setActiveTab] = React.useState("publicados");
+    
 
     // Cargar los jobs publicados por el usuario 
     React.useEffect(() => {
@@ -27,6 +32,21 @@ const VerMisJobs = () => {
         };
 
         fetchJobs();
+    }, []);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        const fetchJobsTomados = async () => {
+            try {
+                const data = await obtenerJobsTomados(token);
+                setJobsTomados(data);
+            } catch (error) {
+                console.error("Error cargando jobs tomados", error);
+            }
+        };
+
+        fetchJobsTomados();
     }, []);
 
     const handleDeleteJob = async (jobId) => {
@@ -54,6 +74,31 @@ const VerMisJobs = () => {
             });
         }
     };
+
+    const handleAbandonarJob = async (jobId) => {
+    try {
+        const token = localStorage.getItem("token");
+        await abandonarJob(jobId, token);
+
+        setJobsTomados(prev => prev.filter(job => job.id !== jobId));
+
+        Swal.fire({
+            icon: "success",
+            title: "Has abandonado el Job",
+            text: "Ya no estás asignado a este trabajo.",
+            timer: 1500,
+            showConfirmButton: false
+        });
+
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "No se pudo abandonar",
+            text: "Intenta de nuevo más tarde."
+        });
+    }
+};
+
 
 return (
     <>
@@ -117,33 +162,64 @@ return (
         <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
             <div className="max-w-[900px] mx-auto py-10 flex flex-row justify-center gap-40">
                 
-                <button className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center 
-                !bg-[#4468cf] text-white transition !text-[30px] px-6 overflow-hidden"
-                type="button"
+                <button className={`w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center
+                    text-white transition !text-[30px] px-6 overflow-hidden
+                    ${activeTab === "publicados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
+                    type="button"
+                    onClick={() => setActiveTab("publicados")}
                 >
                     Publicados
                 </button>
 
-                <button className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center 
-                !bg-[#4468cf] text-white transition !text-[30px] px-6 overflow-hidden"
-                type="button"
+                <button className={`w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center
+                    text-white transition !text-[30px] px-6 overflow-hidden
+                    ${activeTab === "postulados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
+                    type="button"
+                    onClick={() => setActiveTab("postulados")}
                 >
                     Postulados
                 </button>
             </div>
 
-            {/* Aquí irían los componentes o elementos que muestran los jobs */}
+            
             <div className="w-full flex justify-center mt-10 pb-20">
                 <div className="w-[95%] max-w-[95%] bg-[#eef0f5] p-6 rounded-3xl flex flex-col gap-10">
+
+                {/* Aquí se muestran los jobs publicados */}
+                {activeTab === "publicados" && (
+                    <>
                     {misJobs.length === 0 ? (
                         <p className="text-black text-center text-xl">
                             Aún no has publicado ningún Job 📝
                         </p>
                     ) : (
                         misJobs.map((job) => (
-                            <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} />
-                        ))
-                    )}
+                            <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob}
+                            />
+                            ))
+                        )}
+                    </>
+                )}
+
+                {/* Aquí se muestran los jobs TOMADOS */}
+                {activeTab === "postulados" && (
+                    <>
+                        {jobsTomados.length === 0 ? (
+                            <p className="text-black text-center text-xl">
+                                Aún no has tomado ningún Job 💼
+                            </p>
+                        ) : (
+                            jobsTomados.map((job) => (
+                                <JobPostuladoCard
+                                    key={job.id}
+                                    job={job}
+                                    onAbandoned={handleAbandonarJob}
+                                />
+                            ))
+                        )}
+                    </>
+                )}
+
                 </div>
             </div>
 

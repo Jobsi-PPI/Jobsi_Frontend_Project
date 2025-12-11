@@ -20,7 +20,7 @@ const JobPublicadoCard = ({ job, onDelete }) => {
         };
 
     return (
-        <div className="bg-white p-6 rounded-3xl shadow flex flex-col gap-3">
+        <div className="bg-white p-6 rounded-3xl shadow flex flex-col gap-3 border-2 border-black">
 
             <h2 className="text-xl font-bold text-[#1e3a8a]">
                 {job.titulo}
@@ -30,13 +30,18 @@ const JobPublicadoCard = ({ job, onDelete }) => {
 
 
             <div className="mt-2">
-                <p className="font-semibold text-[#1e3a8a]">Efectivo</p>
-                <p className="text-lg font-bold text-[#1e3a8a]">${job.pago.toLocaleString()}</p>
+                <p className="font-bold text-[#1e3a8a] ">{job.tipoPago}</p>
+                <p className="text-lg font-semibold text-black">${job.pago.toLocaleString()}</p> {/* toLocaleString para formato de miles */}
+            </div>
+
+            <div className="mt-4">
+                <p className="font-bold text-[#1e3a8a]">Ubicación</p>
+                <p className="font-semibold text-black">{job.ubicacion}</p>
             </div>
 
             <div className="mt-2">
-                <p className="font-semibold text-[#1e3a8a]">Tiempo límite</p>
-                <p className="font-bold text-black">{job.fechaLimite}</p>
+                <p className="font-bold text-[#1e3a8a]">Estado</p>
+                <p className="font-semibold text-black">{job.estado}</p>
             </div>
 
             {/* Botones */}
