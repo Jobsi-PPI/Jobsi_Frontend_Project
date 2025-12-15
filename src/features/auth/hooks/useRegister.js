@@ -93,18 +93,18 @@ const handleSubmit = async (e) => {
     }
 };
 
-return {
-    // Estados
-    nombre, primerApellido, segundoApellido, email, cedula, celular,
-    sexo, fechaNacimiento, password, confirmPassword,
-    showPassword, showConfirmPassword, passwordError,
+    return {
+        // Estados
+        nombre, primerApellido, segundoApellido, email, cedula, celular,
+        sexo, fechaNacimiento, password, confirmPassword,
+        showPassword, showConfirmPassword, passwordError,
 
-    // Setters
-    setNombre, setPrimerApellido, setSegundoApellido, setEmail, setCedula,
-    setCelular, setSexo, setFechaNacimiento, setPassword, setConfirmPassword,
-    setShowPassword, setShowConfirmPassword,
+        // Setters
+        setNombre, setPrimerApellido, setSegundoApellido, setEmail, setCedula,
+        setCelular, setSexo, setFechaNacimiento, setPassword, setConfirmPassword,
+        setShowPassword, setShowConfirmPassword,
 
-    // Funciones
-    handleSubmit,
-};
+        // Funciones
+        handleSubmit,
+    };
 };

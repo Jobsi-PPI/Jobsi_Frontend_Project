@@ -1,104 +1,25 @@
-import React from 'react'
 import { useNavigate } from "react-router-dom";
-import { FiSearch, FiMenu } from "react-icons/fi"; // react-icons
+import { FiSearch, FiMenu } from "react-icons/fi";
 
-import SidebarMenu from '../home/layouts/SidebarMenu';
-import JobPublicadoCard from './misJobs/JobPublicadoCard';
-import JobPostuladoCard from './misJobs/JobPostuladoCard';
-import { obtenerMisJobs, obtenerJobsTomados, deleteJob } from '../../services/jobsServices/misJobsService';
-
-import Swal from "sweetalert2";
+import SidebarMenu from "../home/layouts/SidebarMenu";
+import JobPublicadoCard from "./misJobs/JobPublicadoCard";
+import JobPostuladoCard from "./misJobs/JobPostuladoCard";
+import { useVerMisJobs } from "./hooks/useVerMisJobs";
 
 const VerMisJobs = () => {
     
-    const navigate = useNavigate();
-    const [menuOpen, setMenuOpen] = React.useState(false);
-    const [misJobs, setMisJobs] = React.useState([]);
-    const [jobsTomados, setJobsTomados] = React.useState([]);
-    const [activeTab, setActiveTab] = React.useState("publicados");
+    const navigate = useNavigate(); 
     
-
-    // Cargar los jobs publicados por el usuario 
-    React.useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        const fetchJobs = async () => {
-            try {
-                const data = await obtenerMisJobs(token);
-                setMisJobs(data);
-            } catch (error) {
-                console.error("Error cargando mis jobs", error);
-            }
-        };
-
-        fetchJobs();
-    }, []);
-
-    React.useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        const fetchJobsTomados = async () => {
-            try {
-                const data = await obtenerJobsTomados(token);
-                setJobsTomados(data);
-            } catch (error) {
-                console.error("Error cargando jobs tomados", error);
-            }
-        };
-
-        fetchJobsTomados();
-    }, []);
-
-    const handleDeleteJob = async (jobId) => {
-
-        try {
-            const token = localStorage.getItem("token");
-            await deleteJob(jobId, token);
-
-            // Actualizar estado para quitar la card eliminada
-            setMisJobs((prev) => prev.filter((job) => job.id !== jobId));
-
-            Swal.fire({
-                icon: "success",
-                title: "Job eliminado",
-                text: "El job se eliminó correctamente.",
-                timer: 1500,
-                showConfirmButton: false,
-            });
-            } catch (error) {
-            console.error("Error eliminando job:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Error al eliminar",
-                text: "No se pudo eliminar el job, intenta de nuevo.",
-            });
-        }
-    };
-
-    const handleAbandonarJob = async (jobId) => {
-    try {
-        const token = localStorage.getItem("token");
-        await abandonarJob(jobId, token);
-
-        setJobsTomados(prev => prev.filter(job => job.id !== jobId));
-
-        Swal.fire({
-            icon: "success",
-            title: "Has abandonado el Job",
-            text: "Ya no estás asignado a este trabajo.",
-            timer: 1500,
-            showConfirmButton: false
-        });
-
-    } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "No se pudo abandonar",
-            text: "Intenta de nuevo más tarde."
-        });
-    }
-};
-
+    const {
+        menuOpen,
+        setMenuOpen,
+        misJobs,
+        jobsTomados,
+        activeTab,
+        setActiveTab,
+        handleDeleteJob,
+        handleAbandonarJob,
+    } = useVerMisJobs();
 
 return (
     <>
@@ -160,6 +81,8 @@ return (
         
         {/* Apartado de los Jobs*/}
         <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
+
+            {/* Botones de publicados y postulados */}
             <div className="max-w-[900px] mx-auto py-10 flex flex-row justify-center gap-40">
                 
                 <button className={`w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center
