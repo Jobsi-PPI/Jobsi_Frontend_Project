@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { register } from "/src/services/authServices/";
+import { login } from "/src/services/authServices/";
+
 import Swal from "sweetalert2";
 
 export const useRegister = (navigate) => {
@@ -66,20 +68,30 @@ const handleSubmit = async (e) => {
     };
 
     try {
-    await register(data);
+        await register(data);
 
-    // Guardar primer nombre en localStorage
-    const firstName = nombre.split(" ")[0];
-    localStorage.setItem("username", firstName);
+        // Login automático después de registrar
+        const loginResponse = await login(email, password);
 
-    await Swal.fire({
-        icon: "success",
-        title: "¡Cuenta creada!",
-        text: "Tu cuenta ha sido registrada exitosamente 🎉",
-        confirmButtonColor: "#1e3a8a",
-    });
+        // Guarda el token del usuario
+        localStorage.setItem("token", loginResponse.token);
 
-    navigate("/home");
+        // Decodificar JWT
+        const payload = JSON.parse(atob(loginResponse.token.split(".")[1]));
+
+        // Guardar datos comunes
+        localStorage.setItem("username", nombre.split(" ")[0]);
+        localStorage.setItem("userEmail", payload.sub);
+        localStorage.setItem("genero", sexo);
+
+        await Swal.fire({
+            icon: "success",
+            title: "¡Cuenta creada!",
+            text: "Tu cuenta ha sido registrada exitosamente 🎉",
+            confirmButtonColor: "#1e3a8a",
+        });
+
+        navigate("/home");
 
     } catch (error) {
     console.error(error);
