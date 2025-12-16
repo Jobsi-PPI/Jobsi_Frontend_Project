@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { register } from "/src/services/authServices/";
-import { login } from "/src/services/authServices/";
+import { useAuth } from "/src/context/AuthContext.jsx";
+
 
 import Swal from "sweetalert2";
 
 export const useRegister = (navigate) => {
+
+const { login } = useAuth();
 
 const [nombre, setNombre] = useState("");
 const [primerApellido, setPrimerApellido] = useState("");
@@ -71,18 +74,7 @@ const handleSubmit = async (e) => {
         await register(data);
 
         // Login automático después de registrar
-        const loginResponse = await login(email, password);
-
-        // Guarda el token del usuario
-        localStorage.setItem("token", loginResponse.token);
-
-        // Decodificar JWT
-        const payload = JSON.parse(atob(loginResponse.token.split(".")[1]));
-
-        // Guardar datos comunes
-        localStorage.setItem("username", nombre.split(" ")[0]);
-        localStorage.setItem("userEmail", payload.sub);
-        localStorage.setItem("genero", sexo);
+        await login(email, password);
 
         await Swal.fire({
             icon: "success",

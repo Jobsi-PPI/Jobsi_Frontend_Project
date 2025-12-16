@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import {obtenerMisJobs, obtenerJobsTomados, deleteJob} from "../../../services/jobsServices/misJobsService";
+import { useAuth } from "/src/context/AuthContext.jsx";
 
 export const useVerMisJobs = () => {
+    const { token } = useAuth();
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [misJobs, setMisJobs] = useState([]);
     const [jobsTomados, setJobsTomados] = useState([]);
@@ -10,26 +13,24 @@ export const useVerMisJobs = () => {
 
     // Cargar los jobs publicados por el usuario 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
+    if (!token) return;
         obtenerMisJobs(token)
-        .then(setMisJobs)
-        .catch((err) => console.error("Error cargando mis jobs", err));
-    }, []);
+            .then(setMisJobs)
+            .catch((err) => console.error("Error cargando mis jobs", err));
+    }, [token]);
 
 
+    // Cargar los jobs tomados por el usuario
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
+    if (!token) return;
         obtenerJobsTomados(token)
         .then(setJobsTomados)
         .catch((err) => console.error("Error cargando jobs tomados", err));
-    }, []);
+    }, [token]);
 
     // Eliminar un job publicado por el usuario
     const handleDeleteJob = async (jobId) => {
         try {
-        const token = localStorage.getItem("token");
         await deleteJob(jobId, token);
 
         setMisJobs((prev) => prev.filter((job) => job.id !== jobId));
@@ -53,7 +54,6 @@ export const useVerMisJobs = () => {
     // Método para abandonar job tomado (cuando se tenga el servicio)
     const handleAbandonarJob = async (jobId) => {
         try {
-            const token = localStorage.getItem("token");
             await abandonarJob(jobId, token);
 
             setJobsTomados(prev => prev.filter(job => job.id !== jobId));

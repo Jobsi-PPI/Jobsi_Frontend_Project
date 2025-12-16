@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { login } from "/src/services/authServices/";
+import { useAuth } from "/src/context/AuthContext.jsx";
 import Swal from "sweetalert2";
 import "./Login.css";
 
@@ -8,6 +8,7 @@ import LoginForm from "/src/features/auth/components/LoginForm.jsx";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth(); // AuthContext
 
     // Estados de los inputs
     const [email, setEmail] = useState("");
@@ -18,21 +19,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await login(email, password);
-
-            // 🔐 Token
-            localStorage.setItem("token", response.token);
-
-            // Decodificar JWT
-            const payload = JSON.parse(atob(response.token.split(".")[1]));
-
-            const firstName = payload.nombre
-                ? payload.nombre.split(" ")[0]
-                : "Usuario";
-
-            localStorage.setItem("username", firstName);
-            localStorage.setItem("userEmail", payload.sub);
-            localStorage.setItem("genero", payload.genero);
+            await login(email, password);
 
             // Mostrar SweetAlert de éxito
             await Swal.fire({

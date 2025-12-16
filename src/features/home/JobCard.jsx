@@ -1,16 +1,23 @@
 import { FiUser, FiClock } from "react-icons/fi";
-import Swal from "sweetalert2";
 import { tomarJob } from "/src/services/jobsServices/jobPublicService";
+import { useAuth } from "/src/context/AuthContext.jsx";
 
+import Swal from "sweetalert2";
 
 const JobCard = ({ job, onTomar }) => {
-
+    const { user, token } = useAuth();
     const handleTomarJob = async () => {
+        
+        if (!token || !user) {
+            Swal.fire({
+                icon: "warning",
+                title: "Sesión no válida",
+                text: "Por favor inicia sesión nuevamente.",
+            });
+            return;
+        }
 
-        const token = localStorage.getItem("token");
-        const userEmail = localStorage.getItem("userEmail"); 
-
-        if (job.solicitanteCorreo === userEmail) {
+        if (job.solicitanteCorreo === user?.email) {
             Swal.fire({
                 icon: "info",
                 title: "No puedes tomar tu propio Job",
@@ -102,8 +109,6 @@ const JobCard = ({ job, onTomar }) => {
                 <p className="font-bold text-[#1e3a8a]">Estado</p>
                 <p className="font-bold text-black">{job.estado}</p>
             </div>
-
-            {console.log("Estado:", job.estado)}
             
             {/* Botón de tomar Job */}
             <button className="mt-4 w-full bg-[#1e3a8a] text-white py-2 rounded-lg font-semibold hover:bg-[#142a61] transition"

@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { crearJob, obtenerJobs } from "../../../services/jobsServices/jobPublicService";
+import { useAuth } from "/src/context/AuthContext.jsx";
 
 export const useCreateJob = () => {
+const { token } = useAuth();
+
 const [titulo, setTitulo] = useState("");
 const [descripcion, setDescripcion] = useState("");
 const [pago, setPago] = useState("");
@@ -55,16 +58,23 @@ const closeModal = () => {
 const handleCreateJob = async (e) => {
     e.preventDefault();
 
-    if (!validateFields()) {
-    Swal.fire({
-        icon: "warning",
-        title: "Campos incompletos",
-        text: "Revisa los campos marcados en rojo",
-    });
-    return;
+    if (!token) {
+        Swal.fire({
+            icon: "warning",
+            title: "Sesión no válida",
+            text: "Por favor inicia sesión nuevamente.",
+        });
+        return;
     }
 
-    const token = localStorage.getItem("token");
+    if (!validateFields()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Campos incompletos",
+            text: "Revisa los campos marcados en rojo",
+        });
+        return;
+    }
 
     const jobData = {
     titulo,
