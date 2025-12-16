@@ -1,7 +1,12 @@
 import { FiX, FiUser, FiSettings, FiHelpCircle, FiLogOut, FiBriefcase } from "react-icons/fi";
+import { useAuth } from "../../../context/AuthContext";
 import Swal from "sweetalert2";
 
+
+
 const SidebarMenu = ({ open, closeMenu, navigate }) => {
+    const { logout } = useAuth();
+
     return (
         <>
             {/* Overlay oscuro */}
@@ -69,8 +74,8 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
                                 });
 
                                 if (result.isConfirmed) {
-                                    localStorage.clear();
-                                    navigate("/login");
+                                    logout();
+                                    navigate("/login", { replace: true }); 
                                 }
                             }}
                     >

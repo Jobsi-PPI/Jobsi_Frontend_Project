@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FiSearch, FiMenu, FiX } from "react-icons/fi"; // react-icons
+import { FiSearch, FiMenu } from "react-icons/fi"; // react-icons
+import { useAuth } from "/src/context/AuthContext.jsx";
 
 import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
@@ -10,21 +11,21 @@ import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
 
 const Home = () => {
     const navigate = useNavigate();
-    const username = localStorage.getItem("username") || "Usuario";
-    const genero = localStorage.getItem("genero");
+    const { user, token } = useAuth();
+
+    const nombre = user?.nombre || "Usuario";
+    const genero = user?.genero;
+
     const [menuOpen, setMenuOpen] = useState(false);
-    
 
     //Se importa la lógica del hook
     const {
         titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-        errors, jobs, showModal, closing, opening,
+        errors, jobs, showModal, closing,
         setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago,
         handleCreateJob, handleTomarJob, closeModal, openModal
     } = useCreateJob();
-
-
-
+    
 return (
     <>
     {/* Header */}
@@ -74,7 +75,7 @@ return (
         <div className="max-w-4xl mx-auto flex flex-col items-center text-center py-16 gap-6">
             <h1 className="text-3xl font-bold">
                 <span className="text-yellow-400">{genero === "Femenino" ? "Bienvenida" : "Bienvenido"} </span>
-                <span className="text-[#1e3a8a]">{username}</span>
+                <span className="text-[#1e3a8a]">{nombre}</span>
                 <span className="text-[#1e3a8a]"> a Jobsi</span>
             </h1>
 
