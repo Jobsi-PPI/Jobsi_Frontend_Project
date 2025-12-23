@@ -7,6 +7,7 @@ import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import { useCreateJob } from "./hooks/useCreateJob";
 import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
+import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
 
 const Home = () => {
@@ -21,8 +22,10 @@ const Home = () => {
     //Se importa la lógica del hook
     const {
         titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-        errors, jobs, showModal, closing,
-        setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago,
+        errors, jobs, showModal, closing, opening, loadingJobs,
+
+        // setters
+        setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
         handleCreateJob, handleTomarJob, closeModal, openModal
     } = useCreateJob();
     
@@ -156,12 +159,22 @@ return (
 
                 {/* Listado de Jobs */}
                 <div className="flex flex-wrap gap-8 pl-2">
-                    {jobs.length === 0 ? (
-                        <p className="text-gray-600 text-lg">Cargando jobs...</p>
+                    {loadingJobs ? (
+                        Array.from({ length: 6 }).map((_, i) => (<JobCardSkeleton key={i} />))) : jobs.length === 0 ? (
+                        <p className="text-gray-600 text-lg">
+                            No hay jobs disponibles por ahora 💤
+                        </p>
                     ) : (
-                        jobs.map((job) => <JobCard key={job.id} job={job} onTomar={handleTomarJob}/>)
+                        jobs.map((job) => (
+                            <JobCard 
+                                key={job.id} 
+                                job={job} 
+                                onTomar={handleTomarJob} 
+                            />
+                        ))
                     )}
                 </div>
+
             </div>
 
             {/* Apartado publicar Job */}
