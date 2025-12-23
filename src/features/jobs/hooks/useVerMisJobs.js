@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import {obtenerMisJobs, obtenerJobsTomados, deleteJob} from "../../../services/jobsServices/misJobsService";
+import {obtenerMisJobs, obtenerJobsTomados, deleteJob, abandonarJob} from "../../../services/jobsServices/misJobsService";
 import { useAuth } from "/src/context/AuthContext.jsx";
 
 export const useVerMisJobs = () => {
@@ -10,6 +10,26 @@ export const useVerMisJobs = () => {
     const [misJobs, setMisJobs] = useState([]);
     const [jobsTomados, setJobsTomados] = useState([]);
     const [activeTab, setActiveTab] = useState("publicados");
+    const [loadingPublicados, setLoadingPublicados] = useState(true);
+    const [loadingPostulados, setLoadingPostulados] = useState(true);
+
+
+    //Publicados
+    useEffect(() => {
+        obtenerMisJobs(token)
+            .then(setMisJobs)
+            .catch(console.error)
+            .finally(() => setLoadingPublicados(false));
+    }, []);
+
+    //Postulados
+    useEffect(() => {
+        obtenerJobsTomados(token)
+            .then(setJobsTomados)
+            .catch(console.error)
+            .finally(() => setLoadingPostulados(false));
+    }, []);
+
 
     // Cargar los jobs publicados por el usuario 
     useEffect(() => {
@@ -63,7 +83,7 @@ export const useVerMisJobs = () => {
                 title: "Has abandonado el Job",
                 text: "Ya no estás asignado a este trabajo.",
                 timer: 1500,
-                showConfirmButton: false
+                showConfirmButton: false,
             });
 
         } catch (error) {
@@ -81,6 +101,9 @@ export const useVerMisJobs = () => {
         misJobs,
         jobsTomados,
         activeTab,
+
+        loadingPublicados,
+        loadingPostulados, 
 
         // setters
         setMenuOpen,

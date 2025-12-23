@@ -6,6 +6,9 @@ import JobPublicadoCard from "./misJobs/JobPublicadoCard";
 import JobPostuladoCard from "./misJobs/JobPostuladoCard";
 import { useVerMisJobs } from "./hooks/useVerMisJobs";
 
+import JobPublicadoSkeleton from "../../components/loaders/JobPublicadoSkeleton";
+import JobPostuladoSkeleton from "../../components/loaders/JobPostuladoSkeleton";
+
 const VerMisJobs = () => {
     
     const navigate = useNavigate(); 
@@ -16,6 +19,8 @@ const VerMisJobs = () => {
         misJobs,
         jobsTomados,
         activeTab,
+        loadingPublicados,
+        loadingPostulados,
         setActiveTab,
         handleDeleteJob,
         handleAbandonarJob,
@@ -111,15 +116,17 @@ return (
                 {/* Aquí se muestran los jobs publicados */}
                 {activeTab === "publicados" && (
                     <>
-                    {misJobs.length === 0 ? (
-                        <p className="text-black text-center text-xl">
-                            Aún no has publicado ningún Job 📝
-                        </p>
-                    ) : (
-                        misJobs.map((job) => (
-                            <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob}
-                            />
-                            ))
+                        {loadingPublicados ? (Array.from({ length: 3 }).map((_, i) => (
+                            <JobPublicadoSkeleton key={i} />
+                        ))
+                        ) : misJobs.length === 0 ? (
+                            <p className="text-black text-center text-xl">
+                                Aún no has publicado ningún Job 📝
+                            </p>
+                        ) : (
+                            misJobs.map((job) => (
+                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob}/>
+                                ))
                         )}
                     </>
                 )}
@@ -127,7 +134,10 @@ return (
                 {/* Aquí se muestran los jobs TOMADOS */}
                 {activeTab === "postulados" && (
                     <>
-                        {jobsTomados.length === 0 ? (
+                        {loadingPostulados ? (Array.from({ length: 3 }).map((_, i) => (
+                            <JobPostuladoSkeleton key={i} />
+                        ))
+                        ) : jobsTomados.length === 0 ? (
                             <p className="text-black text-center text-xl">
                                 Aún no has tomado ningún Job 💼
                             </p>

@@ -19,6 +19,14 @@ const [jobs, setJobs] = useState([]);
 const [showModal, setShowModal] = useState(false);
 const [closing, setClosing] = useState(false);
 const [opening, setOpening] = useState(false);
+const [loadingJobs, setLoadingJobs] = useState(true);
+
+useEffect(() => {
+    obtenerJobs()
+        .then(setJobs)
+        .catch(console.error)
+        .finally(() => setLoadingJobs(false));
+}, []);
 
 // cargar jobs
 useEffect(() => {
@@ -132,10 +140,9 @@ const handleTomarJob = (jobActualizado) => {
 return {
     // States
     titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-    errors, jobs, showModal, closing, opening,
-
+    errors, jobs, showModal, closing, opening, loadingJobs,
     // setters
-    setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, setShowModal,
+    setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, setShowModal, setLoadingJobs,
 
     // funciones
     handleCreateJob,
