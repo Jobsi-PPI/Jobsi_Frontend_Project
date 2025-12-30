@@ -6,7 +6,20 @@ import Swal from "sweetalert2";
 
 const JobCard = ({ job, onTomar }) => {
     const { user, token } = useAuth();
+
+    const isOwner = job.solicitanteCorreo === user?.email;
+    const isAssigned = job.estado !== "PENDIENTE";
+    const isDisabled = isOwner || isAssigned;
+
+    const buttonText = isOwner
+        ? "No disponible"
+        : isAssigned
+        ? "Job tomado"
+        : "Tomar Job";
+
     const handleTomarJob = async () => {
+        
+        if (isDisabled) return;
         
         if (!token || !user) {
             Swal.fire({
@@ -111,10 +124,18 @@ const JobCard = ({ job, onTomar }) => {
             </div>
             
             {/* Botón de tomar Job */}
-            <button className="mt-4 w-full bg-[#1e3a8a] text-white py-2 rounded-lg font-semibold hover:bg-[#142a61] transition"
+            <button 
             type="button"
-            onClick={handleTomarJob}>
-                Tomar Job
+            disabled={isDisabled}
+            onClick={handleTomarJob}
+            className={`mt-4 w-full py-2 rounded-lg font-semibold transition
+                        ${
+                            isDisabled
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-[#1e3a8a] hover:bg-[#142a61] text-white"
+                        }
+                    `}>
+                {buttonText}
             </button>
         </div>
     );

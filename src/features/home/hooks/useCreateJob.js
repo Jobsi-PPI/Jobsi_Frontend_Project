@@ -21,17 +21,28 @@ const [closing, setClosing] = useState(false);
 const [opening, setOpening] = useState(false);
 const [loadingJobs, setLoadingJobs] = useState(true);
 
+
+
+// Cargar jobs
 useEffect(() => {
-    obtenerJobs()
-        .then(setJobs)
-        .catch(console.error)
-        .finally(() => setLoadingJobs(false));
+    const loadJobs = async () => {
+        setLoadingJobs(true);
+
+        try {
+            await Promise.all([
+                obtenerJobs().then(setJobs),
+                new Promise(resolve => setTimeout(resolve, 3000)) // Simular latencia de skeleton loading
+            ]);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoadingJobs(false);
+        }
+    };
+
+    loadJobs();
 }, []);
 
-// cargar jobs
-useEffect(() => {
-    obtenerJobs().then(setJobs).catch(console.error);
-}, []);
 
 const validateFields = () => {
     let newErrors = {};

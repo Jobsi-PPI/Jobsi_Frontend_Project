@@ -88,7 +88,7 @@ return (
 
             <button
                 type="button"
-                onClick={() => navigate('/jobs')}
+                /* onClick={() => navigate('/jobs')} */
                 className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center btn-amarillo text-black transition !text-[24px] px-6 overflow-hidden"
             >
                 ¡Explora los Jobs Ahora!

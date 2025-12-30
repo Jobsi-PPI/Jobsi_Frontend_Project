@@ -16,37 +16,45 @@ export const useVerMisJobs = () => {
 
     //Publicados
     useEffect(() => {
-        obtenerMisJobs(token)
-            .then(setMisJobs)
-            .catch(console.error)
-            .finally(() => setLoadingPublicados(false));
-    }, []);
+        if (!token) return;
+        const loadPublicados = async () => {
+            setLoadingPublicados(true);
+
+            try {
+                await Promise.all([
+                    obtenerMisJobs(token).then(setMisJobs),
+                    new Promise(resolve => setTimeout(resolve, 2500)) // Simular latencia de skeleton loading
+                ]);
+            } catch (error) {
+                console.error("Error cargando mis jobs", error);
+            } finally {
+                setLoadingPublicados(false);
+            }
+        };
+        loadPublicados();
+    }, [token]);
+
 
     //Postulados
     useEffect(() => {
-        obtenerJobsTomados(token)
-            .then(setJobsTomados)
-            .catch(console.error)
-            .finally(() => setLoadingPostulados(false));
-    }, []);
+        if (!token) return;
+        const loadPostulados = async () => {
+            setLoadingPostulados(true);
 
-
-    // Cargar los jobs publicados por el usuario 
-    useEffect(() => {
-    if (!token) return;
-        obtenerMisJobs(token)
-            .then(setMisJobs)
-            .catch((err) => console.error("Error cargando mis jobs", err));
+            try {
+                await Promise.all([
+                    obtenerJobsTomados(token).then(setJobsTomados),
+                    new Promise(resolve => setTimeout(resolve, 2500)) // Simular latencia de skeleton loading
+                ]);
+            } catch (error) {
+                console.error("Error cargando jobs tomados", error);
+            } finally {
+                setLoadingPostulados(false);
+            }
+        };
+        loadPostulados();
     }, [token]);
 
-
-    // Cargar los jobs tomados por el usuario
-    useEffect(() => {
-    if (!token) return;
-        obtenerJobsTomados(token)
-        .then(setJobsTomados)
-        .catch((err) => console.error("Error cargando jobs tomados", err));
-    }, [token]);
 
     // Eliminar un job publicado por el usuario
     const handleDeleteJob = async (jobId) => {
