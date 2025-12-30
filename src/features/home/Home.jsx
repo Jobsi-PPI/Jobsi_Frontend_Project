@@ -151,18 +151,21 @@ return (
 
     <div className="w-full bg-white relative overflow-x-hidden">
         <div className="w-full px-10 py-20">
-            {/* Apartado de jobs */}
-            <div className="mt-20 flex flex-col">
-                <h1 className="text-3xl font-bold text-[#1e3a8a] mb-10 text-left pl-22">
+
+            <h1 className="text-3xl font-bold text-[#1e3a8a] mb-10 text-left pl-60">
                     Jobs disponibles
-                </h1>
+            </h1>
+
+            {/* Apartado de jobs/Laayout principal */}
+            <div className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-120">
+                
 
                 {/* Listado de Jobs */}
-                <div className="flex flex-wrap gap-8 pl-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {loadingJobs ? (
                         Array.from({ length: 6 }).map((_, i) => (<JobCardSkeleton key={i} />))) : jobs.length === 0 ? (
                         <p className="text-gray-600 text-lg">
-                            No hay jobs disponibles por ahora 💤
+                            No hay jobs disponibles por ahora...
                         </p>
                     ) : (
                         jobs.map((job) => (
@@ -175,21 +178,21 @@ return (
                     )}
                 </div>
 
-            </div>
+        
+                {/* Apartado publicar Job */}
+                <div className="absolute top-30 right-1/9 -translate-x-1/2mt-40 flex flex-col items-center text-center gap-6">
+                    <h1 className=" text-3xl font-bold text-[#1e3a8a]">Si necesitas ayuda, <br />sube un Job</h1>
+                    <button
+                        type="button"
+                        onClick={openModal} 
+                        className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center btn-amarillo text-black transition !text-[24px] px-6 overflow-hidden"
+                        >
+                            Publicalo
+                    </button>
+                </div>
 
-            {/* Apartado publicar Job */}
-            <div className="absolute top-30 right-1/9 -translate-x-1/2mt-40 flex flex-col items-center text-center gap-6">
-                <h1 className=" text-3xl font-bold text-[#1e3a8a]">Si necesitas ayuda, <br />sube un Job</h1>
-                <button
-                type="button"
-                onClick={openModal} 
-                className="w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center btn-amarillo text-black transition !text-[24px] px-6 overflow-hidden"
-            >
-                Publicalo
-            </button>
             </div>
         </div>
-        
     </div>
 
 <CreateJobModal
