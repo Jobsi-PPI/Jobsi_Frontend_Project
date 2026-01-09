@@ -30,15 +30,6 @@ const JobCard = ({ job, onTomar }) => {
             return;
         }
 
-        if (job.solicitanteCorreo === user?.email) {
-            Swal.fire({
-                icon: "info",
-                title: "No puedes tomar tu propio Job",
-                text: "Debes esperar a que otro usuario se postule.",
-            });
-            return;
-        }
-
         try {
             const result = await Swal.fire({
                 title: "¿Tomar este Job?",
@@ -67,15 +58,6 @@ const JobCard = ({ job, onTomar }) => {
             if (onTomar) onTomar(response);
 
         } catch (error) {
-            if (error?.response?.data?.message?.includes("ya fue tomado")) {
-                Swal.fire({
-                    icon: "info",
-                    title: "Este Job ya fue tomado",
-                    text: "Otro usuario ya se postuló antes que tú.",
-                });
-                return;
-            }
-
             Swal.fire({
                 icon: "error",
                 title: "No se pudo tomar el Job",
