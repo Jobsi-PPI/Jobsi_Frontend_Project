@@ -28,70 +28,65 @@ const VerMisJobs = () => {
 
 return (
     <>
-    {/* Header */}
-        <div className="w-full py-13 shadow-md bg-[#1e3a8a] relative">
-            {/* Left: logo */}
-            <div className="absolute left-6 top-1/2 -translate-y-1/2">
-                <img
-                src="/src/assets/Jobsi_home_logo.png"
-                alt="Logo Jobsi Home"
-                className="w-[270px] h-[100px] object-cover"
-                />
-            </div>
-    
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 max-w-[700px]">
-                <form className="flex items-center gap-3">
-                    <input
-                        type="text"
-                        placeholder="Escribe un Job que estés buscando"
-                        className="flex-1 h-16 px-6 text-lg border-2 border-[#6b7280] rounded-full text-black bg-white"
-                    />
-                    <button
-                        type="button"
-                        aria-label="Buscar"
-                        className="p-3 rounded-full text-white flex items-center justify-center shadow-sm"
-                        onClick={() => { /* acción de búsqueda */ }}
+        {/* Header */}
+        <div className="w-full bg-[#1e3a8a] shadow-md px-4 py-4 lg:px-10">
+            <div className="mx-auto flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+                {/* Logo */}
+                <div className="flex justify-center lg:justify-start xl:justify-start">
+                    <img src="/src/assets/Jobsi_home_logo.png" alt="Logo Jobsi Home" className="w-[200px] lg:w-[260px] object-contain" />
+                </div>
+
+                {/* Buscador */}
+                <div className="w-full lg:max-w-[600px]">
+                    <form className="flex items-center gap-3">
+                        <input type="text" placeholder="Escribe un Job que estés buscando" className="flex-1 h-12 lg:h-14 px-5 text-base lg:text-lg border-2 border-[#6b7280] rounded-full text-black bg-white" />
+                        <button type="button" aria-label="Buscar" className="p-3 rounded-full text-white flex items-center justify-center">
+                            <FiSearch className="w-6 h-6 lg:w-7 lg:h-7" />
+                        </button>
+                    </form>
+                </div>
+
+                {/* Menú */}
+                <div className="flex justify-center lg:justify-end xl:justify-end">
+                    <button 
+                        type="button" 
+                        aria-label="Abrir menú" 
+                        onClick={() => setMenuOpen(true)} 
+                        className="p-2 text-white rounded-full"
                     >
-                        <FiSearch className="w-8 h-8" />
+                        <FiMenu className="w-8 h-8" />
                     </button>
-                </form>
-            </div>
-    
-            {/* Right: botón menú (tres líneas) en blanco */}
-            <div className="absolute right-6 top-1/2 -translate-y-1/2">
-                <button
-                    type="button"
-                    aria-label="Abrir menú"
-                    onClick={() => setMenuOpen(true)}
-                    className="p-2 text-white rounded-full bg-transparent focus:outline-none"
-                >
-                    <FiMenu className="w-9 h-9" />
-                </button>
+                </div>
+
             </div>
         </div> {/*fin del header */}
 
+
         {/* Área de Jobs */}
         <div className="w-full bg-white">
-            <div className="max-w-4xl mx-auto flex flex-col items-center text-center py-16 gap-6">
-                <h1 className="text-3xl font-bold">
-                    <span className="text-yellow-400">Área de Jobs </span>
+            <div className="max-w-4xl mx-auto flex flex-col items-center text-center py-10 sm:py-14 lg:py-18 gap-4 sm:gap-5">
+                
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                    <span className="text-yellow-400">Área de Jobs</span>
                 </h1>
 
-                <h3 className="font-light text-[24px] text-black">
-                    ¡Aquí encontraras los jobs que has publicado y también a los que te postulaste!
+                <h3 className="text-base sm:text-lg lg:text-xl font-light text-black max-w-3xl">
+                    Aquí encontrarás los jobs que has publicado y también a los que te has postulado
                 </h3>
+
             </div>
-        </div> {/*fin del área de Jobs */}
+        </div>
+
 
         
         {/* Apartado de los Jobs*/}
         <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
 
             {/* Botones de publicados y postulados */}
-            <div className="max-w-[900px] mx-auto py-10 flex flex-row justify-center gap-40">
+            <div className="max-w-[900px] mx-auto py-8 flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 lg:gap-16">
                 
-                <button className={`w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center
-                    text-white transition !text-[30px] px-6 overflow-hidden
+                <button className={`w-full sm:w-[200px] h-12 sm:h-14 flex items-center justify-center rounded-xl text-white font-semibold transition text-lg sm:text-xl lg:!text-[30px]
                     ${activeTab === "publicados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
                     type="button"
                     onClick={() => setActiveTab("publicados")}
@@ -99,8 +94,7 @@ return (
                     Publicados
                 </button>
 
-                <button className={`w-full sm:w-auto max-w-[480px] h-14 flex items-center justify-center
-                    text-white transition !text-[30px] px-6 overflow-hidden
+                <button className={`w-full sm:w-[200px] h-12 sm:h-14 flex items-center justify-center rounded-xl text-white font-semibold transition text-lg sm:text-xl lg:!text-[30px]
                     ${activeTab === "postulados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
                     type="button"
                     onClick={() => setActiveTab("postulados")}
@@ -110,8 +104,8 @@ return (
             </div>
 
             
-            <div className="w-full flex justify-center mt-10 pb-20">
-                <div className="w-[95%] max-w-[95%] bg-[#eef0f5] p-6 rounded-3xl flex flex-col gap-10">
+            <div className="w-full flex justify-center mt-6 pb-20">
+                <div className="w-full max-w-6xl bg-[#eef0f5] p-4 sm:p-6 lg:p-8 rounded-3xl flex flex-col gap-6">
 
                 {/* Aquí se muestran los jobs publicados */}
                 {activeTab === "publicados" && (
@@ -120,7 +114,7 @@ return (
                             <JobPublicadoSkeleton key={i} />
                         ))
                         ) : misJobs.length === 0 ? (
-                            <p className="text-black text-center text-xl">
+                            <p className="text-black text-center text-base sm:text-lg">
                                 Aún no has publicado ningún Job 📝
                             </p>
                         ) : (
@@ -138,7 +132,7 @@ return (
                             <JobPostuladoSkeleton key={i} />
                         ))
                         ) : jobsTomados.length === 0 ? (
-                            <p className="text-black text-center text-xl">
+                            <p className="text-black text-center text-base sm:text-lg">
                                 Aún no has tomado ningún Job 💼
                             </p>
                         ) : (
@@ -156,8 +150,7 @@ return (
                 </div>
             </div>
 
-            <button className="w-full sm:w-auto max-w-[480px] h-10 flex items-center justify-center  
-                !bg-[#4468cf] text-white transition !text-[20px] px-6 overflow-hidden"
+            <button className="w-full sm:w-[150px] lg:w-[175px] h-10 rounded-lg bg-[#4468cf] text-white font-medium transition hover:bg-[#3659b5]"
                 type="button"
                 onClick={() => navigate("/home")}
                 >

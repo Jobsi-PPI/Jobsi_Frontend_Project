@@ -52,7 +52,12 @@ return (
 
             {/* Menú */}
             <div className="flex justify-center lg:justify-end xl:justify-end">
-                <button type="button" aria-label="Abrir menú" onClick={() => setMenuOpen(true)} className="p-2 text-white rounded-full">
+                <button 
+                    type="button" 
+                    aria-label="Abrir menú" 
+                    onClick={() => setMenuOpen(true)} 
+                    className="p-2 text-white rounded-full"
+                >
                     <FiMenu className="w-8 h-8" />
                 </button>
             </div>
