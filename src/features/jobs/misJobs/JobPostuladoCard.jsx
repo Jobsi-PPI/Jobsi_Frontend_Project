@@ -34,7 +34,7 @@ const JobPostuladoCard = ({ job, onAbandoned }) => {
                 <span className="ml-1">{job.solicitanteCorreo}</span>
             </p>
 
-                <p className="text-gray-700">{job.descripcion}</p>
+            <p className="text-gray-700">{job.descripcion}</p>
             
 
             <div className="mt-2">
