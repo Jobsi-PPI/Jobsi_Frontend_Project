@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "/src/context/AuthContext.jsx";
 import Swal from "sweetalert2";
@@ -43,56 +43,54 @@ const Login = () => {
 
     return (
         <>
-        <div className="flex min-h-screen w-full">
+        <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2">
 
-            {/* Div azul de la izquierda */}
-            <div className="md:flex flex-col items-center justify-center lg:flex items-center justify-center min-h-screen w-full lg:w-1/2 bg-[#1e3a8a] relative px-4">
+            {/* PANEL IZQUIERDO (AZUL) */}
+            <section className="relative bg-[#1e3a8a] px-4 sm:px-6 py-10 flex flex-col items-center justify-center">
 
-                {/* Líneas superiores lado azul */}
+                {/* Líneas decorativas (solo desktop) */}
                 <div className="hidden lg:block absolute top-6 left-0 space-y-4">
                     <div className=" w-175 h-[10px] bg-white"></div>
                     <div className=" w-75 h-[10px] bg-white"></div>
                 </div>
 
-                {/* Texto y logo SOLO móvil/tablet */}
-                <div className="flex flex-col items-center text-center gap-4 pt-10 px-6 mb-28 lg:hidden">
-                    
-                    <h2 className="text-2xl font-bold text-[#1e293b] md:text-5xl">
+                {/* Línea inferior */}
+                <div className="hidden lg:block absolute bottom-6 right-0 w-1/2 h-[10px] bg-white" />
+
+                {/* Texto + mascota SOLO móvil/tablet */}
+                <div className="lg:hidden w-full max-w-xl text-center flex flex-col items-center gap-4 pt-6 pb-10">
+                    <h2 className="text-2xl md:text-5xl font-bold text-white">
                         Hecho para universitarios
                     </h2>
 
-                    <h3 className="text-base font-light text-black md:text-2xl">
-                        Jobsi te ayuda a resolver tus problemas y necesidades universitarias en cuestión de pocos clics
-                    </h3>
+                    <p className="text-base md:text-2xl font-light text-white">
+                        Jobsi te ayuda a resolver tus problemas y necesidades universitarias
+                        en cuestión de pocos clics
+                    </p>
 
                     <img
                         src="/src/assets/jobsi-mascota-jobito_render.png"
                         alt="Mascota Jobsi"
-                        className="w-[200px] h-auto object-contain md:w-[270px]"
+                        className="w-[200px] md:w-[270px] h-auto object-contain"
                     />
-                    
                 </div>
 
-
-                {/* Línea inferior blanca */}
-                <div className="hidden lg:block absolute bottom-6 right-0 w-1/2 h-[10px] bg-white z-40"></div>
-
-
                 {/* Card del form */}
-                <div className="w-full max-w-[520px] md:max-w-[700px] lg:max-w-3xl bg-[#fbfdff] shadow-md z-0 mt-8 md:mt-16 px-6 py-10 md:px-14 md:py-18 lg:px-45 lg:py-20 rounded-3xl lg:rounded-[100px] lg:transform lg:translate-x-[-20%]">
+                <div className="w-full px-10 py-10  max-w-[350px] md:max-w-[500px] lg:max-w-[700px] bg-[#fbfdff] shadow-md rounded-3xl lg:rounded-[80px] md:px-20 md:py-14 lg:px-30 lg:py-16">
                     
-                    {/* título */}
+                    {/* Título */}
                     <div className="relative flex justify-center mb-6 md:mb-0">
 
                         {/* Círculo amarillo */}
-                        <span className="hidden md:flex absolute -top-35 w-35 h-35 bg-[#fbbf24] rounded-full  items-center justify-center lg:md:flex absolute -top-40 w-35 h-35 ">
+                    |   <span className="hidden lg:flex absolute -top-35 w-35 h-35 bg-[#fbbf24] rounded-full  items-center justify-center lg:md:flex absolute -top-40 w-35 h-35 ">
                             <img
                             src="/src/assets/jobsi_graduation_logo.png"
                             alt="Logo Jobsi"
                             className="w-30' h-20 object-cover"
                             />
                         </span>
-                        <h1 className="text-xl sm:text-2xl font-bold text-center text-black mt-2 md:mb-5">
+                        
+                        <h1 className="text-base md:text-2xl font-bold text-center text-black mt-2 mb-5">
                             Inicio de Sesión
                         </h1>
                     </div>
@@ -107,52 +105,56 @@ const Login = () => {
                         onSubmit={handleSubmit}
                     />
 
-                    <p className="mt-4 text-sm text-center text-gray-600">
-                    <a href="/register" className="text-blue-600 hover:underline md:text-xl">
+                    <p className="mt-4 text-sm md:text-base text-center text-gray-600">
+                        <Link
+                        to="/forgot-password"
+                        className="text-blue-600 hover:underline md:text-xl"
+                        >
                         ¿Olvidaste tu contraseña?
-                    </a>
+                        </Link>
                     </p>
                 </div>
-            </div>
+            </section>
 
-            {/* Div blanco de la derecha */}
-            <div className="hidden lg:flex items-center justify-center min-h-screen w-1/2 bg-white overflow-hidden relative">
+            {/* PANEL DERECHO (BLANCO) */}
+            <section className="hidden lg:flex relative bg-white overflow-hidden px-10">
 
-            {/* Líneas superiores lado blanco */}
-            <div className="absolute top-6 right-0 space-y-4 flex flex-col items-end">
-                <div className="w-175 h-[10px] bg-[#1e3a8a]"></div>
-                <div className="w-75 h-[10px] bg-[#1e3a8a]"></div>
-            </div>
-
-            <div className="texto-side-white bottom-[25%] left-[5%] space-y-4 bg z-20">
-                <div className="absolute left-[33%] bottom-[26%] -translate-x-1/2 z-10">
-                    <h2 className="relative z-30 text-4xl font-bold text-[#1e293b]">
-                        Hecho para universitarios
-                    </h2>
-                    <h3 className="relative z-30 font-light text-[22px] text-black">
-                        Jobsi te ayuda a resolver tus problemas y <br /> necesidades
-                        universitarias en cuestión de pocos clics
-                    </h3>
+                {/* Líneas decorativas */}
+                <div className="absolute top-6 right-0 space-y-4 flex flex-col items-end">
+                    <div className="w-175 h-[10px] bg-[#1e3a8a]"></div>
+                    <div className="w-75 h-[10px] bg-[#1e3a8a]"></div>
                 </div>
 
-                {/* imagen mascota (detrás, más grande) */}
-                <img
-                src="/src/assets/jobsi-mascota-jobito_render.png"
-                alt="Logo Jobsi"
-                className="absolute left-[17%] bottom-[8%] -translate-x-1/2 w-[220px] h-[190px] object-cover z-11"
-                />
+                {/* Línea inferior */}
+                <div className="absolute bottom-6 left-0 w-1/2 h-[10px] bg-[#1e3a8a]" />
 
-                {/* imagen de fondo grande (detrás del texto) */}
-                <img
-                src="/src/assets/students-poli.png"
-                alt="Fondo estudiantes"
-                className="hidden lg:block absolute left-[17%] bottom-[25%] w-[600px] h-[600px] object-cover z-0 opacity-95"
-                />
-            </div>
+                <div className="texto-side-white bottom-[25%] left-[5%] space-y-4 bg z-20">
+                    <div className="absolute left-[33%] bottom-[26%] -translate-x-1/2 z-10">
+                        <h2 className="relative z-30 text-4xl font-bold text-[#1e293b]">
+                            Hecho para universitarios
+                        </h2>
+                        <h3 className="relative z-30 font-light text-[22px] text-black">
+                            Jobsi te ayuda a resolver tus problemas y <br /> necesidades
+                            universitarias en cuestión de pocos clics
+                        </h3>
+                    </div>
 
-            {/* Línea inferior azul */}
-            <div className="absolute bottom-6 left-0 w-1/2 h-[10px] bg-[#1e3a8a] z-40"></div>
-            </div>
+                    {/* imagen mascota (detrás, más grande) */}
+                    <img
+                    src="/src/assets/jobsi-mascota-jobito_render.png"
+                    alt="Logo Jobsi"
+                    className="absolute left-[17%] bottom-[8%] -translate-x-1/2 w-[220px] h-[190px] object-cover z-11"
+                    />
+
+                    {/* imagen de fondo grande (detrás del texto) */}
+                    <img
+                    src="/src/assets/students-poli.png"
+                    alt="Fondo estudiantes"
+                    className="hidden  md:block absolute left-[17%] bottom-[25%] w-[420px] lg:w-[600px] h-auto object-cover z-0 opacity-95"
+                    /* w-[280px] md:w-[420px] lg:w-[550px] h-auto object-contain */
+                    />
+                </div>
+            </section>
         </div>
         </>
     );
