@@ -59,22 +59,23 @@ const LoginForm = ({
                     Recordar contraseña
                 </h2>
 
-                <div className="flex justify-between gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button
-                    type="button"
-                    onClick={() => navigate("/register")}
-                    className="w-1/2 btn-azul text-white py-2 rounded-lg transition"
+                        type="button"
+                        onClick={() => navigate("/register")}
+                        className="w-full sm:w-1/2 btn-azul text-white py-2 rounded-lg transition"
                     >
-                    Crear cuenta
+                        Crear cuenta
                     </button>
 
                     <button
-                    type="submit"
-                    className="w-1/2 btn-amarillo text-black py-2 rounded-lg transition"
+                        type="submit"
+                        className="w-full sm:w-1/2 btn-amarillo text-black py-2 rounded-lg transition"
                     >
-                    Entrar
+                        Entrar
                     </button>
                 </div>
+
             </form>
         </div>
     )
