@@ -62,24 +62,24 @@ const Login = () => {
                     <h2 className="text-2xl md:text-5xl font-bold text-white">
                         Hecho para universitarios
                     </h2>
-
-                    <p className="text-base md:text-2xl font-light text-white">
-                        Jobsi te ayuda a resolver tus problemas y necesidades universitarias
-                        en cuestión de pocos clics
-                    </p>
-
-                    <img
-                        src="/src/assets/jobsi-mascota-jobito_render.png"
-                        alt="Mascota Jobsi"
-                        className="w-[200px] md:w-[270px] h-auto object-contain"
-                    />
                 </div>
 
                 {/* Card del form */}
                 <div className="w-full px-10 py-10  max-w-[350px] md:max-w-[500px] lg:max-w-[700px] bg-[#fbfdff] shadow-md rounded-3xl lg:rounded-[80px] md:px-20 md:py-14 lg:px-30 lg:py-16">
                     
+                    {/* Texto + mascota SOLO móvil/tablet */}
+                    <div className="lg:hidden w-full max-w-xl text-center flex flex-col items-center gap-4 pt-6 pb-10">
+                        <img
+                            src="/src/assets/jobsi-mascota-jobito_render.png"
+                            alt="Mascota Jobsi"
+                            className="w-[150px] md:w-[270px] h-auto object-contain"
+                        />
+                    </div>
+
                     {/* Título */}
                     <div className="relative flex justify-center mb-6 md:mb-0">
+
+
 
                         {/* Círculo amarillo */}
                     |   <span className="hidden lg:flex absolute -top-35 w-35 h-35 bg-[#fbbf24] rounded-full  items-center justify-center lg:md:flex absolute -top-40 w-35 h-35 ">
@@ -114,6 +114,19 @@ const Login = () => {
                         </Link>
                     </p>
                 </div>
+
+                {/* Descripción SOLO móvil/tablet */}
+                <div className="lg:hidden w-full max-w-xl text-center flex flex-col items-center gap-4 pt-6 pb-10">
+                    <p className="text-xl md:text-2xl font-light text-white">
+                        Jobsi te ayuda a resolver tus problemas y necesidades universitarias
+                        en cuestión de pocos clics
+                    </p>
+
+                    <p className="text-base md:text-2xl font-light text-white mt-10">
+                        Todos los derechos de © copyright reservados
+                    </p>
+                </div>
+
             </section>
 
             {/* PANEL DERECHO (BLANCO) */}
