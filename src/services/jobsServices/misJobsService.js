@@ -44,7 +44,7 @@ export const deleteJob = async (jobId, token) => {
 
 //Abandonar un job tomado por el usuario
 export const abandonarJob = async (jobId, token) => {
-    const response = await api.patch(`/v1/jobs/abandon/${jobId}`, null, {
+    const response = await api.patch(`/v1/jobs/unassigned-job/${jobId}`, null, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -52,3 +52,4 @@ export const abandonarJob = async (jobId, token) => {
 
     return response.data;
 };
+
