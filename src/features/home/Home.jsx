@@ -1,14 +1,17 @@
+//Imports de librerías y hooks
 import { useAuth } from "/src/context/AuthContext.jsx";
 import { useCreateJob } from "./hooks/useCreateJob";
 import { useNavigate } from "react-router-dom";
 import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
+//Imports de componentes
 import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
-import Header from "../../components/layout/header.jsx";
+//Imports de componentes UI y layout
+import Header from "../../components/layout/header.jsx"; //Ya el header importa sidebarMenu
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ComingSoonModal from "../../components/ui/modals/ComingSoonModal.jsx";
@@ -17,7 +20,7 @@ const Home = () => {
 
     const navigate = useNavigate();
     
-    const { user, token } = useAuth();
+    const { user } = useAuth();
 
     const { 
         isOpen: isOpenComingSoon, closing: closingComingSoon, 
@@ -28,10 +31,10 @@ const Home = () => {
     const nombre = user?.nombre || "Usuario";
     const genero = user?.genero;
 
-    //Se importa la lógica del hook
+    //Se importa la lógica del hook useCreateJob
     const {
         titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-        errors, jobs, showModal, isOpen, opening, closing, loadingJobs, 
+        errors, jobs, showModal, opening, closing, loadingJobs, 
 
         // setters
         setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
@@ -64,7 +67,7 @@ return (
             <Button
                 variant="warning"
                 size="xl"
-                onClick={openComingSoon}
+                onClick={() => navigate("/explorar-jobs")}
                 >
                 ¡Explora los Jobs Ahora!
             </Button>
@@ -173,7 +176,7 @@ return (
                             Publícalo
                         </Button>
                     </div>
-                </div> {/*Fin de CTA publicar Job */}
+                </div>
 
             </div>
         </div>
@@ -190,12 +193,14 @@ return (
         }}
     />
 
-    <CreateJobModal
-        show={showModal}
-        closing={closing}
-        closeModal={closeModal}
-        handleCreateJob={handleCreateJob}
+        <CreateJobModal
+        show={showModal} // saber si se muestra
+        closing={closing} // animación de cierre
+        opening={opening} // animación de apertura
+        closeModal={closeModal} // para el botón X interno
+        handleCreateJob={handleCreateJob} //submit del form (publicar job)
 
+        //Darle los atributos al Job
         titulo={titulo}
         setTitulo={setTitulo}
         descripcion={descripcion}
@@ -215,7 +220,5 @@ return (
 </>
 );
 };
-
-
 
 export default Home;
