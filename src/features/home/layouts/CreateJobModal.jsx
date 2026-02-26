@@ -1,6 +1,6 @@
 import { FiX } from "react-icons/fi";
 
-import Button from "../../../components/ui/button.jsx";
+import Button from "../../../components/ui/Button.jsx";
 
 const CreateJobModal = ({
     show,
@@ -125,7 +125,6 @@ const CreateJobModal = ({
                             <option value="OTRO">OTRO</option>
                         </select>
                     </div>
-
 
                     <Button
                         variant="primary"

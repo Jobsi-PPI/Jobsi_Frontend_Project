@@ -1,7 +1,7 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Swal from "sweetalert2";
 
-import Button from "../../../components/ui/button.jsx";
+import Button from "../../../components/ui/Button.jsx";
 
 const JobPublicadoCard = ({ job, onDelete }) => {
 

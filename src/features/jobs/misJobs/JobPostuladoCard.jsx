@@ -2,7 +2,7 @@ import { FiUser } from "react-icons/fi";
 import { TbDoorExit } from "react-icons/tb";
 import Swal from "sweetalert2";
 
-import Button from "../../../components/ui/button.jsx";
+import Button from "../../../components/ui/Button.jsx";
 
 const JobPostuladoCard = ({ job, onAbandoned }) => {
 

@@ -55,7 +55,6 @@ export const useVerMisJobs = () => {
         loadPostulados();
     }, [token]);
 
-
     // Eliminar un job publicado por el usuario
     const handleDeleteJob = async (jobId) => {
         try {
@@ -95,13 +94,14 @@ export const useVerMisJobs = () => {
             });
 
         } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "No se pudo abandonar",
-                text: "Intenta de nuevo más tarde."
-            });
+            return error.response?.status || 500;
         }
     };
+
+    const agregarJob = (nuevoJob) => {
+        setMisJobs(prev => [nuevoJob, ...prev]);
+    };
+
 
     return {
         // estados
@@ -120,5 +120,6 @@ export const useVerMisJobs = () => {
         // handlers
         handleDeleteJob,
         handleAbandonarJob,
+        agregarJob,
     };
 };

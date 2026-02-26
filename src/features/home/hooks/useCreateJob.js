@@ -74,7 +74,7 @@ const closeModal = () => {
     }, 250);
 };
 
-const handleCreateJob = async (e) => {
+const handleCreateJob = async (e, onSuccess) => {
     e.preventDefault();
 
     if (!token) {
@@ -106,6 +106,7 @@ const handleCreateJob = async (e) => {
 
     try {
     const nuevoJob = await crearJob(jobData, token);
+    console.log("Job creado:", nuevoJob); // ✅ agregar esto
 
     Swal.fire({
         icon: "success",
@@ -127,8 +128,9 @@ const handleCreateJob = async (e) => {
     // agregar el job recién creado sin recargar
     setJobs((prev) => [...prev, nuevoJob]);
 
-    closeModal();
+    if (onSuccess) onSuccess(nuevoJob);
 
+    closeModal();
     } catch (error) {
     Swal.fire({
         icon: "error",

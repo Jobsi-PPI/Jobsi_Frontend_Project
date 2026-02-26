@@ -97,18 +97,31 @@ setErrors({}); // limpia si todo ok
 
         navigate("/home");
 
+    //catch se encarga de atrapar el error en caso de fallar lo esperado
     } catch (error) {
-    console.error(error);
-
+    console.error(error); // se almacena el error de consola en la variable error
+    
+    //se genera alerta de error detallada de creación
     Swal.fire({
         icon: "error",
         title: "Error al registrar",
-        text: "Ocurrió un problema registrando tu cuenta. Revisa los datos.",
+        text: error.message, //Mostrar mensaje exacto del backend
         confirmButtonColor: "#1e3a8a",
     });
+     // 💎 BONUS: marcar campo específico en rojo
+    if (error.message.includes("documento")) {
+        setErrors(prev => ({ ...prev, cedula: true }));
+    }
+
+    if (error.message.includes("correo")) {
+        setErrors(prev => ({ ...prev, email: true }));
+    }
+
+    if (error.message.includes("teléfono")) {
+        setErrors(prev => ({ ...prev, celular: true }));
     }
 };
-
+};
     return {
         // Estados
         nombre, primerApellido, segundoApellido, email, cedula, celular,

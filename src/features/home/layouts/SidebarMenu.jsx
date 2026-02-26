@@ -1,11 +1,16 @@
 import { FiX, FiSettings, FiHelpCircle, FiLogOut, FiBriefcase } from "react-icons/fi";
 import { useAuth } from "../../../context/AuthContext";
-import Swal from "sweetalert2";
+import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
 
+import Swal from "sweetalert2";
+import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal";
 
 
 const SidebarMenu = ({ open, closeMenu, navigate }) => {
+
     const { logout } = useAuth();
+
+    const { isOpen, closing, opening, openModal, closeModal } = useModalState();
 
     return (
         <>
@@ -47,14 +52,14 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
 
                     <li 
                         className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
-                        onClick={() => navigate("/configuracion")}
+                        onClick={() => openModal()}
                     >
                         <FiSettings /> Configuración
                     </li>
 
                     <li 
                         className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
-                        onClick={() => navigate("/ayuda")}
+                        onClick={() => openModal()}
                     >
                         <FiHelpCircle /> Ayuda
                     </li>
@@ -84,6 +89,17 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
 
                 </ul>
             </div>
+
+            <ComingSoonModal
+                isOpen={isOpen}
+                onClose={closeModal}
+                closing={closing}
+                opening={opening}
+                primaryAction={{
+                    label: "Entendido",
+                    onClick: closeModal
+                }}
+            />
         </>
     );
 };

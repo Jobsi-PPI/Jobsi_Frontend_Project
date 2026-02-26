@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useRegister } from "../auth/hooks/useRegister.js";
 
 import RegisterForm from "../auth/components/RegisterForm.jsx";
-import Button from "../../components/ui/button.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 
 function Register() {

@@ -4,7 +4,7 @@ import { useAuth } from "/src/context/AuthContext.jsx";
 
 import Swal from "sweetalert2";
 
-import Button from "../../components/ui/button.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 
 const JobCard = ({ job, onTomar }) => {

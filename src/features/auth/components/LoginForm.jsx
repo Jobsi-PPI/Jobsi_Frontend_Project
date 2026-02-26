@@ -1,7 +1,7 @@
 import { FiEye, FiEyeOff } from "react-icons/fi"; // react-icons
 import { useNavigate } from "react-router-dom";
 
-import Button from "../../../components/ui/button.jsx";
+import Button from "../../../components/ui/Button.jsx";
 
 const LoginForm = ({
     email,
