@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+@keyframes bounceIn {
+    0%   { transform: scale(0.3) translateY(20px); opacity: 0; }
+    50%  { transform: scale(1.1) translateY(-5px); opacity: 1; }
+    70%  { transform: scale(0.95); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,7 +23,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
+.animate-bounce-in {
+    animation: bounceIn 0.4s ease forwards;
+}
 
 a {
   font-weight: 500;
