@@ -68,6 +68,41 @@ const ExplorarJobs = () => {
             {/* Separador amarillo */}
             <div className="w-full h-[10px] bg-[#e6c300]" />
 
+                       {/* Jobs Por Categoría */}
+            <div className="w-full bg-white">
+                <div className="w-full px-6 sm:px-10 py-12 sm:py-16">
+
+                    <h1 className="text-2xl sm:text-3xl font-bold text-[#1e3a8a] mb-10 text-center">
+                        Por categoría
+                    </h1>
+
+                    {/* Listado de Jobs */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                        {loadingJobs ? (
+                            Array.from({ length: 6 }).map((_, i) => (<JobCardSkeleton key={i} />))
+                        ) : jobs.length === 0 ? (
+                            <div className="col-span-full">
+                                <EmptyState
+                                    title="Aún no hay jobs publicados"
+                                    description="Publica el primero y empieza a recibir postulaciones."
+                                    icon={<IoExtensionPuzzleSharp size={40} className="text-yellow-400" />}
+                                    primaryAction={{ label: "Publicar Job", onClick: () => openModal() }}
+                                    secondaryAction={{ label: "Ver mis Jobs", onClick: () => navigate("/mis-jobs"), variant: "secondary" }}
+                                />
+                            </div>
+                        ) : (
+                            jobsPorCategoria.map((job) => (
+                                <JobCard
+                                    key={job.id}
+                                    job={job}
+                                    onTomar={handleTomarJob}
+                                />
+                            ))
+                        )}
+                    </div>
+                </div>
+            </div>
+
             {/* Jobs recientes */}
             <div className="w-full bg-white">
                 <div className="w-full px-6 sm:px-10 py-12 sm:py-16">
@@ -136,50 +171,14 @@ const ExplorarJobs = () => {
                         )}
                     </div>
                 </div>
-            </div>
-
-            {/* Jobs Por Categoría */}
-            <div className="w-full bg-white">
-                <div className="w-full px-6 sm:px-10 py-12 sm:py-16">
-
-                    <h1 className="text-2xl sm:text-3xl font-bold text-[#1e3a8a] mb-10 text-center">
-                        Por categoría
-                    </h1>
-
-                    {/* Listado de Jobs */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                        {loadingJobs ? (
-                            Array.from({ length: 6 }).map((_, i) => (<JobCardSkeleton key={i} />))
-                        ) : jobs.length === 0 ? (
-                            <div className="col-span-full">
-                                <EmptyState
-                                    title="Aún no hay jobs publicados"
-                                    description="Publica el primero y empieza a recibir postulaciones."
-                                    icon={<IoExtensionPuzzleSharp size={40} className="text-yellow-400" />}
-                                    primaryAction={{ label: "Publicar Job", onClick: () => openModal() }}
-                                    secondaryAction={{ label: "Ver mis Jobs", onClick: () => navigate("/mis-jobs"), variant: "secondary" }}
-                                />
-                            </div>
-                        ) : (
-                            jobsPorCategoria.map((job) => (
-                                <JobCard
-                                    key={job.id}
-                                    job={job}
-                                    onTomar={handleTomarJob}
-                                />
-                            ))
-                        )}
-                    </div>
-                </div>
 
                 <div className="max-w-6xl mx-auto px-4 pb-10">
-                <Button variant="primary" size="sm" className=" lg:-ml-90" onClick={() => navigate("/home")}>
-                    Volver
-                </Button>
+                    <Button variant="primary" size="sm" className=" lg:-ml-90" onClick={() => navigate("/home")}>
+                        Volver
+                    </Button>
                 </div>
             
             </div>
-
             
 
             {/*Footer (cuando se implemente)*/}      
