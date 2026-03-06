@@ -1,73 +1,14 @@
 import { FiUser, FiClock } from "react-icons/fi";
-import { tomarJob } from "/src/services/jobsServices/jobPublicService";
-import { useAuth } from "/src/context/AuthContext.jsx";
-
-import Swal from "sweetalert2";
+import { useJobCard } from "./hooks/useJobCard.js";
+import { tiempoRelativo } from "../../utils/timeUtils.js";
 
 import Button from "../../components/ui/Button.jsx";
 
 
 const JobCard = ({ job, onTomar }) => {
-    const { user, token } = useAuth();
+    const { isDisabled, buttonText, handleTomarJob } = useJobCard(job, onTomar);
 
-    const isOwner = job.solicitanteCorreo === user?.email;
-    const isAssigned = job.estado !== "PENDIENTE";
-    const isDisabled = isOwner || isAssigned;
-
-    const buttonText = isOwner
-        ? "No disponible"
-        : isAssigned
-        ? "Job tomado"
-        : "Tomar Job";
-
-    const handleTomarJob = async () => {
-        
-        if (isDisabled) return;
-        
-        if (!token || !user) {
-            Swal.fire({
-                icon: "warning",
-                title: "Sesión no válida",
-                text: "Por favor inicia sesión nuevamente.",
-            });
-            return;
-        }
-
-        try {
-            const result = await Swal.fire({
-                title: "¿Tomar este Job?",
-                text: "Al tomarlo, te convertirás en el prestador de servicio.",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Sí, tomar",
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#1e3a8a",
-                cancelButtonColor: "#d33",
-
-            });
-
-            if (!result.isConfirmed) return;
-
-            const response = await tomarJob(job.id, token);
-
-            Swal.fire({
-                icon: "success",
-                title: "Job tomado 💼",
-                text: "Ahora estás postulado a este trabajo.",
-                timer: 1800,
-                showConfirmButton: false
-            });
-
-            if (onTomar) onTomar(response);
-
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "No se pudo tomar el Job",
-                text: "Intenta de nuevo más tarde.",
-            });
-        }
-    };
+    console.log("fechaPublicacion:", job.fechaPublicacion);
 
     return (
         <div className="w-[300px] min-h-[380px] bg-white shadow-lg rounded-2xl p-5 border-4 border-black flex flex-col justify-between hover:scale-[1.02] transition">
@@ -93,8 +34,7 @@ const JobCard = ({ job, onTomar }) => {
                 <p className="font-bold text-black">${job.pago.toLocaleString()}</p>
 
                 <p className="flex items-center gap-2 text-sm text-gray-700 mt-1">
-                    
-                    <FiClock /> Hace poco
+                    <FiClock /> {tiempoRelativo(job.fechaPublicacion)}
                 </p>
             </div>
 
