@@ -10,8 +10,8 @@ import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
-//Imports de componentes UI y layout
-import Header from "../../components/layout/header.jsx"; //Ya el header importa sidebarMenu
+import Footer from "../../components/layout/Footer.jsx";
+import Header from "../../components/layout/header.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ComingSoonModal from "../../components/ui/modals/ComingSoonModal.jsx";
@@ -40,7 +40,8 @@ const Home = () => {
         setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
         handleCreateJob, handleTomarJob, closeModal, openModal
     } = useCreateJob(); // → para CreateJobModal
-    
+ 
+
 return (
     <>
 
@@ -48,7 +49,7 @@ return (
     <div>
         <Header />
     </div>
-
+    
 
     {/* Bienvenida usuario */}
     <div className="w-full bg-white">
@@ -180,8 +181,10 @@ return (
 
             </div>
         </div>
+    <Footer />
     </div>
 
+    
     <ComingSoonModal
         isOpen={isOpenComingSoon}
         onClose={closeComingSoon}
