@@ -3,10 +3,18 @@ import { login as loginService } from "../services/authServices";
 
 const AuthContext = createContext(null);
 
+/**
+ * Contexto global de autenticación para Jobsi.
+ * Proveedor que maneja el estado de sesión del usuario (JWT),
+ * persistencia en LocalStorage y exposición de métodos de login/logout.
+ * 
+ * @param {Object} props - Propiedades del componente
+ * @param {React.ReactNode} props.children - Componentes hijos envueltos por el Provider
+ */
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);       // info del usuario
-    const [token, setToken] = useState(null);     // JWT
-    const [loading, setLoading] = useState(true); // evita parpadeos
+    const [user, setUser] = useState(null);       // Información del usuario descifrada del JWT
+    const [token, setToken] = useState(null);     // Token JWT
+    const [loading, setLoading] = useState(true); // Control visual para evitar parpadeos antes del montaje
 
     // Al cargar la app, recuperar sesión si existe
     useEffect(() => {
@@ -20,6 +28,7 @@ export const AuthProvider = ({ children }) => {
             nombre: "Juancho",
             role: "ROLE_USER",
             genero: "Masculino",
+            /* fechaNacimiento: new Date().toISOString().split('T')[0], */ // Pone la fecha de hoy para probar la animación fácilmente
             };
 
             localStorage.setItem("token", "DEV_TOKEN");
@@ -39,7 +48,13 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    // Login centralizado
+    /**
+     * Consume el servicio de login, descifra el token recibido, 
+     * guarda la sesión en localStorage y actualiza el estado global.
+     * 
+     * @param {string} email - Correo del usuario ingresado.
+     * @param {string} password - Contraseña ingresada.
+     */
     const login = async (email, password) => {
         const response = await loginService(email, password);
 
@@ -51,6 +66,7 @@ export const AuthProvider = ({ children }) => {
             role: payload.role,
             genero: payload.genero ?? null,
             nombre: payload.nombre ?? "Usuario",
+            fechaNacimiento: payload.fechaNacimiento ?? null,
         };
 
         // guardar

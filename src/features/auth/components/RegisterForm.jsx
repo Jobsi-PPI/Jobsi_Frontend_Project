@@ -1,6 +1,11 @@
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import es from "date-fns/locale/es"; // Locale for Spanish
 
 import Button from "../../../components/ui/Button.jsx";
+
+registerLocale("es", es); // Register to use it in the DatePicker
 
 const RegisterForm = ({
     handleSubmit,
@@ -131,13 +136,20 @@ const RegisterForm = ({
                     </div>
 
                     {/* Fecha nacimiento */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Fecha de nacimiento</label>
-                        <input
-                        type="date"
-                        value={fechaNacimiento}
-                        onChange={(e) => setFechaNacimiento(e.target.value)}
-                        className={`w-full p-2 border-2 rounded-lg text-black 
+                    <div className="flex flex-col">
+                        <label className="block text-sm sm:text-base font-bold text-black mb-1">Fecha de nacimiento</label>
+                        <DatePicker
+                            selected={fechaNacimiento}
+                            onChange={(date) => setFechaNacimiento(date)}
+                            locale="es"
+                            dateFormat="dd/MM/yyyy"
+                            showYearDropdown
+                            scrollableYearDropdown
+                            yearDropdownItemNumber={100} 
+                            color={"#3e64afff"}
+                            placeholderText="DD/MM/AAAA"
+                            maxDate={new Date()}
+                            className={`w-full p-2 border-2 rounded-lg text-black outline-none
                                 ${ errors.fechaNacimiento ? "border-red-500" : "border-[#6b7280]"}`}
                         />
                     </div>
