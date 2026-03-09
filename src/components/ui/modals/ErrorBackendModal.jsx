@@ -32,10 +32,9 @@ const ERROR_MAP = {
 };
 
 const DEFAULT_ERROR = {
-    icon: <MdError size={50} className="text-red-400" />,
+    icon: <FiAlertTriangle size={50} className="text-yellow-400" />,
     title: "Algo salió mal",
     description: "Ocurrió un error inesperado. Intenta de nuevo.",
-    icon: <FiAlertTriangle size={50} className="text-yellow-400" />,
 };
 
 const ErrorBackendModal = ({

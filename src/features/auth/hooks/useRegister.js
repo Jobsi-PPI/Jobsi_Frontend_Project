@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { register } from "/src/services/authServices/";
 import { useAuth } from "/src/context/AuthContext.jsx";
+import { format } from "date-fns";
 
 
 import Swal from "sweetalert2";
 
+/**
+ * Custom Hook que encapsula la lógica, estado y validación del formulario de registro.
+ * Maneja la interacción con el servicio del backend y dispara el auto-login si el registro es exitoso.
+ * 
+ * @param {function} navigate - Función de navegación de react-router-dom para redirigir al Home
+ * @returns {Object} Un objeto con los estados locales (nombre, email, fechaNacimiento, etc.), setters y la función handleSubmit.
+ */
 export const useRegister = (navigate) => {
 
 const { login } = useAuth();
@@ -18,7 +26,7 @@ const [email, setEmail] = useState("");
 const [cedula, setCedula] = useState("");
 const [celular, setCelular] = useState("");
 const [sexo, setSexo] = useState("Masculino");
-const [fechaNacimiento, setFechaNacimiento] = useState("");
+const [fechaNacimiento, setFechaNacimiento] = useState(null);
 
 const [password, setPassword] = useState("");
 const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,7 +46,7 @@ const handleSubmit = async (e) => {
         if (!email.trim()) newErrors.email = true;
         if (!cedula.trim()) newErrors.cedula = true;
         if (!celular.trim()) newErrors.celular = true;
-        if (!fechaNacimiento.trim()) newErrors.fechaNacimiento = true;
+        if (!fechaNacimiento) newErrors.fechaNacimiento = true;
         if (!password.trim()) newErrors.password = true;
         if (!confirmPassword.trim()) newErrors.confirmPassword = true;
 
@@ -77,7 +85,7 @@ setErrors({}); // limpia si todo ok
     email,
     password,
     telefono: celular,
-    fechaNacimiento,
+    fechaNacimiento: fechaNacimiento ? format(fechaNacimiento, "yyyy-MM-dd") : null,
     genero: sexo,
     rol: null,
     };
