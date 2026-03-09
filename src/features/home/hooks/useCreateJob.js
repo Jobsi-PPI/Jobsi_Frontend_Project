@@ -6,6 +6,7 @@ import { useAuth } from "/src/context/AuthContext.jsx";
 export const useCreateJob = () => {
 const { token } = useAuth();
 
+// States para el formulario de creación de job
 const [titulo, setTitulo] = useState("");
 const [descripcion, setDescripcion] = useState("");
 const [pago, setPago] = useState("");
@@ -13,14 +14,18 @@ const [ubicacion, setUbicacion] = useState("");
 const [categoria, setCategoria] = useState("ASESORIAS");
 const [tipoPago, setTipoPago] = useState("EFECTIVO");
 
+// Otros states
 const [errors, setErrors] = useState({});
 const [jobs, setJobs] = useState([]);
 
+// States para el modal
 const [showModal, setShowModal] = useState(false);
 const [closing, setClosing] = useState(false);
 const [opening, setOpening] = useState(false);
 const [loadingJobs, setLoadingJobs] = useState(true);
 
+// Para filtrar por categoría
+const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("TODAS");
 
 
 // Cargar jobs
@@ -74,6 +79,7 @@ const closeModal = () => {
     }, 250);
 };
 
+// Modal de Crear Job y validación de swal alert
 const handleCreateJob = async (e, onSuccess) => {
     e.preventDefault();
 
@@ -106,7 +112,7 @@ const handleCreateJob = async (e, onSuccess) => {
 
     try {
     const nuevoJob = await crearJob(jobData, token);
-    console.log("Job creado:", nuevoJob); // ✅ agregar esto
+    console.log("Job creado:", nuevoJob); 
 
     Swal.fire({
         icon: "success",
@@ -140,6 +146,7 @@ const handleCreateJob = async (e, onSuccess) => {
     }
 };
 
+// Función para actualizar el estado del job cuando alguien lo toma
 const handleTomarJob = (jobActualizado) => {
     setJobs((prevJobs) =>
         prevJobs.map((j) =>
@@ -148,19 +155,40 @@ const handleTomarJob = (jobActualizado) => {
     );
 };
 
+//Jobs ordenados por fecha de creación (los más recientes primero)
+const jobsRecientes = [...jobs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+//Jobs ordenados por pago (de mayor a menor)
+const jobsMejorPagados  = [...jobs].sort((a, b) => b.pago - a.pago).slice(0, 8);
+
+//Jobs por categoría
+const jobsPorCategoria = categoriaSeleccionada === "TODAS" 
+    ? jobs 
+    : jobs.filter(job => job.categoria === categoriaSeleccionada);
+
 
 
 return {
     // States
     titulo, descripcion, pago, ubicacion, categoria, tipoPago,
     errors, jobs, showModal, closing, opening, loadingJobs,
+
     // setters
-    setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, setShowModal, setLoadingJobs,
+    setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, setShowModal, setLoadingJobs, setCategoriaSeleccionada,
+
 
     // funciones
     handleCreateJob,
     handleTomarJob,
     closeModal,
     openModal,
+
+    // Filtrados
+    jobsRecientes,
+    jobsMejorPagados,
+
+    // Filtro por categoría
+    categoriaSeleccionada,
+    jobsPorCategoria
 };
 };

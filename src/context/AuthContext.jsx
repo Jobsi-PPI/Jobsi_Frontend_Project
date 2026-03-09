@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         const storedToken = localStorage.getItem("token");
         const storedUser = localStorage.getItem("user");
 
-        // 🔥 DEV MODE: auto login
+        // DEV MODE: auto login
         if (import.meta.env.DEV && !storedToken) {
             const devUser = {
             email: "dev@jobsi.com",
