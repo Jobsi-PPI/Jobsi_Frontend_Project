@@ -3,8 +3,13 @@ import React from "react";
 const Footer = () => {
     return (
         <footer className="bg-[#1e3a8a] text-white mt-20">
+            {/* Separador blanco */}
+            <div className="w-full h-[4px] bg-white" />
+            
             {/* Contenido principal */}
             <div className="max-w-screen-2xl mx-auto px-0 py-14">
+
+
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr_1fr] gap-12">
 
                     {/* Columna 1 - Marca */}

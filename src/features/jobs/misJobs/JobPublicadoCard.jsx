@@ -1,10 +1,16 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
+
 import Swal from "sweetalert2";
 
 import Button from "../../../components/ui/Button.jsx";
+import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal";
+
 
 const JobPublicadoCard = ({ job, onDelete }) => {
 
+    const { isOpen, closing, opening, openModal, closeModal } = useModalState();
+    
     const handleDeleteClick = async () => {
         const result = await Swal.fire({
                 title: "Eliminar Job",
@@ -52,6 +58,7 @@ const JobPublicadoCard = ({ job, onDelete }) => {
                     variant="warning"
                     size="md"
                     className="rounded-full"
+                    onClick={() => openModal()}
                 >
                     <FiEdit className="mr-2" /> Editar
                 </Button>
@@ -65,7 +72,20 @@ const JobPublicadoCard = ({ job, onDelete }) => {
                     <FiTrash2 className="mr-2" /> Eliminar
                 </Button>
             </div>
+
+            <ComingSoonModal
+                isOpen={isOpen}
+                onClose={closeModal}
+                closing={closing}
+                opening={opening}
+                primaryAction={{
+                    label: "Entendido",
+                    onClick: closeModal
+                }}
+            />
         </div>  
+
+        
     );
 };
 
