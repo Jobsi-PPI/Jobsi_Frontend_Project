@@ -28,9 +28,9 @@ export const obtenerJobs = async () => {
 };
 
 
-//Tomar un job público por su ID
-export const tomarJob = async (jobId, token) => {
-    const response = await api.patch(`/v1/jobs/take-job/${jobId}`, null, {
+//Postularse a un job por su ID
+export const postularseAJob = async (jobId, token) => {
+    const response = await api.post(`/v1/postulaciones/${jobId}`, null, {
         headers: {
             Authorization: `Bearer ${token}`,
         }

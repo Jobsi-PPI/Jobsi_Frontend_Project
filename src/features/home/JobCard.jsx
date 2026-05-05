@@ -6,7 +6,7 @@ import Button from "../../components/ui/Button.jsx";
 
 
 const JobCard = ({ job, onTomar }) => {
-    const { isDisabled, buttonText, handleTomarJob } = useJobCard(job, onTomar);
+    const { isDisabled, buttonText, handlePostularse } = useJobCard(job, onTomar);
 
     console.log("fechaPublicacion:", job.fechaPublicacion);
 
@@ -52,7 +52,7 @@ const JobCard = ({ job, onTomar }) => {
                 variant={isDisabled ? "dark": "primary"}
                 size="md"
                 fullWidth
-                onClick={handleTomarJob}
+                onClick={handlePostularse}
                 className={`mt-4 ${isDisabled ? "!cursor-not-allowed" : ""}`}
             >
                 {buttonText}
