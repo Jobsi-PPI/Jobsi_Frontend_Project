@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\Juan Andres\\\\Documents\\\\POLI\\\\POLI 5TO SEMESTRE\\\\Frontend_Jobsi\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"Dir\"}else{\"File\"}}})"
+    ]
+  }
+}
