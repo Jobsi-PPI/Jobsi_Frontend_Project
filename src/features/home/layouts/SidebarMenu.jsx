@@ -1,4 +1,4 @@
-import { FiX, FiSettings, FiHelpCircle, FiLogOut, FiBriefcase } from "react-icons/fi";
+import { FiX, FiSettings, FiHelpCircle, FiLogOut, FiBriefcase, FiBell } from "react-icons/fi";
 import { useAuth } from "../../../context/AuthContext";
 import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
 
@@ -48,6 +48,13 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
                         onClick={() => navigate("/mis-jobs")}
                     >
                         <FiBriefcase /> Ver mis Jobs
+                    </li>
+
+                    <li 
+                        className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
+                        onClick={() => openModal()}
+                    >
+                        <FiBell /> Notificaciones
                     </li>
 
                     <li 
