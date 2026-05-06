@@ -1,12 +1,6 @@
 import { FiUser } from "react-icons/fi";
 import Button from "../../components/ui/Button.jsx";
-
-const renderEstrellas = (calificacion) => {
-    if (!calificacion) return "Sin calificación aún";
-    const llenas = Math.floor(calificacion);
-    const vacias = 5 - llenas;
-    return `${"★".repeat(llenas)}${"☆".repeat(vacias)} (${calificacion.toFixed(1)})`;
-};
+import EstrellasCalificacion from "../../components/ui/EstrellasCalificacion.jsx";
 
 const PostulacionCard = ({ postulacion, onElegir }) => {
     const { id, candidatoNombre, candidatoCorreo, candidatoCalificacion } = postulacion;
@@ -20,7 +14,7 @@ const PostulacionCard = ({ postulacion, onElegir }) => {
                 <div>
                     <p className="font-bold text-[#1e3a8a]">{candidatoNombre}</p>
                     <p className="text-sm text-gray-600">{candidatoCorreo}</p>
-                    <p className="text-sm text-yellow-500">{renderEstrellas(candidatoCalificacion)}</p>
+                    <EstrellasCalificacion calificacion={candidatoCalificacion} />
                 </div>
             </div>
 
