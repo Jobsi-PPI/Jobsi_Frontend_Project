@@ -6,10 +6,12 @@ import { MdOutlineWorkHistory } from "react-icons/md";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobPublicadoCard from "./misJobs/JobPublicadoCard";
 import JobPostuladoCard from "./misJobs/JobPostuladoCard";
+import CalificarModal from "../calificaciones/CalificarModal.jsx";
 
 import { useVerMisJobs } from "./hooks/useVerMisJobs";
 import { useCreateJob } from "../home/hooks/useCreateJob.js";
 import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
+import { useCalificarModal } from "../calificaciones/hooks/useCalificarModal.js";
 
 //Importación de componentes
 import JobPublicadoSkeleton from "../../components/loaders/JobPublicadoSkeleton";
@@ -57,6 +59,15 @@ const VerMisJobs = () => {
         handleDeleteJob,
         handleAbandonarJob,
     } = useVerMisJobs();
+
+    const {
+        isOpen: isOpenCalificar, closing: closingCalificar, opening: openingCalificar,
+        puntuacion, setPuntuacion,
+        hover, setHover,
+        comentario, setComentario,
+        jobActual, calificadoLabel,
+        abrirModal: abrirCalificar, handleCerrar: cerrarCalificar, handleSubmit: submitCalificacion,
+    } = useCalificarModal();
 
 return (
     <>
@@ -127,7 +138,7 @@ return (
 
                         ) : (
                             misJobs.map((job) => (
-                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob}/>
+                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} onCalificar={abrirCalificar} />
                                 ))
                         )}
                     </>
@@ -152,6 +163,7 @@ return (
                                     key={job.id}
                                     job={job}
                                     onAbandoned={handleAbandonarConError}
+                                    onCalificar={abrirCalificar}
                                 />
                             ))
                         )}
@@ -179,6 +191,22 @@ return (
             opening={openingError}
             errorCode={errorCode}
             primaryAction={{ label: "Entendido", onClick: closeModalError }}
+        />
+
+        <CalificarModal
+            isOpen={isOpenCalificar}
+            closing={closingCalificar}
+            opening={openingCalificar}
+            jobActual={jobActual}
+            calificadoLabel={calificadoLabel}
+            puntuacion={puntuacion}
+            setPuntuacion={setPuntuacion}
+            hover={hover}
+            setHover={setHover}
+            comentario={comentario}
+            setComentario={setComentario}
+            onCerrar={cerrarCalificar}
+            onSubmit={submitCalificacion}
         />
 
         <CreateJobModal
