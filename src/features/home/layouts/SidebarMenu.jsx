@@ -50,9 +50,9 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
                         <FiBriefcase /> Ver mis Jobs
                     </li>
 
-                    <li 
+                    <li
                         className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
-                        onClick={() => openModal()}
+                        onClick={() => { closeMenu(); navigate("/mis-postulaciones"); }}
                     >
                         <FiBell /> Notificaciones
                     </li>
