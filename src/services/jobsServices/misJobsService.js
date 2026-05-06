@@ -53,3 +53,14 @@ export const abandonarJob = async (jobId, token) => {
     return response.data;
 };
 
+//Finalizar un job publicado por el usuario
+export const finalizarJob = async (jobId, token) => {
+    const response = await api.patch(`/v1/jobs/${jobId}/finalizar`, null, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return response.data;
+};
+

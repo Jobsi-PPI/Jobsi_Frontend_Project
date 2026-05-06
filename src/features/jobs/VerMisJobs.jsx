@@ -58,7 +58,16 @@ const VerMisJobs = () => {
         setActiveTab,
         handleDeleteJob,
         handleAbandonarJob,
+        handleFinalizarJob,
     } = useVerMisJobs();
+
+    const handleFinalizarConError = async (jobId) => {
+        const code = await handleFinalizarJob(jobId);
+        if (code) {
+            setErrorCode(code);
+            openModalError();
+        }
+    };
 
     const {
         isOpen: isOpenCalificar, closing: closingCalificar, opening: openingCalificar,
@@ -138,7 +147,7 @@ return (
 
                         ) : (
                             misJobs.map((job) => (
-                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} onCalificar={abrirCalificar} />
+                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} onCalificar={abrirCalificar} onFinalizar={handleFinalizarConError} />
                                 ))
                         )}
                     </>
