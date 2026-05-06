@@ -5,6 +5,7 @@ import { MdSchool, MdBuild, MdSportsBasketball, MdWork, MdCategory } from "react
 import { PiBookOpenTextBold } from "react-icons/pi";
 
 import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
+import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
 
 const CATEGORIAS = [
     { label: "Todas",           value: "TODAS",          icon: <MdCategory /> },
@@ -20,6 +21,7 @@ const Header = ({ onFilterClick, onCategoriaChange, categoriaSeleccionada }) => 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
+    const notificacionesCount = useNotificacionesBadge();
 
     const handleFilterClick = () => {
         setFilterOpen(prev => !prev);
@@ -68,8 +70,13 @@ return (
                 <div className="flex justify-center lg:justify-end">
                     <button type="button" aria-label="Abrir menú"
                         onClick={() => setMenuOpen(true)}
-                        className="p-2 text-white rounded-full">
+                        className="relative p-2 text-white rounded-full">
                         <FiMenu className="w-8 h-8" />
+                        {notificacionesCount > 0 && (
+                            <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
+                                {notificacionesCount > 99 ? "99+" : notificacionesCount}
+                            </span>
+                        )}
                     </button>
                 </div>
             </div>
@@ -103,6 +110,7 @@ return (
             open={menuOpen}
             closeMenu={() => setMenuOpen(false)}
             navigate={navigate}
+            notificacionesCount={notificacionesCount}
         />
     </div>
 )
