@@ -1,10 +1,13 @@
-import { FiUser } from "react-icons/fi";
+import { useState } from "react";
+import { FiUser, FiStar } from "react-icons/fi";
 import { TbDoorExit } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 import Button from "../../../components/ui/Button.jsx";
 
-const JobPostuladoCard = ({ job, onAbandoned }) => {
+const JobPostuladoCard = ({ job, onAbandoned, onCalificar }) => {
+
+    const [yaCalificado, setYaCalificado] = useState(false);
 
     const handleAbandonarClick = async () => {
         const result = await Swal.fire({
@@ -29,7 +32,6 @@ const JobPostuladoCard = ({ job, onAbandoned }) => {
                 {job.titulo}
             </h2>
 
-
             <p className="text-gray-700 flex items-center gap-2 whitespace-nowrap">
                 <span>Solicitado por:</span>
                 <FiUser className="text-lg" />
@@ -37,11 +39,10 @@ const JobPostuladoCard = ({ job, onAbandoned }) => {
             </p>
 
             <p className="text-gray-700">{job.descripcion}</p>
-            
 
             <div className="mt-2">
                 <p className="font-bold text-[#1e3a8a]">{job.tipoPago}</p>
-                <p className="text-lg font-semibold text-[#1e3a8a]">${job.pago.toLocaleString()}</p> {/* toLocaleString para formato de miles */}
+                <p className="text-lg font-semibold text-[#1e3a8a]">${job.pago.toLocaleString()}</p>
             </div>
 
             <div className="mt-2">
@@ -49,16 +50,29 @@ const JobPostuladoCard = ({ job, onAbandoned }) => {
                 <p className="font-bold text-black">{job.fechaLimite}</p>
             </div>
 
-            {/* Botón de abandonar */}
-            <div className="flex gap-4 mt-4">
-                <Button
-                    variant="danger"
-                    size="md"
-                    className="rounded-full"
-                    onClick={handleAbandonarClick}
-                >
-                    <TbDoorExit className="mr-2" /> Abandonar
-                </Button>
+            {/* Botones */}
+            <div className="flex flex-wrap gap-4 mt-4">
+                {job.estado !== "FINALIZADO" && (
+                    <Button
+                        variant="danger"
+                        size="md"
+                        className="rounded-full"
+                        onClick={handleAbandonarClick}
+                    >
+                        <TbDoorExit className="mr-2" /> Abandonar
+                    </Button>
+                )}
+
+                {job.estado === "FINALIZADO" && !yaCalificado && (
+                    <Button
+                        variant="primary"
+                        size="md"
+                        className="rounded-full"
+                        onClick={() => onCalificar(job, "trabajador", () => setYaCalificado(true))}
+                    >
+                        <FiStar className="mr-2" /> Calificar
+                    </Button>
+                )}
             </div>
         </div>
     );
