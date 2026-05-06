@@ -6,10 +6,9 @@ import Swal from "sweetalert2";
 import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal";
 
 
-const SidebarMenu = ({ open, closeMenu, navigate }) => {
+const SidebarMenu = ({ open, closeMenu, navigate, notificacionesCount = 0 }) => {
 
     const { logout } = useAuth();
-
     const { isOpen, closing, opening, openModal, closeModal } = useModalState();
 
     return (
@@ -50,11 +49,16 @@ const SidebarMenu = ({ open, closeMenu, navigate }) => {
                         <FiBriefcase /> Ver mis Jobs
                     </li>
 
-                    <li 
+                    <li
                         className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
-                        onClick={() => openModal()}
+                        onClick={() => { closeMenu(); navigate("/mis-postulaciones"); }}
                     >
                         <FiBell /> Notificaciones
+                        {notificacionesCount > 0 && (
+                            <span className="ml-auto min-w-[22px] h-[22px] bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
+                                {notificacionesCount > 99 ? "99+" : notificacionesCount}
+                            </span>
+                        )}
                     </li>
 
                     <li 
