@@ -6,6 +6,7 @@ import Register from "../features/auth/Register";
 import VerMisJobs from "../features/jobs/VerMisJobs";
 import ExplorarJobs from "../features/home/ExplorarJobs";
 import PostulacionesRecibidas from "../features/postulaciones/PostulacionesRecibidas";
+import Configuracion from "../features/configuracion/Configuracion";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -24,6 +25,7 @@ return (
             <Route path="/mis-jobs" element={<VerMisJobs />} />
             <Route path="/explorar-jobs" element={<ExplorarJobs />} />
             <Route path="/mis-postulaciones" element={<PostulacionesRecibidas />} />
+            <Route path="/configuracion" element={<Configuracion />} />
             </Route>
 
             {/* Fallback */}

@@ -61,9 +61,9 @@ const SidebarMenu = ({ open, closeMenu, navigate, notificacionesCount = 0 }) => 
                         )}
                     </li>
 
-                    <li 
+                    <li
                         className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
-                        onClick={() => openModal()}
+                        onClick={() => { closeMenu(); navigate("/configuracion"); }}
                     >
                         <FiSettings /> Configuración
                     </li>
