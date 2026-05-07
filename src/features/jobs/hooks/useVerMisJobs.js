@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import {obtenerMisJobs, obtenerJobsTomados, deleteJob, abandonarJob} from "../../../services/jobsServices/misJobsService";
+import {obtenerMisJobs, obtenerJobsTomados, deleteJob, abandonarJob, finalizarJob} from "../../../services/jobsServices/misJobsService";
 import { useAuth } from "/src/context/AuthContext.jsx";
 
 export const useVerMisJobs = () => {
@@ -98,6 +98,17 @@ export const useVerMisJobs = () => {
         }
     };
 
+    const handleFinalizarJob = async (jobId) => {
+        try {
+            await finalizarJob(jobId, token);
+            setMisJobs(prev =>
+                prev.map(job => job.id === jobId ? { ...job, estado: "FINALIZADO" } : job)
+            );
+        } catch (error) {
+            return error.response?.status || 500;
+        }
+    };
+
     const agregarJob = (nuevoJob) => {
         setMisJobs(prev => [nuevoJob, ...prev]);
     };
@@ -111,7 +122,7 @@ export const useVerMisJobs = () => {
         activeTab,
 
         loadingPublicados,
-        loadingPostulados, 
+        loadingPostulados,
 
         // setters
         setMenuOpen,
@@ -120,6 +131,7 @@ export const useVerMisJobs = () => {
         // handlers
         handleDeleteJob,
         handleAbandonarJob,
+        handleFinalizarJob,
         agregarJob,
     };
 };
