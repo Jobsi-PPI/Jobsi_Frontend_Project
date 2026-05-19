@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { FiUser, FiStar } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { TbDoorExit } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 import Button from "../../../components/ui/Button.jsx";
 
-const JobPostuladoCard = ({ job, onAbandoned, onCalificar }) => {
-
-    const [yaCalificado, setYaCalificado] = useState(false);
+const JobPostuladoCard = ({ job, onAbandoned }) => {
 
     const handleAbandonarClick = async () => {
         const result = await Swal.fire({
@@ -63,16 +60,6 @@ const JobPostuladoCard = ({ job, onAbandoned, onCalificar }) => {
                     </Button>
                 )}
 
-                {job.estado === "FINALIZADO" && !yaCalificado && (
-                    <Button
-                        variant="primary"
-                        size="md"
-                        className="rounded-full"
-                        onClick={() => onCalificar(job, "trabajador", () => setYaCalificado(true))}
-                    >
-                        <FiStar className="mr-2" /> Calificar
-                    </Button>
-                )}
             </div>
         </div>
     );

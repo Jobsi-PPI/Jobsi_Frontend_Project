@@ -1,21 +1,38 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "/src/context/AuthContext.jsx";
-import { obtenerPostulacionesRecibidas, elegirCandidato } from "/src/services/jobsServices/postulacionesService.js";
+import { obtenerPostulacionesPorJob, elegirCandidato } from "/src/services/jobsServices/postulacionesService.js";
+import { obtenerMisJobs } from "/src/services/jobsServices/misJobsService.js";
 import Swal from "sweetalert2";
 
 export const usePostulacionesRecibidas = () => {
     const { token } = useAuth();
-    const [postulaciones, setPostulaciones] = useState([]);
+    const [grupos, setGrupos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const cargar = async () => {
             try {
                 await new Promise((r) => setTimeout(r, 2500));
-                const data = await obtenerPostulacionesRecibidas(token);
-                setPostulaciones(data);
+                const misJobs = await obtenerMisJobs(token);
+                const pendientes = misJobs.filter((j) => j.estado === "PENDIENTE");
+
+                const resultados = await Promise.all(
+                    pendientes.map(async (job) => {
+                        const candidatos = await obtenerPostulacionesPorJob(job.id, token).catch(() => []);
+                        return {
+                            jobId: job.id,
+                            jobTitulo: job.titulo,
+                            jobPago: job.pago,
+                            jobTipoPago: job.tipoPago,
+                            jobUbicacion: job.ubicacion,
+                            candidatos: Array.isArray(candidatos) ? candidatos : [],
+                        };
+                    })
+                );
+
+                setGrupos(resultados.filter((g) => g.candidatos.length > 0));
             } catch {
-                setPostulaciones([]);
+                setGrupos([]);
             } finally {
                 setLoading(false);
             }
@@ -38,14 +55,10 @@ export const usePostulacionesRecibidas = () => {
         if (!result.isConfirmed) return;
 
         try {
-            await elegirCandidato(postulacionId, token);
+            const grupo = grupos.find((g) => g.candidatos.some((c) => c.solicitudId === postulacionId));
+            await elegirCandidato(grupo?.jobId, postulacionId, token);
 
-            // Al elegir un candidato el job queda asignado, se eliminan todas
-            // las postulaciones de ese job de la lista local
-            const seleccionada = postulaciones.find((p) => p.id === postulacionId);
-            setPostulaciones((prev) =>
-                prev.filter((p) => p.jobId !== seleccionada?.jobId)
-            );
+            setGrupos((prev) => prev.filter((g) => g.jobId !== grupo?.jobId));
 
             Swal.fire({
                 icon: "success",
@@ -63,16 +76,5 @@ export const usePostulacionesRecibidas = () => {
         }
     };
 
-    // Agrupar postulaciones por job para mostrarlas en la UI
-    const postulacionesPorJob = Object.values(
-        postulaciones.reduce((acc, p) => {
-            if (!acc[p.jobId]) {
-                acc[p.jobId] = { jobId: p.jobId, jobTitulo: p.jobTitulo, candidatos: [] };
-            }
-            acc[p.jobId].candidatos.push(p);
-            return acc;
-        }, {})
-    );
-
-    return { loading, postulacionesPorJob, handleElegirCandidato };
+    return { loading, postulacionesPorJob: grupos, handleElegirCandidato };
 };

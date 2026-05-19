@@ -66,6 +66,8 @@ const PostulacionesRecibidas = () => {
                                             </h3>
                                             <p className="text-blue-200 text-sm">
                                                 {grupo.candidatos.length} postulante{grupo.candidatos.length !== 1 ? "s" : ""}
+                                                {grupo.jobPago ? ` · $${grupo.jobPago.toLocaleString()} ${grupo.jobTipoPago ?? ""}` : ""}
+                                                {grupo.jobUbicacion ? ` · ${grupo.jobUbicacion}` : ""}
                                             </p>
                                         </div>
                                     </div>

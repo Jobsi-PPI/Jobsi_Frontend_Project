@@ -3,9 +3,9 @@ import Button from "../../components/ui/Button.jsx";
 
 const CalificarModal = ({
     isOpen, closing, opening,
-    jobActual, calificadoLabel,
-    puntuacion, setPuntuacion,
-    hover, setHover,
+    jobActual, categorias,
+    puntuaciones, setPuntuacionCategoria,
+    hover, setHoverCategoria,
     comentario, setComentario,
     onCerrar, onSubmit,
 }) => {
@@ -18,7 +18,7 @@ const CalificarModal = ({
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onCerrar} />
 
             {/* Modal */}
-            <div className={`relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 flex flex-col gap-6 transition-all duration-300
+            <div className={`relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 flex flex-col gap-5 transition-all duration-300
                 ${closing ? "scale-90 opacity-0" : opening ? "scale-90 opacity-0" : "scale-100 opacity-100"}`}
             >
                 {/* Cerrar */}
@@ -31,38 +31,33 @@ const CalificarModal = ({
 
                 {/* Título */}
                 <div>
-                    <h2 className="text-2xl font-bold text-[#1e3a8a]">
-                        Calificar {calificadoLabel}
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-1">
-                        {jobActual?.titulo}
-                    </p>
+                    <h2 className="text-2xl font-bold text-[#1e3a8a]">Finalizar y calificar</h2>
+                    <p className="text-sm text-gray-500 mt-1">{jobActual?.titulo}</p>
                 </div>
 
-                {/* Estrellas */}
-                <div>
-                    <p className="font-semibold text-gray-700 mb-3">¿Cómo fue tu experiencia?</p>
-                    <div className="flex gap-2">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <button
-                                key={star}
-                                type="button"
-                                onClick={() => setPuntuacion(star)}
-                                onMouseEnter={() => setHover(star)}
-                                onMouseLeave={() => setHover(0)}
-                                className="text-4xl transition-transform hover:scale-110 focus:outline-none"
-                            >
-                                <span className={star <= (hover || puntuacion) ? "text-yellow-400" : "text-gray-300"}>
-                                    ★
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-                    {puntuacion > 0 && (
-                        <p className="text-sm text-gray-500 mt-2">
-                            {["", "Muy malo", "Malo", "Regular", "Bueno", "Excelente"][puntuacion]}
-                        </p>
-                    )}
+                {/* Categorías */}
+                <div className="flex flex-col gap-4">
+                    {categorias.map((categoria) => (
+                        <div key={categoria}>
+                            <p className="font-semibold text-gray-700 mb-1 text-sm">{categoria}</p>
+                            <div className="flex gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                        key={star}
+                                        type="button"
+                                        onClick={() => setPuntuacionCategoria(categoria, star)}
+                                        onMouseEnter={() => setHoverCategoria(categoria, star)}
+                                        onMouseLeave={() => setHoverCategoria(categoria, 0)}
+                                        className="text-3xl transition-transform hover:scale-110 focus:outline-none"
+                                    >
+                                        <span className={star <= (hover[categoria] || puntuaciones[categoria]) ? "text-yellow-400" : "text-gray-300"}>
+                                            ★
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Comentario */}
@@ -87,7 +82,7 @@ const CalificarModal = ({
                         Cancelar
                     </Button>
                     <Button variant="primary" size="md" onClick={onSubmit}>
-                        Enviar calificación
+                        Finalizar Job
                     </Button>
                 </div>
             </div>

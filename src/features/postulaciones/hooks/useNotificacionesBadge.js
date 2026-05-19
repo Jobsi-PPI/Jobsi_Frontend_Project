@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "/src/context/AuthContext.jsx";
-import { obtenerPostulacionesRecibidas } from "/src/services/jobsServices/postulacionesService.js";
+import { obtenerMisJobs } from "/src/services/jobsServices/misJobsService.js";
+import { obtenerPostulacionesPorJob } from "/src/services/jobsServices/postulacionesService.js";
 
 export const useNotificacionesBadge = () => {
     const { token } = useAuth();
@@ -10,8 +11,18 @@ export const useNotificacionesBadge = () => {
         if (!token) return;
         const fetchCount = async () => {
             try {
-                const data = await obtenerPostulacionesRecibidas(token);
-                setCount(Array.isArray(data) ? data.length : 0);
+                const misJobs = await obtenerMisJobs(token);
+                const pendientes = misJobs.filter((j) => j.estado === "PENDIENTE");
+                const resultados = await Promise.all(
+                    pendientes.map((job) =>
+                        obtenerPostulacionesPorJob(job.id, token).catch(() => [])
+                    )
+                );
+                const total = resultados.reduce(
+                    (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0),
+                    0
+                );
+                setCount(total);
             } catch {
                 setCount(0);
             }
