@@ -1,61 +1,64 @@
 import { useState } from "react";
 import { useAuth } from "/src/context/AuthContext.jsx";
 import { useModalState } from "/src/components/ui/modals/hooks/useModalState.js";
-import { calificarUsuario } from "/src/services/jobsServices/calificacionesService.js";
+import { finalizarJob } from "/src/services/jobsServices/misJobsService.js";
 import Swal from "sweetalert2";
+
+const CATEGORIAS = ["Calidad", "Puntualidad", "Comunicacion", "Profesionalismo", "Recomendacion"];
+const puntuacionesVacias = () => Object.fromEntries(CATEGORIAS.map((c) => [c, 0]));
 
 export const useCalificarModal = () => {
     const { token } = useAuth();
     const { isOpen, closing, opening, openModal, closeModal } = useModalState();
 
-    const [puntuacion, setPuntuacion] = useState(0);
-    const [hover, setHover] = useState(0);
+    const [puntuaciones, setPuntuaciones] = useState(puntuacionesVacias());
+    const [hover, setHover] = useState(puntuacionesVacias());
     const [comentario, setComentario] = useState("");
     const [jobActual, setJobActual] = useState(null);
-    const [rolCalificador, setRolCalificador] = useState(null);
     const [onExitoCallback, setOnExitoCallback] = useState(null);
 
-    const abrirModal = (job, rol, onExito) => {
+    const abrirModal = (job, onExito) => {
         setJobActual(job);
-        setRolCalificador(rol);
         setOnExitoCallback(() => onExito);
-        setPuntuacion(0);
-        setHover(0);
+        setPuntuaciones(puntuacionesVacias());
+        setHover(puntuacionesVacias());
         setComentario("");
         openModal();
     };
 
-    const handleCerrar = () => {
-        closeModal();
-    };
+    const handleCerrar = () => closeModal();
+
+    const setPuntuacionCategoria = (categoria, valor) =>
+        setPuntuaciones((prev) => ({ ...prev, [categoria]: valor }));
+
+    const setHoverCategoria = (categoria, valor) =>
+        setHover((prev) => ({ ...prev, [categoria]: valor }));
 
     const handleSubmit = async () => {
-        if (puntuacion === 0) {
+        const sinCalificar = CATEGORIAS.filter((c) => puntuaciones[c] === 0);
+        if (sinCalificar.length > 0) {
             Swal.fire({
                 icon: "warning",
-                title: "Selecciona una puntuación",
-                text: "Debes elegir entre 1 y 5 estrellas para calificar.",
+                title: "Calificación incompleta",
+                text: "Debes calificar todas las categorías antes de finalizar.",
                 timer: 2000,
                 showConfirmButton: false,
             });
             return;
         }
 
-        const calificadoCorreo =
-            rolCalificador === "dueno"
-                ? jobActual?.trabajadorCorreo
-                : jobActual?.solicitanteCorreo;
+        const puntuacionesArray = CATEGORIAS.map((c) => ({
+            categoria: c,
+            puntuacion: puntuaciones[c],
+        }));
 
         try {
-            await calificarUsuario(
-                { jobId: jobActual.id, calificadoCorreo, puntuacion, comentario },
-                token
-            );
+            await finalizarJob(jobActual.id, puntuacionesArray, comentario, token);
 
             Swal.fire({
                 icon: "success",
-                title: "¡Calificación enviada!",
-                text: "Gracias por tu valoración.",
+                title: "¡Job finalizado!",
+                text: "La calificación fue enviada correctamente.",
                 timer: 1800,
                 showConfirmButton: false,
             });
@@ -65,21 +68,19 @@ export const useCalificarModal = () => {
         } catch {
             Swal.fire({
                 icon: "error",
-                title: "No se pudo enviar la calificación",
+                title: "No se pudo finalizar el Job",
                 text: "Intenta de nuevo más tarde.",
             });
         }
     };
 
-    const calificadoLabel =
-        rolCalificador === "dueno" ? "al trabajador" : "al solicitante";
-
     return {
         isOpen, closing, opening,
-        puntuacion, setPuntuacion,
-        hover, setHover,
+        puntuaciones, setPuntuacionCategoria,
+        hover, setHoverCategoria,
         comentario, setComentario,
-        jobActual, calificadoLabel,
+        jobActual,
+        categorias: CATEGORIAS,
         abrirModal, handleCerrar, handleSubmit,
     };
 };

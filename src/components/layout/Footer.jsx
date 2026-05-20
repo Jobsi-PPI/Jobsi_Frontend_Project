@@ -66,7 +66,7 @@ const Footer = () => {
                         <ul className="mt-4 space-y-3 text-sm text-white/80">
                             <li>jobsi_bsns@gmail.com</li>
                             <li>+57 3226893515</li>
-                            <li>Universidad Politécnico Colombiano JIC</li>
+                            <li>Politécnico Colombiano JIC</li>
                         </ul>
                     </div>
 

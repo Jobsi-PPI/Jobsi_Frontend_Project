@@ -37,7 +37,7 @@ const Perfil = () => {
     const nombre = perfil?.nombre ?? user?.nombre ?? "—";
     const correo = perfil?.correo ?? user?.email ?? "—";
     const genero = perfil?.genero ?? user?.genero ?? "—";
-    const calificacion = perfil?.calificacionPromedio ?? null;
+    const calificacion = perfil?.valoracionPromedio ?? null;
 
     return (
         <div className="space-y-6">

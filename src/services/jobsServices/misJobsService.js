@@ -44,7 +44,7 @@ export const deleteJob = async (jobId, token) => {
 
 //Abandonar un job tomado por el usuario
 export const abandonarJob = async (jobId, token) => {
-    const response = await api.patch(`/v1/jobs/unassigned-job/${jobId}`, null, {
+    const response = await api.patch(`/v1/jobs/abandon/${jobId}`, null, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -54,13 +54,11 @@ export const abandonarJob = async (jobId, token) => {
 };
 
 //Finalizar un job publicado por el usuario
-export const finalizarJob = async (jobId, token) => {
-    const response = await api.patch(`/v1/jobs/${jobId}/finalizar`, null, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-
+export const finalizarJob = async (jobId, puntuaciones, comentario, token) => {
+    const response = await api.patch(`/v1/jobs/finalize/${jobId}`,
+        { puntuaciones, comentario },
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
     return response.data;
 };
 

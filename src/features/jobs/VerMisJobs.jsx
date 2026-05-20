@@ -58,23 +58,15 @@ const VerMisJobs = () => {
         setActiveTab,
         handleDeleteJob,
         handleAbandonarJob,
-        handleFinalizarJob,
+        actualizarEstadoJob,
     } = useVerMisJobs();
-
-    const handleFinalizarConError = async (jobId) => {
-        const code = await handleFinalizarJob(jobId);
-        if (code) {
-            setErrorCode(code);
-            openModalError();
-        }
-    };
 
     const {
         isOpen: isOpenCalificar, closing: closingCalificar, opening: openingCalificar,
-        puntuacion, setPuntuacion,
-        hover, setHover,
+        puntuaciones, setPuntuacionCategoria,
+        hover, setHoverCategoria,
         comentario, setComentario,
-        jobActual, calificadoLabel,
+        jobActual, categorias,
         abrirModal: abrirCalificar, handleCerrar: cerrarCalificar, handleSubmit: submitCalificacion,
     } = useCalificarModal();
 
@@ -147,7 +139,12 @@ return (
 
                         ) : (
                             misJobs.map((job) => (
-                                <JobPublicadoCard key={job.id} job={job} onDelete={handleDeleteJob} onCalificar={abrirCalificar} onFinalizar={handleFinalizarConError} />
+                                <JobPublicadoCard
+                                    key={job.id}
+                                    job={job}
+                                    onDelete={handleDeleteJob}
+                                    onFinalizar={(j) => abrirCalificar(j, () => actualizarEstadoJob(j.id, "FINALIZADO"))}
+                                />
                                 ))
                         )}
                     </>
@@ -172,7 +169,6 @@ return (
                                     key={job.id}
                                     job={job}
                                     onAbandoned={handleAbandonarConError}
-                                    onCalificar={abrirCalificar}
                                 />
                             ))
                         )}
@@ -207,11 +203,11 @@ return (
             closing={closingCalificar}
             opening={openingCalificar}
             jobActual={jobActual}
-            calificadoLabel={calificadoLabel}
-            puntuacion={puntuacion}
-            setPuntuacion={setPuntuacion}
+            categorias={categorias}
+            puntuaciones={puntuaciones}
+            setPuntuacionCategoria={setPuntuacionCategoria}
             hover={hover}
-            setHover={setHover}
+            setHoverCategoria={setHoverCategoria}
             comentario={comentario}
             setComentario={setComentario}
             onCerrar={cerrarCalificar}

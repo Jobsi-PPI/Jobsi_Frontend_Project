@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { FiEdit, FiTrash2, FiStar, FiCheckCircle } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiCheckCircle } from "react-icons/fi";
 import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
 
 import Swal from "sweetalert2";
@@ -8,26 +7,9 @@ import Button from "../../../components/ui/Button.jsx";
 import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal";
 
 
-const JobPublicadoCard = ({ job, onDelete, onCalificar, onFinalizar }) => {
+const JobPublicadoCard = ({ job, onDelete, onFinalizar }) => {
 
     const { isOpen, closing, opening, openModal, closeModal } = useModalState();
-    const [yaCalificado, setYaCalificado] = useState(false);
-
-    const handleFinalizarClick = async () => {
-        const result = await Swal.fire({
-            title: "Finalizar Job",
-            text: "¿Estás seguro de que quieres marcar este Job como finalizado? Esta acción no se puede deshacer.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#1e3a8a",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, finalizar",
-            cancelButtonText: "Cancelar"
-        });
-        if (result.isConfirmed) {
-            await onFinalizar(job.id);
-        }
-    };
 
     const handleDeleteClick = async () => {
         const result = await Swal.fire({
@@ -53,7 +35,6 @@ const JobPublicadoCard = ({ job, onDelete, onCalificar, onFinalizar }) => {
             </h2>
 
             <p className="text-gray-700">{job.descripcion}</p>
-
 
             <div className="mt-2">
                 <p className="font-bold text-[#1e3a8a] ">{job.tipoPago}</p>
@@ -90,25 +71,14 @@ const JobPublicadoCard = ({ job, onDelete, onCalificar, onFinalizar }) => {
                     <FiTrash2 className="mr-2" /> Eliminar
                 </Button>
 
-                {job.estado === "EN_PROCESO" && (
+                {job.estado === "ASIGNADO" && (
                     <Button
                         variant="primary"
                         size="md"
                         className="rounded-full"
-                        onClick={handleFinalizarClick}
+                        onClick={() => onFinalizar(job)}
                     >
                         <FiCheckCircle className="mr-2" /> Finalizar Job
-                    </Button>
-                )}
-
-                {job.estado === "FINALIZADO" && !yaCalificado && (
-                    <Button
-                        variant="primary"
-                        size="md"
-                        className="rounded-full"
-                        onClick={() => onCalificar(job, "dueno", () => setYaCalificado(true))}
-                    >
-                        <FiStar className="mr-2" /> Calificar
                     </Button>
                 )}
             </div>

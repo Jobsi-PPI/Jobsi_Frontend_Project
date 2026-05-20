@@ -30,7 +30,7 @@ export const obtenerJobs = async () => {
 
 //Postularse a un job por su ID
 export const postularseAJob = async (jobId, token) => {
-    const response = await api.post(`/v1/postulaciones/${jobId}`, null, {
+    const response = await api.post(`/v1/requests`, { trabajo: jobId }, {
         headers: {
             Authorization: `Bearer ${token}`,
         }
