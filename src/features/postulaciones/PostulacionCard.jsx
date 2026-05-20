@@ -17,7 +17,7 @@ const PostulacionCard = ({ postulacion, onElegir }) => {
                     <p className="text-sm text-gray-600 flex items-center gap-1">
                         <FiMail size={12} /> {correoUsuario}
                     </p>
-                    <EstrellasCalificacion calificacion={null} />
+                    <EstrellasCalificacion calificacion={postulacion.valoracionPromedio ?? null} />
                     <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
                         <FiClock size={11} /> {tiempoRelativo(fechaSolicitud)}
                     </p>
