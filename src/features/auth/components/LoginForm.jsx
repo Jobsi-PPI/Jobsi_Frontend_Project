@@ -21,7 +21,7 @@ const LoginForm = ({
             <form onSubmit={onSubmit} className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-black md:text-xl">
-                    Correo institucional
+                    Correo institucional <span className="text-red-500">*</span>
                     </label>
                     <input
                     type="email"
@@ -35,7 +35,7 @@ const LoginForm = ({
                 </div>
                 <div className="relative">
                     <label className="block text-sm font-medium text-black md:text-xl">
-                    Contraseña
+                    Contraseña <span className="text-red-500">*</span>
                     </label>
 
                     <input

@@ -42,41 +42,61 @@ const SidebarMenu = ({ open, closeMenu, navigate, notificacionesCount = 0 }) => 
                 {/* Opciones */}
                 <ul className="flex flex-col gap-6 text-lg text-gray-700">
 
-                    <li 
-                        className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
+                    <li
+                        className="flex flex-col gap-0.5 cursor-pointer group"
                         onClick={() => navigate("/mis-jobs")}
                     >
-                        <FiBriefcase /> Ver mis Jobs
+                        <span className="flex items-center gap-3 group-hover:text-[#1e3a8a]">
+                            <FiBriefcase /> Ver mis Jobs
+                        </span>
+                        <span className="text-xs text-gray-400 ml-7 hidden group-hover:block">
+                            Administra los jobs que publicaste y a los que te postulaste
+                        </span>
                     </li>
 
                     <li
-                        className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
+                        className="flex flex-col gap-0.5 cursor-pointer group"
                         onClick={() => { closeMenu(); navigate("/mis-postulaciones"); }}
                     >
-                        <FiBell /> Notificaciones
-                        {notificacionesCount > 0 && (
-                            <span className="ml-auto min-w-[22px] h-[22px] bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
-                                {notificacionesCount > 99 ? "99+" : notificacionesCount}
-                            </span>
-                        )}
+                        <span className="flex items-center gap-3 group-hover:text-[#1e3a8a]">
+                            <FiBell /> Notificaciones
+                            {notificacionesCount > 0 && (
+                                <span className="ml-auto min-w-[22px] h-[22px] bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
+                                    {notificacionesCount > 99 ? "99+" : notificacionesCount}
+                                </span>
+                            )}
+                        </span>
+                        <span className="text-xs text-gray-400 ml-7 hidden group-hover:block">
+                            Revisa quiénes se postularon a tus jobs activos
+                        </span>
                     </li>
 
                     <li
-                        className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
+                        className="flex flex-col gap-0.5 cursor-pointer group"
                         onClick={() => { closeMenu(); navigate("/configuracion"); }}
                     >
-                        <FiSettings /> Configuración
+                        <span className="flex items-center gap-3 group-hover:text-[#1e3a8a]">
+                            <FiSettings /> Configuración
+                        </span>
+                        <span className="text-xs text-gray-400 ml-7 hidden group-hover:block">
+                            Edita tu perfil, seguridad y preferencias de cuenta
+                        </span>
                     </li>
 
-                    <li 
-                        className="flex items-center gap-3 cursor-pointer hover:text-[#1e3a8a]"
+                    <li
+                        className="flex flex-col gap-0.5 cursor-pointer group"
                         onClick={() => openModal()}
                     >
-                        <FiHelpCircle /> Ayuda
+                        <span className="flex items-center gap-3 group-hover:text-[#1e3a8a]">
+                            <FiHelpCircle /> Ayuda
+                        </span>
+                        <span className="text-xs text-gray-400 ml-7 hidden group-hover:block">
+                            ¿Tienes dudas? Consulta cómo funciona Jobsi
+                        </span>
                     </li>
 
-                    <li 
-                        className="flex items-center gap-3 cursor-pointer text-red-600 hover:text-red-800 mt-4"
+                    <li
+                        className="flex flex-col gap-0.5 cursor-pointer group mt-4"
                         onClick={async() => {
                             const result = await Swal.fire({
                                     title: "Cerrar sesión",
@@ -95,7 +115,12 @@ const SidebarMenu = ({ open, closeMenu, navigate, notificacionesCount = 0 }) => 
                                 }
                             }}
                     >
-                        <FiLogOut /> Cerrar Sesión
+                        <span className="flex items-center gap-3 text-red-600 group-hover:text-red-800">
+                            <FiLogOut /> Cerrar Sesión
+                        </span>
+                        <span className="text-xs text-gray-400 ml-7 hidden group-hover:block">
+                            Salir de tu cuenta de forma segura
+                        </span>
                     </li>
 
                 </ul>

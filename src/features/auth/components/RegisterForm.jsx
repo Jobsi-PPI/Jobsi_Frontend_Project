@@ -41,7 +41,7 @@ const RegisterForm = ({
 
                     {/* Nombre */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Nombre</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Nombre <span className="text-red-500">*</span></label>
                         <input
                             type="text"
                             placeholder="Ingresa tu nombre"
@@ -54,7 +54,7 @@ const RegisterForm = ({
 
                     {/* Primer apellido */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Primer apellido</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Primer apellido <span className="text-red-500">*</span></label>
                         <input
                         type="text"
                         placeholder="Ingresa tu primer apellido"
@@ -67,7 +67,7 @@ const RegisterForm = ({
 
                     {/* Segundo apellido */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Segundo apellido</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Segundo apellido <span className="text-red-500">*</span></label>
                         <input
                             type="text"
                             placeholder="Ingresa tu segundo apellido"
@@ -80,7 +80,7 @@ const RegisterForm = ({
 
                     {/* Correo */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Correo institucional</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Correo institucional <span className="text-red-500">*</span></label>
                         <input
                             type="email"
                             placeholder="Ingresa tu correo universitario"
@@ -96,7 +96,7 @@ const RegisterForm = ({
                 <div className="space-y-4">
                     {/* Cédula */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Cédula</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Cédula <span className="text-red-500">*</span></label>
                         <input
                         type="number"
                         placeholder="Ingresa tu cédula"
@@ -109,7 +109,7 @@ const RegisterForm = ({
 
                     {/* Celular */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Celular</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Celular <span className="text-red-500">*</span></label>
                         <input
                         type="number"
                         placeholder="Ingresa tu celular"
@@ -122,7 +122,7 @@ const RegisterForm = ({
 
                     {/* Sexo */}
                     <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Sexo</label>
+                        <label className="block text-sm sm:text-base font-bold text-black">Sexo <span className="text-red-500">*</span></label>
                         <select
                         value={sexo}
                         onChange={(e) => setSexo(e.target.value)}
@@ -137,7 +137,7 @@ const RegisterForm = ({
 
                     {/* Fecha nacimiento */}
                     <div className="flex flex-col">
-                        <label className="block text-sm sm:text-base font-bold text-black mb-1">Fecha de nacimiento</label>
+                        <label className="block text-sm sm:text-base font-bold text-black mb-1">Fecha de nacimiento <span className="text-red-500">*</span></label>
                         <DatePicker
                             selected={fechaNacimiento}
                             onChange={(date) => setFechaNacimiento(date)}
@@ -160,7 +160,7 @@ const RegisterForm = ({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8">
                 {/* Contraseña */}
                 <div className="flex flex-col">
-                    <label className="block text-sm sm:text-base font-bold text-black">Contraseña</label>
+                    <label className="block text-sm sm:text-base font-bold text-black">Contraseña <span className="text-red-500">*</span></label>
 
                     <div className={`flex items-center border-2 rounded-lg px-2 ${
                             errors.password ? "border-red-500" : "border-[#6b7280]"
@@ -185,7 +185,7 @@ const RegisterForm = ({
 
                 {/* Confirmar contraseña */}
                 <div className="flex flex-col">
-                    <label className="block text-sm sm:text-base font-bold text-black">Confirmar contraseña</label>
+                    <label className="block text-sm sm:text-base font-bold text-black">Confirmar contraseña <span className="text-red-500">*</span></label>
 
                     <div className={`flex items-center border-2 rounded-lg px-2 ${
                             errors.confirmPassword ? "border-red-500" : "border-[#6b7280]"
