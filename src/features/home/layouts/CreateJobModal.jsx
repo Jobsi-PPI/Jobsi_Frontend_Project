@@ -1,6 +1,7 @@
 import { FiX } from "react-icons/fi";
 
 import Button from "../../../components/ui/Button.jsx";
+import Tooltip from "../../../components/ui/Tooltip.jsx";
 
 const CreateJobModal = ({
     show,
@@ -47,7 +48,7 @@ const CreateJobModal = ({
                     
                     {/* Título */}
                     <div>
-                        <label className="block font-medium text-gray-700">Título del Job</label>
+                        <label className="block font-medium text-gray-700">Título del Job <span className="text-red-500">*</span><Tooltip text="Nombre corto y claro de lo que necesitas, ej: 'Ayuda con tarea de cálculo'" /></label>
                         <input
                             type="text"
                             value={titulo}
@@ -60,7 +61,7 @@ const CreateJobModal = ({
 
                     {/* Descripción */}
                     <div>
-                        <label className="block font-medium text-gray-700">Descripción</label>
+                        <label className="block font-medium text-gray-700">Descripción <span className="text-red-500">*</span><Tooltip text="Explica qué necesitas, cuándo y cualquier detalle relevante para el candidato" /></label>
                         <textarea
                             value={descripcion}
                             onChange={(e) => setDescripcion(e.target.value)}
@@ -72,7 +73,7 @@ const CreateJobModal = ({
 
                     {/* Pago */}
                     <div>
-                        <label className="block font-medium text-gray-700">Pago ofrecido</label>
+                        <label className="block font-medium text-gray-700">Pago ofrecido <span className="text-red-500">*</span><Tooltip text="Monto en pesos colombianos que ofreces por el trabajo" /></label>
                         <input
                             type="number"
                             value={pago}
@@ -85,15 +86,20 @@ const CreateJobModal = ({
 
                     {/* Ubicación */}
                     <div>
-                        <label className="block font-medium text-gray-700">Ubicación del Job</label>
-                        <input
-                            type="text"
+                        <label className="block font-medium text-gray-700">Ubicación del Job <span className="text-red-500">*</span><Tooltip text="Lugar dentro del campus donde se realizará el trabajo" /></label>
+                        <select
                             value={ubicacion}
                             onChange={(e) => setUbicacion(e.target.value)}
-                            placeholder="Ej. Almendros"
                             className={`w-full p-3 border-2 rounded-lg text-black
                                 ${errors.ubicacion ? "border-red-500" : "border-gray-300"}`}
-                        />
+                        >
+                            <option value="">Selecciona una ubicación</option>
+                            <option value="Palmas">Palmas</option>
+                            <option value="Almendros">Almendros</option>
+                            <option value="Terraza">Terraza</option>
+                            <option value="P40">P40</option>
+                            <option value="p13">P13</option>
+                        </select>
                     </div>
 
                     {/* Categoría */}
