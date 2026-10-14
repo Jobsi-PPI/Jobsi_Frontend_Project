@@ -8,7 +8,7 @@ const baseStyles =
 const variants = {
     primary: "!bg-[#1e3a8a] text-white hover:!bg-[#1b347c]",
 
-    warning: "!bg-[#ffb906] text-black hover:!bg-[#f59e0b]",
+    warning: "!bg-[#ffb906] text-black hover:!bg-[#f59e0b] !border-[#ffb906]",
 
     secondary:
         "!bg-white text-[#1e3a8a] border !border-[#1e3a8a] hover:!bg-[#BABABA] ",
