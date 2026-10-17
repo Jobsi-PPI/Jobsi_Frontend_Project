@@ -4,7 +4,7 @@ import { useRegister } from "../auth/hooks/useRegister.js";
 
 import RegisterForm from "../auth/components/RegisterForm.jsx";
 import Button from "../../components/ui/Button.jsx";
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 
 
 function Register() {
@@ -80,6 +80,9 @@ return (
 
             </section>
         </div>
+
+        {/* Footer pegado al fondo */}
+        <Footer className="mt-0" />
 
     </div>
     </>

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import "./Login.css";
 
 import LoginForm from "/src/features/auth/components/LoginForm.jsx";
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 
 
 const Login = () => {
