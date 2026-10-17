@@ -17,7 +17,7 @@ import { useCalificarModal } from "../calificaciones/hooks/useCalificarModal.js"
 import JobPublicadoSkeleton from "../../components/loaders/JobPublicadoSkeleton";
 import JobPostuladoSkeleton from "../../components/loaders/JobPostuladoSkeleton";
 import Header from "../../components/layout/header.jsx";
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ErrorBackendModal from "../../components/ui/modals/ErrorBackendModal.jsx";

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiUser, FiLock, FiShield, FiTool } from "react-icons/fi";
 
 import HeaderConfiguracion from "../../components/layout/HeaderConfiguracion.jsx";
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Perfil from "../perfil/Perfil.jsx";
 

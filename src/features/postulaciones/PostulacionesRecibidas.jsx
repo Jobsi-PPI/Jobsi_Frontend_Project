@@ -7,7 +7,7 @@ import { usePostulacionesRecibidas } from "./hooks/usePostulacionesRecibidas.js"
 import PostulacionCard from "./PostulacionCard.jsx";
 import PostulacionSkeleton from "../../components/loaders/PostulacionSkeleton.jsx";
 import Header from "../../components/layout/header.jsx";
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 

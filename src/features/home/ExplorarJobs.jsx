@@ -12,7 +12,7 @@ import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
 //Imports de componentes UI y layout
 import Header from "../../components/layout/header.jsx"; //Ya el header importa sidebarMenu
-import Footer from "../../components/layout/footer.jsx";
+import Footer from "../../components/layout/Footer.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 
