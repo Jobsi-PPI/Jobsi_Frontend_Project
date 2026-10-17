@@ -1,11 +1,12 @@
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import es from "date-fns/locale/es"; // Locale for Spanish
+import { FiArrowLeft } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../../../components/ui/Button.jsx";
-
-registerLocale("es", es); // Register to use it in the DatePicker
+import FormField from "./FormField.jsx";
+import PasswordField from "./PasswordField.jsx";
+import RegisterStepHeader from "./RegisterStepHeader.jsx";
 
 const RegisterForm = ({
     handleSubmit,
@@ -24,101 +25,117 @@ const RegisterForm = ({
     passwordError, errors,
 
     showPassword, setShowPassword,
-    showConfirmPassword, setShowConfirmPassword
+    showConfirmPassword, setShowConfirmPassword,
+
+    step, totalSteps, nextStep, prevStep
 }) => {
+    const navigate = useNavigate();
+    const soloEnPaso = (...pasos) => (pasos.includes(step) ? "" : "max-md:hidden");
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit}>
-            <h1 className="text-[#1c4363] text-base sm:text-lg lg:text-2xl font-bold mb-6">
-                Registro de cuenta
-            </h1>
+            <div className="flex items-center justify-between gap-4 mb-6 max-md:hidden">
+                <h2 className="text-black sm:text-lg lg:text-3xl font-bold">
+                    Registro de cuenta
+                </h2>
+
+                <Button
+                    variant="secondary"
+                    size="sm"
+                    className="gap-2 shrink-0"
+                    onClick={() => navigate("/login")}
+                >
+                    <FiArrowLeft />
+                    Volver
+                </Button>
+            </div>
+
+            <RegisterStepHeader
+                step={step}
+                totalSteps={totalSteps}
+                onBack={() => (step > 1 ? prevStep() : navigate("/login"))}
+            />
+
+            <Button
+                className={`relative !bg-white !text-black !border !border-gray-500 hover:!bg-gray-100 ${soloEnPaso(1)}`}
+                fullWidth
+                /* onClick={() => navigate("/register-google")} */
+            >
+                <FcGoogle className="pr-2 w-5 h-5 md:w-10 md:h-6" />
+                Registrarse con Google
+            </Button>
+
+            <div className={`flex items-center gap-3 text-gray-600 ${soloEnPaso(1)}`}>
+                <span className="flex-1 h-px bg-gray-300"></span>
+                o completa tus datos
+                <span className="flex-1 h-px bg-gray-300"></span>
+            </div>
 
             {/* Grid principal */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8">
-    
+
                 {/* Columna 1 */}
-                <div className="space-y-4">
-
-                    {/* Nombre */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Nombre <span className="text-red-500">*</span></label>
-                        <input
-                            type="text"
-                            placeholder="Ingresa tu nombre"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
-                            className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.nombre ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
-
-                    {/* Primer apellido */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Primer apellido <span className="text-red-500">*</span></label>
-                        <input
+                <div className={`flex flex-col gap-4 ${soloEnPaso(1, 3)}`}>
+                    <FormField
+                        className={soloEnPaso(1)}
+                        label="Nombre"
                         type="text"
-                        placeholder="Ingresa tu primer apellido"
+                        placeholder="Tu nombre"
+                        value={nombre}
+                        onChange={setNombre}
+                        error={errors.nombre}
+                    />
+
+                    <FormField
+                        className={soloEnPaso(1)}
+                        label="Primer apellido"
+                        type="text"
+                        placeholder="Primer apellido"
                         value={primerApellido}
-                        onChange={(e) => setPrimerApellido(e.target.value)}
-                        className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.primerApellido ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                        onChange={setPrimerApellido}
+                        error={errors.primerApellido}
+                    />
 
-                    {/* Segundo apellido */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Segundo apellido <span className="text-red-500">*</span></label>
-                        <input
-                            type="text"
-                            placeholder="Ingresa tu segundo apellido"
-                            value={segundoApellido}
-                            onChange={(e) => setSegundoApellido(e.target.value)}
-                            className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.segundoApellido ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                    <FormField
+                        className={soloEnPaso(1)}
+                        label="Segundo apellido"
+                        type="text"
+                        placeholder="Segundo apellido"
+                        value={segundoApellido}
+                        onChange={setSegundoApellido}
+                        error={errors.segundoApellido}
+                    />
 
-                    {/* Correo */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Correo institucional <span className="text-red-500">*</span></label>
-                        <input
-                            type="email"
-                            placeholder="Ingresa tu correo universitario"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.email ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                    <FormField
+                        className={soloEnPaso(3)}
+                        label="Correo institucional"
+                        type="email"
+                        placeholder="nombre@elpoli.edu.co"
+                        value={email}
+                        onChange={setEmail}
+                        error={errors.email}
+                    />
                 </div>
 
                 {/* Columna 2 */}
-                <div className="space-y-4">
-                    {/* Cédula */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Cédula <span className="text-red-500">*</span></label>
-                        <input
+                <div className={`space-y-4 ${soloEnPaso(2)}`}>
+                    <FormField
+                        label="Cédula"
                         type="number"
-                        placeholder="Ingresa tu cédula"
+                        placeholder="Número de cédula"
                         value={cedula}
-                        onChange={(e) => setCedula(e.target.value)}
-                        className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.cedula ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                        onChange={setCedula}
+                        error={errors.cedula}
+                    />
 
-                    {/* Celular */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-bold text-black">Celular <span className="text-red-500">*</span></label>
-                        <input
+                    <FormField
+                        label="Celular"
                         type="number"
-                        placeholder="Ingresa tu celular"
+                        placeholder="300 000 0000"
                         value={celular}
-                        onChange={(e) => setCelular(e.target.value)}
-                        className={`w-full p-2 border-2 rounded-lg text-black 
-                                ${ errors.celular ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                        onChange={setCelular}
+                        error={errors.celular}
+                    />
 
                     {/* Sexo */}
                     <div>
@@ -126,7 +143,7 @@ const RegisterForm = ({
                         <select
                         value={sexo}
                         onChange={(e) => setSexo(e.target.value)}
-                        className="w-full p-2 border-2 border-[#6b7280] rounded-lg text-black"
+                        className="w-full p-2 border-1 border-[#6b7280] rounded-lg text-black"
                         >
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
@@ -135,93 +152,63 @@ const RegisterForm = ({
                         </select>
                     </div>
 
-                    {/* Fecha nacimiento */}
-                    <div className="flex flex-col">
-                        <label className="block text-sm sm:text-base font-bold text-black mb-1">Fecha de nacimiento <span className="text-red-500">*</span></label>
-                        <DatePicker
-                            selected={fechaNacimiento}
-                            onChange={(date) => setFechaNacimiento(date)}
-                            locale="es"
-                            dateFormat="dd/MM/yyyy"
-                            showYearDropdown
-                            scrollableYearDropdown
-                            yearDropdownItemNumber={100} 
-                            color={"#3e64afff"}
-                            placeholderText="DD/MM/AAAA"
-                            maxDate={new Date()}
-                            className={`w-full p-2 border-2 rounded-lg text-black outline-none
-                                ${ errors.fechaNacimiento ? "border-red-500" : "border-[#6b7280]"}`}
-                        />
-                    </div>
+                    <FormField
+                        label="Fecha de nacimiento"
+                        type="date"
+                        value={fechaNacimiento ?? ""}
+                        onChange={setFechaNacimiento}
+                        max={format(new Date(), "yyyy-MM-dd")}
+                        error={errors.fechaNacimiento}
+                    />
                 </div>
             </div>
 
             {/* Passwords*/}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8">
-                {/* Contraseña */}
-                <div className="flex flex-col">
-                    <label className="block text-sm sm:text-base font-bold text-black">Contraseña <span className="text-red-500">*</span></label>
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-8 ${soloEnPaso(3)}`}>
+                <PasswordField
+                    label="Contraseña"
+                    placeholder="Mínimo 8 caracteres"
+                    value={password}
+                    onChange={setPassword}
+                    error={errors.password}
+                    show={showPassword}
+                    onToggle={() => setShowPassword(!showPassword)}
+                />
 
-                    <div className={`flex items-center border-2 rounded-lg px-2 ${
-                            errors.password ? "border-red-500" : "border-[#6b7280]"
-                        }`}>
-                        <input
-                        type={showPassword ? "text" : "password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Ingresa tu contraseña"
-                        className="w-full p-2 text-black outline-none"
-                        />
-
-                        <button
-                        type="button"
-                        className="p-2 btn-blanco text-black hover:text-gray-800"
-                        onClick={() => setShowPassword(!showPassword)}
-                        >
-                        {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
-                        </button>
-                    </div>
-                </div>
-
-                {/* Confirmar contraseña */}
-                <div className="flex flex-col">
-                    <label className="block text-sm sm:text-base font-bold text-black">Confirmar contraseña <span className="text-red-500">*</span></label>
-
-                    <div className={`flex items-center border-2 rounded-lg px-2 ${
-                            errors.confirmPassword ? "border-red-500" : "border-[#6b7280]"
-                        }`}>
-                        <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirma la contraseña"
-                        className="w-full p-2 text-black outline-none"
-                        />
-
-                        <button
-                        type="button"
-                        className="p-2 btn-blanco text-black hover:text-gray-800"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        >
-                        {showConfirmPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
-                        </button>
-                    </div>
-
-                    {passwordError && (
-                        <p className="text-red-600 text-sm mt-2">{passwordError}</p>
-                    )}
-                </div>
+                <PasswordField
+                    label="Confirmar contraseña"
+                    placeholder="Repite la contraseña"
+                    value={confirmPassword}
+                    onChange={setConfirmPassword}
+                    error={errors.confirmPassword}
+                    show={showConfirmPassword}
+                    onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
+                    message={passwordError}
+                />
             </div>
 
             {/* Botón */}
             <div className="pt-2">
                 <Button
                     type="submit"
+                    fullWidth
                     variant="primary"
-                    size="sm"
+                    className={`h-12 ${step < totalSteps ? "max-md:hidden" : ""}`}
                     >
                     Crear cuenta
                 </Button>
+
+                {step < totalSteps && (
+                    <Button
+                        type="button"
+                        fullWidth
+                        variant="primary"
+                        className="h-12 md:hidden"
+                        onClick={nextStep}
+                    >
+                        Continuar
+                    </Button>
+                )}
             </div>
         </form>
     );

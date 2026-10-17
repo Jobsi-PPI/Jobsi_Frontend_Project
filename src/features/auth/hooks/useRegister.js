@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { register } from "/src/services/authServices/";
 import { useAuth } from "/src/context/AuthContext.jsx";
-import { format } from "date-fns";
 
 
 import Swal from "sweetalert2";
 
+const totalSteps = 3;
+
 /**
  * Custom Hook que encapsula la lógica, estado y validación del formulario de registro.
  * Maneja la interacción con el servicio del backend y dispara el auto-login si el registro es exitoso.
- * 
+ *
  * @param {function} navigate - Función de navegación de react-router-dom para redirigir al Home
  * @returns {Object} Un objeto con los estados locales (nombre, email, fechaNacimiento, etc.), setters y la función handleSubmit.
  */
@@ -18,6 +19,8 @@ export const useRegister = (navigate) => {
 const { login } = useAuth();
 
 const [errors, setErrors] = useState({})
+
+const [step, setStep] = useState(1);
 
 const [nombre, setNombre] = useState("");
 const [primerApellido, setPrimerApellido] = useState("");
@@ -35,8 +38,42 @@ const [passwordError, setPasswordError] = useState("");
 const [showPassword, setShowPassword] = useState(false);
 const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+const nextStep = () => {
+    const camposPorPaso = {
+        1: { nombre, primerApellido, segundoApellido },
+        2: { cedula, celular, fechaNacimiento },
+    };
+
+    const newErrors = {};
+    Object.entries(camposPorPaso[step] ?? {}).forEach(([campo, valor]) => {
+        if (!valor || !String(valor).trim()) newErrors[campo] = true;
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        Swal.fire({
+            icon: "warning",
+            title: "Campos incompletos",
+            text: "Por favor completa todos los campos de este paso.",
+            confirmButtonColor: "#1e3a8a",
+        });
+        return;
+    }
+
+    setErrors({});
+    setStep((s) => Math.min(s + 1, totalSteps));
+};
+
+const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+
 const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 767px = justo debajo del breakpoint md, donde el formulario se muestra por pasos
+    if (window.matchMedia("(max-width: 767px)").matches && step < totalSteps) {
+        nextStep();
+        return;
+    }
 
     // En la validación:
     const newErrors = {};
@@ -85,7 +122,7 @@ setErrors({}); // limpia si todo ok
     email,
     password,
     telefono: celular,
-    fechaNacimiento: fechaNacimiento ? format(fechaNacimiento, "yyyy-MM-dd") : null,
+    fechaNacimiento: fechaNacimiento || null,
     genero: sexo,
     rol: null,
     };
@@ -108,7 +145,7 @@ setErrors({}); // limpia si todo ok
     //catch se encarga de atrapar el error en caso de fallar lo esperado
     } catch (error) {
     console.error(error); // se almacena el error de consola en la variable error
-    
+
     //se genera alerta de error detallada de creación
     Swal.fire({
         icon: "error",
@@ -119,6 +156,7 @@ setErrors({}); // limpia si todo ok
      // 💎 BONUS: marcar campo específico en rojo
     if (error.message.includes("documento")) {
         setErrors(prev => ({ ...prev, cedula: true }));
+        setStep(2);
     }
 
     if (error.message.includes("correo")) {
@@ -127,6 +165,7 @@ setErrors({}); // limpia si todo ok
 
     if (error.message.includes("teléfono")) {
         setErrors(prev => ({ ...prev, celular: true }));
+        setStep(2);
     }
 };
 };
@@ -135,6 +174,7 @@ setErrors({}); // limpia si todo ok
         nombre, primerApellido, segundoApellido, email, cedula, celular,
         sexo, fechaNacimiento, password, confirmPassword,
         showPassword, showConfirmPassword, passwordError, errors,
+        step, totalSteps,
 
         // Setters
         setNombre, setPrimerApellido, setSegundoApellido, setEmail, setCedula,
@@ -142,6 +182,6 @@ setErrors({}); // limpia si todo ok
         setShowPassword, setShowConfirmPassword,
 
         // Funciones
-        handleSubmit,
+        handleSubmit, nextStep, prevStep,
     };
 };

@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     host: true,
-    open: 'http://jobsi.com:5173',
+    open: false,
     allowedHosts: ["jobsi.com"],
   }
 })
