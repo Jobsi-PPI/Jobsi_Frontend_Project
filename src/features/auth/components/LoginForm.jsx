@@ -93,9 +93,11 @@ const LoginForm = ({
                         Entrar
                     </Button>
 
-                    <p className="text-center text-gray-600">
+                    <div className="flex items-center gap-3 text-gray-600">
+                        <span className="flex-1 h-px bg-gray-300"></span>
                         o
-                    </p>
+                        <span className="flex-1 h-px bg-gray-300"></span>
+                    </div>
 
                     <Button
                         className="relative !bg-white !text-black !border !border-gray-500 hover:!bg-gray-100"
@@ -124,9 +126,9 @@ const LoginForm = ({
                         className="md:hidden"
                         variant="primary"
                         fullWidth
-                        type="submit"
+                        onClick={() => navigate("/register")}
                     >
-                        Crear cuenta    
+                        Crear cuenta
                     </Button>
 
                 </div>

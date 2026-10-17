@@ -69,7 +69,7 @@ const Login = () => {
                 {/* PANEL IZQUIERDO (AZUL) */}
                 <section className="relative overflow-hidden bg-[#1e3a8a] px-4 sm:px-6 py-10 flex flex-col space-y-10">
 
-                    <div className="flex flex-col items-start justify-center p-8 md:gap-10">
+                    <div className="flex flex-col items-start p-8 md:gap-10">
                         
                         {/* Líneas decorativas */}
                         <div className="absolute top-6 left-0 space-y-4 flex flex-col items-start">
