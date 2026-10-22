@@ -61,7 +61,7 @@ const RegisterForm = ({
                 fullWidth
                 /* onClick={() => navigate("/register-google")} */
             >
-                <FcGoogle className="pr-2 w-5 h-5 md:w-10 md:h-6" />
+                <FcGoogle className="pr-2 w-8 h-5 md:w-10 md:h-6" />
                 Registrarse con Google
             </Button>
 
