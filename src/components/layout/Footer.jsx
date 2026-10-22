@@ -34,7 +34,7 @@ const Footer = ({ className = "mt-20" }) => {
                         <h3 className="text-sm font-semibold uppercase tracking-wider text-white/70">
                             Enlaces
                         </h3>
-                        <ul className="mt-4 space-y-3 text-sm">
+                        <ul className="mt-4 space-y-3 text-sm"> 
                             <li>
                                 <a href="#" className="text-white hover:text-gray-200 transition-colors">
                                     Inicio
