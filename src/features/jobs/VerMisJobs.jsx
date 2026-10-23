@@ -74,7 +74,7 @@ return (
     <>
         {/* Header */}
         <div>
-            <Header />
+            <Header onPublicarJob={openModal} />
         </div> 
 
 

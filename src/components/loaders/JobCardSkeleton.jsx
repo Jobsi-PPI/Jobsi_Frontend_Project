@@ -1,18 +1,18 @@
 const JobCardSkeleton = () => {
     return (
-        <div className="w-[300px] min-h-[380px] bg-gray-200 rounded-2xl p-5 animate-pulse flex flex-col justify-between">
-            
-            <div className="h-6 bg-gray-300 rounded w-3/4" />
-            
-            <div className="mt-3 h-4 bg-gray-300 rounded w-1/2" />
+        <div className="flex min-h-[340px] w-full animate-pulse flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+            <div className="h-6 w-3/4 rounded bg-gray-200" />
+
+            <div className="mt-3 h-4 w-1/2 rounded bg-gray-200" />
 
             <div className="mt-4 space-y-2">
-                <div className="h-4 bg-gray-300 rounded w-full" />
-                <div className="h-4 bg-gray-300 rounded w-5/6" />
-                <div className="h-4 bg-gray-300 rounded w-4/6" />
+                <div className="h-4 w-full rounded bg-gray-200" />
+                <div className="h-4 w-5/6 rounded bg-gray-200" />
+                <div className="h-4 w-4/6 rounded bg-gray-200" />
             </div>
 
-            <div className="mt-4 h-10 bg-gray-300 rounded" />
+            <div className="mt-4 h-10 rounded-xl bg-gray-200" />
         </div>
     );
 };
