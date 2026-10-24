@@ -7,6 +7,7 @@ import { FiBriefcase } from "react-icons/fi";
 
 //Imports de componentes
 import JobCard from "/src/features/home/JobCard.jsx";
+import ChatConversation from "./ChatConversation.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
@@ -78,33 +79,8 @@ return (
                     </div>
                 </div>
 
-                {/* Panel de conversación */}
-                <div className="rounded-[32px] bg-[#2c4a99] p-5 sm:p-8 lg:p-10">
-                    <div className="flex flex-col gap-3">
-
-                        <div className="ml-auto max-w-[290px] rounded-[18px] bg-white px-5 py-3 text-sm font-semibold leading-snug text-gray-900 shadow-sm">
-                            ¿Muy desparchado sin nada que hacer?
-                        </div>
-
-                        <div className="ml-auto max-w-[240px] rounded-[18px] bg-white px-5 py-3 text-sm font-semibold leading-snug text-gray-900 shadow-sm">
-                            ¿Necesitas una mano?
-                        </div>
-
-                        <div className="mt-4 flex items-end gap-3">
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm">
-                                <img
-                                    src="/src/assets/jobsi-mascota-jobito_render.png"
-                                    alt="Mascota Jobsi"
-                                    className="h-8 w-8 object-contain"
-                                />
-                            </span>
-                            <div className="max-w-[380px] rounded-[18px] bg-[#ffb906] px-5 py-3 text-sm font-semibold leading-snug text-gray-900 shadow-sm">
-                                Relajado compa, ¡Nosotros te resolvemos! todo al alcance de un click
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                {/* Panel de conversación animado */}
+                <ChatConversation />
 
             </section>
         </div>
