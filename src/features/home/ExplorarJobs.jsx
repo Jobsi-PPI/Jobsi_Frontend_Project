@@ -49,6 +49,7 @@ const ExplorarJobs = () => {
                 <Header 
                     onCategoriaChange={setCategoriaSeleccionada}
                     categoriaSeleccionada={categoriaSeleccionada} 
+                    onPublicarJob={openModal}
                 />
             </div>
 

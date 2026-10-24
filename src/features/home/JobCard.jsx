@@ -1,8 +1,13 @@
-import { FiUser, FiClock } from "react-icons/fi";
+import { FiUser, FiClock, FiMapPin, FiCreditCard } from "react-icons/fi";
 import { useJobCard } from "./hooks/useJobCard.js";
 import { tiempoRelativo } from "../../utils/timeUtils.js";
 
-import Button from "../../components/ui/Button.jsx";
+const formatLabel = (value = "") =>
+    value
+        .toString()
+        .toLowerCase()
+        .replaceAll("_", " ")
+        .replace(/^\w/, (letra) => letra.toUpperCase());
 
 
 const JobCard = ({ job, onTomar }) => {
@@ -11,52 +16,63 @@ const JobCard = ({ job, onTomar }) => {
     console.log("fechaPublicacion:", job.fechaPublicacion);
 
     return (
-        <div className="w-[300px] min-h-[380px] bg-white shadow-lg rounded-2xl p-5 border-4 border-black flex flex-col justify-between hover:scale-[1.02] transition">
-            
-            {/* Título */}
-            <h2 className="text-xl font-bold text-[#1e3a8a] mb-2">
+        <div className="flex h-full w-full flex-col rounded-2xl border border-[#e9edf3] bg-white p-5 shadow-sm transition hover:shadow-md">
+
+            {/* Estado y tiempo */}
+            <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex rounded-full bg-[#fdf1d6] px-3 py-1 text-xs font-semibold text-[#a16207]">
+                    {formatLabel(job.estado)}
+                </span>
+
+                <span className="flex items-center gap-1.5 text-xs text-gray-500">
+                    <FiClock className="h-3.5 w-3.5" /> {tiempoRelativo(job.fechaPublicacion)}
+                </span>
+            </div>
+
+            {/* Título y descripción */}
+            <h2 className="mt-4 text-lg font-bold leading-snug text-[#1e2a4a]">
                 {job.titulo}
             </h2>
 
-            {/* Usuario */}
-            <div className="flex items-center gap-2 text-gray-600 text-sm">
-                <FiUser className="text-lg" />
-                <span>{job.solicitanteCorreo || "Usuario"}</span>
-            </div>
-
-            {/* Descripción */}
-            <p className="text-gray-700 text-sm mt-3 line-clamp-4">
+            <p className="mt-1.5 line-clamp-3 text-sm text-gray-500">
                 {job.descripcion}
             </p>
 
-            <div className="mt-4">
-                <p className="font-bold text-[#1e3a8a]">{job.tipoPago}</p>
-                <p className="font-bold text-black">${job.pago.toLocaleString()}</p>
+            {/* Ubicación y tipo de pago */}
+            <div className="mt-4 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef2fb] px-3 py-1 text-xs font-semibold text-[#1e3a8a]">
+                    <FiMapPin className="h-3.5 w-3.5" /> {job.ubicacion}
+                </span>
 
-                <p className="flex items-center gap-2 text-sm text-gray-700 mt-1">
-                    <FiClock /> {tiempoRelativo(job.fechaPublicacion)}
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef2fb] px-3 py-1 text-xs font-semibold text-[#1e3a8a]">
+                    <FiCreditCard className="h-3.5 w-3.5" /> {formatLabel(job.tipoPago)}
+                </span>
+            </div>
+
+            {/* Usuario */}
+            <div className="mt-3 flex items-center gap-2 text-xs text-gray-500">
+                <FiUser className="h-3.5 w-3.5" />
+                <span className="truncate">{job.solicitanteCorreo || "Usuario"}</span>
+            </div>
+
+            {/* Pago y acción */}
+            <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+                <p className="text-xl font-bold text-[#1e3a8a]">
+                    ${job.pago.toLocaleString("es-CO")}
                 </p>
-            </div>
 
-            <div className="mt-4">
-                <p className="font-bold text-[#1e3a8a]">Ubicación</p>
-                <p className="font-bold text-black">{job.ubicacion}</p>
+                <button
+                    type="button"
+                    onClick={handlePostularse}
+                    className={`shrink-0 !rounded-lg !border-0 !px-5 !py-2.5 text-sm font-semibold transition
+                        ${isDisabled
+                            ? "!cursor-not-allowed !bg-[#eef0f4] !text-gray-500"
+                            : "!bg-[#1e3a8a] !text-white hover:!bg-[#1b347c]"
+                        }`}
+                >
+                    {buttonText}
+                </button>
             </div>
-
-            <div className="mt-4">
-                <p className="font-bold text-[#1e3a8a]">Estado</p>
-                <p className="font-bold text-black">{job.estado}</p>
-            </div>
-            
-            <Button
-                variant={isDisabled ? "dark": "primary"}
-                size="md"
-                fullWidth
-                onClick={handlePostularse}
-                className={`mt-4 ${isDisabled ? "!cursor-not-allowed" : ""}`}
-            >
-                {buttonText}
-            </Button>
         </div>
     );
 };
