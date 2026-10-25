@@ -3,6 +3,24 @@ import { FiX } from "react-icons/fi";
 import Button from "../../../components/ui/Button.jsx";
 import Tooltip from "../../../components/ui/Tooltip.jsx";
 
+const CATEGORIAS = [
+    { value: "ASESORIAS", label: "Asesorías" },
+    { value: "TAREAS", label: "Tareas" },
+    { value: "MATERIALES", label: "Materiales" },
+    { value: "ENTRENAMIENTOS", label: "Entrenamientos" },
+    { value: "OTRO", label: "Otro" },
+];
+
+const TIPOS_PAGO = [
+    { value: "EFECTIVO", label: "Efectivo" },
+    { value: "TRANSFERENCIA", label: "Transferencia" },
+    { value: "INTERCAMBIO", label: "Intercambio" },
+    { value: "OTRO", label: "Otro" },
+];
+
+const inputBase =
+    "mt-1.5 w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]/15";
+
 const CreateJobModal = ({
     show,
     closing,
@@ -28,118 +46,150 @@ const CreateJobModal = ({
     if (!show) return null;
 
     return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[999]">
-            <div className={`bg-white w-[90%] max-w-[600px] rounded-2xl shadow-xl p-8 relative transition-all duration-300
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 p-4">
+            <div className={`max-h-[92vh] w-full max-w-[560px] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl transition-all duration-300 sm:p-7
                 ${closing ? "scale-90 opacity-0": opening ? "scale-90 opacity-0": "scale-100 opacity-100"}`}>
 
-                {/* Cerrar */}
-                <button 
-                    className="absolute top-4 right-4 btn-blanco text-black hover:text-red-500 text-2xl"
-                    onClick={closeModal}
-                >
-                    <FiX className="w-9 h-9" />
-                </button>
+                {/* Encabezado */}
+                <div className="flex items-start justify-between gap-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-[#1e3a8a] sm:text-2xl">
+                            Publicar Job
+                        </h2>
+                        <p className="mt-1 text-sm text-gray-500">
+                            Cuéntale a la comunidad qué necesitas.
+                        </p>
+                    </div>
 
-                <h2 className="text-2xl font-bold text-[#1e3a8a] mb-6 text-center">
-                    Publicar Job
-                </h2>
+                    <button
+                        type="button"
+                        onClick={closeModal}
+                        aria-label="Cerrar"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center !rounded-lg !border-0 !bg-[#f1f3f7] !p-0 text-gray-500 transition hover:!bg-gray-200 hover:!text-gray-700"
+                    >
+                        <FiX className="h-5 w-5" />
+                    </button>
+                </div>
 
-                <form className="space-y-4" onSubmit={handleCreateJob}>
-                    
+                <form className="mt-6 space-y-4" onSubmit={handleCreateJob}>
+
                     {/* Título */}
                     <div>
-                        <label className="block font-medium text-gray-700">Título del Job <span className="text-red-500">*</span><Tooltip text="Nombre corto y claro de lo que necesitas, ej: 'Ayuda con tarea de cálculo'" /></label>
+                        <label className="flex items-center text-sm font-semibold text-gray-800">Título del Job <span className="ml-0.5 text-red-500">*</span><Tooltip text="Nombre corto y claro de lo que necesitas, ej: 'Ayuda con tarea de cálculo'" /></label>
                         <input
                             type="text"
                             value={titulo}
                             onChange={(e) => setTitulo(e.target.value)}
-                            placeholder="Ej. Arreglo de portátil"
-                            className={`w-full p-3 border-2 rounded-lg text-black 
-                                ${errors.titulo ? "border-red-500" : "border-gray-300"}`}
+                            placeholder="Ej. Asesoría de cálculo integral"
+                            className={`${inputBase} ${errors.titulo ? "border-red-500" : "border-gray-200"}`}
                         />
                     </div>
 
                     {/* Descripción */}
                     <div>
-                        <label className="block font-medium text-gray-700">Descripción <span className="text-red-500">*</span><Tooltip text="Explica qué necesitas, cuándo y cualquier detalle relevante para el candidato" /></label>
+                        <label className="flex items-center text-sm font-semibold text-gray-800">Descripción <span className="ml-0.5 text-red-500">*</span><Tooltip text="Explica qué necesitas, cuándo y cualquier detalle relevante para el candidato" /></label>
                         <textarea
                             value={descripcion}
                             onChange={(e) => setDescripcion(e.target.value)}
                             placeholder="Describe tu necesidad..."
-                            className={`w-full p-3 border-2 rounded-lg text-black h-32
-                                ${errors.descripcion ? "border-red-500" : "border-gray-300"}`}
+                            className={`${inputBase} h-28 resize-none ${errors.descripcion ? "border-red-500" : "border-gray-200"}`}
                         />
                     </div>
 
-                    {/* Pago */}
-                    <div>
-                        <label className="block font-medium text-gray-700">Pago ofrecido <span className="text-red-500">*</span><Tooltip text="Monto en pesos colombianos que ofreces por el trabajo" /></label>
-                        <input
-                            type="number"
-                            value={pago}
-                            onChange={(e) => setPago(e.target.value)}
-                            placeholder="Ej. 20.000"
-                            className={`w-full p-3 border-2 rounded-lg text-black
-                                ${errors.pago ? "border-red-500" : "border-gray-300"}`}
-                        />
-                    </div>
+                    {/* Pago y ubicación */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-                    {/* Ubicación */}
-                    <div>
-                        <label className="block font-medium text-gray-700">Ubicación del Job <span className="text-red-500">*</span><Tooltip text="Lugar dentro del campus donde se realizará el trabajo" /></label>
-                        <select
-                            value={ubicacion}
-                            onChange={(e) => setUbicacion(e.target.value)}
-                            className={`w-full p-3 border-2 rounded-lg text-black
-                                ${errors.ubicacion ? "border-red-500" : "border-gray-300"}`}
-                        >
-                            <option value="">Selecciona una ubicación</option>
-                            <option value="Palmas">Palmas</option>
-                            <option value="Almendros">Almendros</option>
-                            <option value="Terraza">Terraza</option>
-                            <option value="P40">P40</option>
-                            <option value="p13">P13</option>
-                        </select>
+                        {/* Pago */}
+                        <div>
+                            <label className="flex items-center text-sm font-semibold text-gray-800">Pago ofrecido <span className="ml-0.5 text-red-500">*</span><Tooltip text="Monto en pesos colombianos que ofreces por el trabajo" /></label>
+                            <input
+                                type="number"
+                                value={pago}
+                                onChange={(e) => setPago(e.target.value)}
+                                placeholder="$ 20.000"
+                                className={`${inputBase} ${errors.pago ? "border-red-500" : "border-gray-200"}`}
+                            />
+                        </div>
+
+                        {/* Ubicación */}
+                        <div>
+                            <label className="flex items-center text-sm font-semibold text-gray-800">Ubicación del Job <span className="ml-0.5 text-red-500">*</span><Tooltip text="Lugar dentro del campus donde se realizará el trabajo" /></label>
+                            <select
+                                value={ubicacion}
+                                onChange={(e) => setUbicacion(e.target.value)}
+                                className={`${inputBase} ${errors.ubicacion ? "border-red-500" : "border-gray-200"}`}
+                            >
+                                <option value="">Selecciona una ubicación</option>
+                                <option value="Palmas">Palmas</option>
+                                <option value="Almendros">Almendros</option>
+                                <option value="Terraza">Terraza</option>
+                                <option value="P40">P40</option>
+                                <option value="p13">P13</option>
+                            </select>
+                        </div>
                     </div>
 
                     {/* Categoría */}
                     <div>
-                        <label className="block text-base font-bold text-black">Categoría</label>
-                        <select
-                        value={categoria} onChange={(e) => setCategoria(e.target.value)}
-                            className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
-                        >
-                            <option value="ASESORIAS">ASESORIAS</option>
-                            <option value="TAREAS">TAREAS</option>
-                            <option value="MATERIALES">MATERIALES</option>
-                            <option value="ENTRENAMIENTOS">ENTRENAMIENTOS</option>
-                            <option value="OTRO">OTRO</option>
-                        </select>
+                        <label className="block text-sm font-semibold text-gray-800">Categoría</label>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                            {CATEGORIAS.map((cat) => (
+                                <button
+                                    key={cat.value}
+                                    type="button"
+                                    onClick={() => setCategoria(cat.value)}
+                                    className={`!rounded-full !border !px-3 !py-2 text-xs font-semibold transition
+                                        ${categoria === cat.value
+                                            ? "!border-[#1e3a8a] !bg-[#1e3a8a] !text-white"
+                                            : "!border-gray-200 !bg-white !text-gray-600 hover:!bg-gray-50"
+                                        }`}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Tipo de Pago */}
                     <div>
-                        <label className="block text-base font-bold text-black">Tipo de pago</label>
-                        <select
-                            value={tipoPago}
-                            onChange={(e) => setTipoPago(e.target.value)}
-                            className="w-full p-2 border-2 border-[#6b7280] rounded-lg focus:ring-2 focus:ring-blue-500 text-black"
-                        >
-                            <option value="EFECTIVO">EFECTIVO</option>
-                            <option value="TRANSFERENCIA">TRANSFERENCIA</option>
-                            <option value="INTERCAMBIO">INTERCAMBIO</option>
-                            <option value="OTRO">OTRO</option>
-                        </select>
+                        <label className="block text-sm font-semibold text-gray-800">Tipo de pago</label>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                            {TIPOS_PAGO.map((tipo) => (
+                                <button
+                                    key={tipo.value}
+                                    type="button"
+                                    onClick={() => setTipoPago(tipo.value)}
+                                    className={`!rounded-lg !border !px-3 !py-2.5 text-xs font-semibold transition
+                                        ${tipoPago === tipo.value
+                                            ? "!border-[#1e3a8a] !bg-[#eef2fb] !text-[#1e3a8a]"
+                                            : "!border-gray-200 !bg-white !text-gray-600 hover:!bg-gray-50"
+                                        }`}
+                                >
+                                    {tipo.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
-                    <Button
-                        variant="primary"
-                        size="xl"
-                        fullWidth
-                        type="submit"
+                    {/* Acciones */}
+                    <div className="flex items-center justify-end gap-3 pt-2">
+                        <button
+                            type="button"
+                            onClick={closeModal}
+                            className="!rounded-lg !border !border-gray-200 !bg-white !px-5 !py-2.5 text-sm font-semibold !text-gray-700 transition hover:!bg-gray-50"
                         >
-                        Publicar
-                    </Button>
+                            Cancelar
+                        </button>
+
+                        <Button
+                            variant="primary"
+                            size="md"
+                            type="submit"
+                            className="!rounded-lg !px-6 !py-2.5"
+                        >
+                            Publicar
+                        </Button>
+                    </div>
                 </form>
             </div>
         </div>
