@@ -9,7 +9,7 @@ import { IoExtensionPuzzleSharp } from "react-icons/io5";
 import JobCard from "/src/features/home/JobCard.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
-
+import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
 import Footer from "../../components/layout/Footer.jsx";
 import Header from "../../components/layout/header.jsx";
 import Button from "../../components/ui/Button.jsx";
@@ -40,7 +40,6 @@ const Home = () => {
         setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
         handleCreateJob, handleTomarJob, closeModal, openModal
     } = useCreateJob(); // → para CreateJobModal
- 
 
 return (
     <>
@@ -52,16 +51,16 @@ return (
     
 
     {/* Bienvenida usuario */}
-    <div className="w-full bg-white">
+    <div className="w-full bg-[#1e3a8a]">
         <div className="max-w-4xl mx-auto flex flex-col items-center text-center px-6 py-12 sm:py-16 gap-5">
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
                 <span className="text-yellow-400">{genero === "Femenino" ? "Bienvenida" : "Bienvenido"} </span>
-                <span className="text-[#1e3a8a]">{nombre}</span>
-                <span className="text-[#1e3a8a]"> a Jobsi</span>
+                <span className="text-white">{nombre}</span>
+                <span className="text-white"> a Jobsi</span>
             </h1>
 
-            <h3 className="max-w-2xl text-base sm:text-lg lg:text-xl font-light text-black">
+            <h3 className="max-w-2xl text-base sm:text-lg lg:text-xl font-light text-white">
                 ¡Parchate y adéntrate en el lugar para generar ingresos en tus tiempos libres!
             </h3>
 
@@ -182,6 +181,7 @@ return (
             </div>
         </div>
     <Footer />
+    <TabBarMobile />
     </div>
 
     
