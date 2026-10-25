@@ -82,18 +82,18 @@ return (
                     )}
                 </button>
 
+                {/* Menu de usuario, desaparece en mobile */}
                 <button
                     type="button"
                     onClick={() => setMenuOpen(true)}
                     aria-label="Abrir menú de usuario"
-                    className="flex h-10 items-center gap-2 !rounded-full !border-0 !bg-[#2c4a99] !py-1 !pl-1 !pr-2 text-white transition hover:!bg-[#3a5cb3] sm:!pr-3"
+                    className="hidden md:flex h-10 items-center gap-2 !rounded-full !border-0 !bg-[#2c4a99] !py-1 !pl-1 !pr-2 text-white transition hover:!bg-[#3a5cb3] sm:!pr-3"
                 >
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ffb906] text-[#1e3a8a]">
                         <FiUser className="h-4 w-4" />
                     </span>
                     <span className="hidden text-left leading-tight sm:block">
                         <span className="block max-w-[110px] truncate text-xs font-semibold text-white">{nombre}</span>
-                        <span className="block text-[10px] text-white/70">{rol}</span>
                     </span>
                     <FiChevronDown className="hidden h-4 w-4 text-white/70 sm:block" />
                 </button>
