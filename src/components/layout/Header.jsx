@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FiSearch, FiMenu, FiSliders, FiBell } from "react-icons/fi";
+import { FiSearch, FiMenu, FiSliders, FiBell, FiChevronDown, FiUser, FiPlus } from "react-icons/fi";
 import { MdSchool, MdBuild, MdSportsBasketball, MdWork, MdCategory } from "react-icons/md";
 import { PiBookOpenTextBold } from "react-icons/pi";
 
