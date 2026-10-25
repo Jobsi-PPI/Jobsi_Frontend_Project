@@ -6,6 +6,7 @@ import { PiBookOpenTextBold } from "react-icons/pi";
 
 import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
 import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
+import { useAuth } from "/src/context/AuthContext.jsx";
 
 const CATEGORIAS = [
     { label: "Todas",           value: "TODAS",          icon: <MdCategory /> },
@@ -16,106 +17,135 @@ const CATEGORIAS = [
     { label: "Otro",            value: "OTRO",           icon: <MdWork /> },
 ];
 
-const Header = ({ onFilterClick, onCategoriaChange, categoriaSeleccionada }) => {
+const Header = ({ onFilterClick, onCategoriaChange, categoriaSeleccionada, onPublicarJob }) => {
 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
     const notificacionesCount = useNotificacionesBadge();
+    const { user } = useAuth();
+
+    const nombre = user?.nombre || "Usuario";
+    const rol = user?.role ? user.role.replace("ROLE_", "").toLowerCase() : "user";
 
     const handleFilterClick = () => {
         setFilterOpen(prev => !prev);
         if (onFilterClick) onFilterClick();
     };
 
-return (
-    <div>
-        <div className="w-full bg-[#1e3a8a] shadow-md px-4 py-4 lg:px-10">
-            <div className="mx-auto flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-    
-                {/* Logo */}
-                <div className="flex items-center flex-1 gap-3 lg:justify-start">
-                    <img src="/src/assets/Jobsi_home_logo.png" 
-                    alt="Logo Jobsi Home"
-                    className="w-[100px] items-start lg:w-[260px] object-contain" />
+    const handlePublicarJob = () => {
+        if (onPublicarJob) onPublicarJob();
+        else navigate("/home");
+    };
 
-                    <button
-                        type="button"
-                        aria-label="Filtrar Jobs" 
-                        className={"ml-auto items-end gap-3 !bg-white/10"}
-                        >
-                        <FiBell className="w-7 h-7 lg:w-6 lg:h-6" />
-                        {notificacionesCount > 0 && (
-                            <span className="ml-auto min-w-[22px] h-[22px] bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
-                                {notificacionesCount > 99 ? "99+" : notificacionesCount}
-                            </span>
-                        )}
-                    </button>
-                </div>
-    
-                {/* Buscador */}
-                <div className="w-full lg:max-w-[600px]">
-                    <form className="flex items-center gap-3">
-                        <div className="flex items-center flex-1 gap-3 h-12 lg:h-14 px-4 border-2 border-[#6b7280] rounded-full bg-white">
-                            <FiSearch
-                                aria-hidden="true"
-                                className="shrink-0 w-5 h-5 lg:w-6 lg:h-6 text-gray-500"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Escribe un Job que estés buscando"
-                                className="flex-1 min-w-0 h-full text-base lg:text-lg text-black bg-transparent outline-none"
-                            />
-                            <button
-                                type="button"
-                                aria-label="Filtrar Jobs"
-                                onClick={handleFilterClick}
-                                className={`shrink-0 !p-2 !rounded-full !border-0 text-black transition
-                                    ${filterOpen ? "!bg-gray-200" : "!bg-transparent hover:!bg-gray-100"}`}
-                            >
-                                <FiSliders className="w-5 h-5 lg:w-6 lg:h-6" />
-                            </button>
-                        </div>
-                    </form>
-                </div>
-    
-                {/* Menú */}
-                <div className="hidden md:block flex justify-center lg:justify-end">
-                    <button type="button" aria-label="Abrir menú"
-                        onClick={() => setMenuOpen(true)}
-                        className="relative p-2 text-white rounded-full">
-                        <FiMenu className="w-8 h-8" />
-                        {notificacionesCount > 0 && (
-                            <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1">
-                                {notificacionesCount > 99 ? "99+" : notificacionesCount}
-                            </span>
-                        )}
-                    </button>
-                </div>
+return (
+    <header className="w-full bg-[#1e3a8a]">
+        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-3 px-4 py-3 lg:flex-nowrap lg:gap-6 lg:px-10 lg:py-4">
+
+            {/* Logo */}
+            <button
+                type="button"
+                onClick={() => navigate("/home")}
+                aria-label="Ir al inicio"
+                className="order-1 shrink-0 !rounded-none !border-0 !bg-transparent !p-0"
+            >
+                <img
+                    src="/src/assets/Jobsi_home_logo.png"
+                    alt="Logo Jobsi Home"
+                    className="h-10 w-auto object-contain lg:h-12"
+                />
+            </button>
+
+            {/* Acciones */}
+            <div className="order-3 ml-auto flex items-center gap-2 lg:order-3 lg:ml-0">
+
+                <button
+                    type="button"
+                    onClick={handlePublicarJob}
+                    className="hidden h-10 items-center gap-2 !rounded-xl !border-0 !bg-[#ffb906] !px-4 !py-0 text-sm font-semibold text-black transition hover:!bg-[#f59e0b] sm:flex"
+                >
+                    <FiPlus className="h-4 w-4" />
+                    Publicar Job
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => navigate("/mis-postulaciones")}
+                    aria-label="Notificaciones"
+                    className="relative flex h-10 w-10 items-center justify-center !rounded-xl !border-0 !bg-[#2c4a99] !p-0 text-white transition hover:!bg-[#3a5cb3]"
+                >
+                    <FiBell className="h-5 w-5" />
+                    {notificacionesCount > 0 && (
+                        <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#ffb906] px-1 text-[10px] font-bold text-[#1e3a8a]">
+                            {notificacionesCount > 99 ? "99+" : notificacionesCount}
+                        </span>
+                    )}
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => setMenuOpen(true)}
+                    aria-label="Abrir menú de usuario"
+                    className="flex h-10 items-center gap-2 !rounded-full !border-0 !bg-[#2c4a99] !py-1 !pl-1 !pr-2 text-white transition hover:!bg-[#3a5cb3] sm:!pr-3"
+                >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ffb906] text-[#1e3a8a]">
+                        <FiUser className="h-4 w-4" />
+                    </span>
+                    <span className="hidden text-left leading-tight sm:block">
+                        <span className="block max-w-[110px] truncate text-xs font-semibold text-white">{nombre}</span>
+                        <span className="block text-[10px] text-white/70">{rol}</span>
+                    </span>
+                    <FiChevronDown className="hidden h-4 w-4 text-white/70 sm:block" />
+                </button>
             </div>
 
-            {/* Barra de categorías animada */}
-            <div className={`overflow-hidden transition-all duration-300 ease-in-out
-                ${filterOpen ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"}`}>
-                <div className="flex flex-wrap justify-center gap-3 pb-4">
-                    {CATEGORIAS.map((cat, i) => (
-                        <button
-                            key={cat.value}
-                            type="button"
-                            onClick={() => onCategoriaChange && onCategoriaChange(cat.value)}
-                            style={{ animationDelay: filterOpen ? `${i * 60}ms` : "0ms", }}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-sm transition
-                                ${filterOpen ? "animate-bounce-in" : ""}
-                                ${categoriaSeleccionada === cat.value
-                                    ? "!bg-[#e6c300] !text-black"
-                                    : "!bg-white/10 text-white hover:!bg-white/30"
-                                }`}
-                        >
-                            <span className="text-lg">{cat.icon}</span>
-                            {cat.label}
-                        </button>
-                    ))}
-                </div>
+            {/* Buscador */}
+            <div className="order-4 w-full lg:order-2 lg:max-w-[620px] lg:flex-1">
+                <form
+                    className="flex w-full items-center gap-1 rounded-full bg-white p-1.5 pl-4"
+                    onSubmit={(e) => e.preventDefault()}
+                >
+                    <FiSearch className="h-5 w-5 shrink-0 text-[#1e3a8a]" />
+                    <input
+                        type="text"
+                        placeholder="Escribe un Job que estés buscando"
+                        className="h-9 w-full min-w-0 bg-transparent px-2 text-sm text-gray-800 placeholder:text-gray-500 focus:outline-none lg:text-base"
+                    />
+                    <button
+                        type="button"
+                        aria-label="Filtrar jobs"
+                        onClick={handleFilterClick}
+                        className={`flex shrink-0 items-center gap-1.5 !rounded-full !border-0 !px-3 !py-2 text-sm font-semibold text-[#1e3a8a] transition lg:!px-4
+                            ${filterOpen ? "!bg-[#dbe4f7]" : "!bg-[#eef2fb] hover:!bg-[#dbe4f7]"}`}
+                    >
+                        <FiSliders className="h-4 w-4" />
+                        <span className="hidden sm:inline">Filtros</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {/* Barra de categorías animada */}
+        <div className={`overflow-hidden transition-all duration-300 ease-in-out
+            ${filterOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+            <div className="mx-auto flex max-w-[1500px] flex-wrap justify-center gap-3 px-4 pb-4 lg:px-10">
+                {CATEGORIAS.map((cat, i) => (
+                    <button
+                        key={cat.value}
+                        type="button"
+                        onClick={() => onCategoriaChange && onCategoriaChange(cat.value)}
+                        style={{ animationDelay: filterOpen ? `${i * 60}ms` : "0ms", }}
+                        className={`flex items-center gap-2 !rounded-full !px-4 !py-2 text-sm font-semibold transition
+                            ${filterOpen ? "animate-bounce-in" : ""}
+                            ${categoriaSeleccionada === cat.value
+                                ? "!bg-[#e6c300] !text-black"
+                                : "!bg-white/10 text-white hover:!bg-white/30"
+                            }`}
+                    >
+                        <span className="text-lg">{cat.icon}</span>
+                        {cat.label}
+                    </button>
+                ))}
             </div>
         </div>
 
@@ -125,7 +155,7 @@ return (
             navigate={navigate}
             notificacionesCount={notificacionesCount}
         />
-    </div>
+    </header>
 )
 }
 
