@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
 import { FiMenu } from "react-icons/fi";
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
 
-import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
+import UserMenu from "./UserMenu.jsx";
 
-const Header = ({ }) => {
+const Header = () => {
 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +20,7 @@ return (
 
                 {/* Logo */}
                 <div className="flex justify-center lg:justify-start">
-                    <img src="/src/assets/Jobsi_home_logo.png" alt="Logo Jobsi Home" className="w-[200px] lg:w-[260px] object-contain" />
+                    <img src={logoJobsi} alt="Logo Jobsi Home" className="w-[200px] lg:w-[260px] object-contain" />
                 </div>
 
                 {/* Título — columna central, perfectamente centrada */}
@@ -33,7 +34,7 @@ return (
                 </div>
 
                 {/* Menú */}
-                <div className="flex justify-center lg:justify-end">
+                <div className="relative flex justify-center lg:justify-end">
                     <button type="button" aria-label="Abrir menú"
                         onClick={() => setMenuOpen(true)}
                         className="relative p-2 text-white rounded-full">
@@ -44,16 +45,15 @@ return (
                             </span>
                         )}
                     </button>
+
+                    <UserMenu
+                        open={menuOpen}
+                        closeMenu={() => setMenuOpen(false)}
+                        navigate={navigate}
+                    />
                 </div>
             </div>
         </div>
-
-        <SidebarMenu
-            open={menuOpen}
-            closeMenu={() => setMenuOpen(false)}
-            navigate={navigate}
-            notificacionesCount={notificacionesCount}
-        />
     </div>
 )
 }
