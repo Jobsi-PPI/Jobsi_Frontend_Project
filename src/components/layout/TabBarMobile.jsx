@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FiHome, FiBriefcase, FiPlus, FiBell, FiMenu } from "react-icons/fi";
 
 import Button from "../ui/Button.jsx";
-import SidebarMenu from "../../features/home/layouts/SidebarMenu.jsx";
+import MenuSheet from "./MenuSheet.jsx";
 import { useNotificacionesBadge } from "../../features/postulaciones/hooks/useNotificacionesBadge.js";
 
 // Los "!" son necesarios: index.css define estilos globales para <a> y <button> fuera de @layer y ganan sobre las utilidades
@@ -50,7 +50,7 @@ export default function TabBarMobile({ onPublicar }) {
                             variant="warning"
                             aria-label="Publicar Job"
                             onClick={onPublicar}
-                            className="-mt-8 !rounded-2xl !p-4 shadow-[0_0_20px_4px_rgba(255,185,6,0.45)]"
+                            className="-mt-8 !rounded-2xl !p-3 shadow-[0_0_20px_4px_rgba(255,185,6,0.45)]"
                         >
                             <FiPlus size={26} />
                         </Button>
@@ -94,9 +94,9 @@ export default function TabBarMobile({ onPublicar }) {
                 className="h-[calc(6rem+env(safe-area-inset-bottom))] bg-[#1e3a8a] md:hidden"
             />
 
-            <SidebarMenu
+            <MenuSheet
                 open={menuOpen}
-                closeMenu={() => setMenuOpen(false)}
+                onOpenChange={setMenuOpen}
                 navigate={navigate}
                 notificacionesCount={notificacionesCount}
             />

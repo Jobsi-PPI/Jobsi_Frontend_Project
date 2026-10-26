@@ -8,6 +8,7 @@ import { FiBriefcase } from "react-icons/fi";
 //Imports de componentes
 import JobCard from "/src/features/home/JobCard.jsx";
 import ChatConversation from "./ChatConversation.jsx";
+import HeroCarousel from "./HeroCarousel.jsx";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
@@ -80,8 +81,11 @@ return (
                     </div>
                 </div>
 
-                {/* Panel de conversación animado */}
-                <ChatConversation />
+                {/* Mensajes iniciales: carrusel en móvil, conversación animada en escritorio */}
+                <HeroCarousel />
+                <div className="max-md:hidden">
+                    <ChatConversation />
+                </div>
 
             </section>
         </div>
