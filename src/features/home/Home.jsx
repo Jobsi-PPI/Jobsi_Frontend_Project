@@ -13,7 +13,7 @@ import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
 import Footer from "../../components/layout/Footer.jsx";
-import Header from "../../components/layout/header.jsx";
+import Header from "../../components/layout/Header.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ComingSoonModal from "../../components/ui/modals/ComingSoonModal.jsx";
