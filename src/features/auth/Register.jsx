@@ -5,6 +5,8 @@ import { useRegister } from "../auth/hooks/useRegister.js";
 import RegisterForm from "../auth/components/RegisterForm.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Footer from "../../components/layout/Footer.jsx";
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
+import fotoGraduacion from "../../assets/Poli_jic_graduacion.png";
 
 
 function Register() {
@@ -35,7 +37,7 @@ return (
             
                     {/* imagen logo jobsi*/}
                             <img
-                            src="/src/assets/jobsi_home_logo.png"
+                            src={logoJobsi}
                             alt="Home Logo Jobsi"
                             className="w-40 md:w-50 h-auto object-contain"
                     />
@@ -52,7 +54,7 @@ return (
                         </p>
 
                         <img
-                        src="/src/assets/Poli_jic_graduacion.png"
+                        src={fotoGraduacion}
                         alt="Graduación"
                         className="hidden md:block w-100 h-auto mt-2 object-contain"
                         />

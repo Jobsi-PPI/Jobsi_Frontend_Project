@@ -6,6 +6,8 @@ import "./Login.css";
 
 import LoginForm from "/src/features/auth/components/LoginForm.jsx";
 import Footer from "../../components/layout/Footer.jsx";
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
+import mascotaJobsi from "../../assets/jobsi-mascota-jobito_render.png";
 
 
 const Login = () => {
@@ -79,7 +81,7 @@ const Login = () => {
 
                         {/* imagen logo jobsi*/}
                             <img
-                            src="/src/assets/jobsi_home_logo.png"
+                            src={logoJobsi}
                             alt="Home Logo Jobsi"
                             className="w-40 md:w-50 h-auto object-contain"
                         />
@@ -102,7 +104,7 @@ const Login = () => {
 
                         {/* imagen mascota Jobsi*/}
                         <img
-                        src="/src/assets/jobsi-mascota-jobito_render.png"
+                        src={mascotaJobsi}
                         alt="Logo Jobsi"
                         className="hidden md:block w-60 self-center"
                         />
