@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
 import { FiMenu } from "react-icons/fi";
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
 
 import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
 
@@ -19,7 +20,7 @@ return (
 
                 {/* Logo */}
                 <div className="flex justify-center lg:justify-start">
-                    <img src="/src/assets/Jobsi_home_logo.png" alt="Logo Jobsi Home" className="w-[200px] lg:w-[260px] object-contain" />
+                    <img src={logoJobsi} alt="Logo Jobsi Home" className="w-[200px] lg:w-[260px] object-contain" />
                 </div>
 
                 {/* Título — columna central, perfectamente centrada */}

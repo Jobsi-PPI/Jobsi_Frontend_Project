@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import mascotaJobsi from "../../assets/jobsi-mascota-jobito_render.png";
+
 const bubbleBase =
     "rounded-[18px] px-5 py-3 text-sm font-semibold leading-snug text-gray-900 shadow-sm transition-all duration-500 ease-out";
 
@@ -36,7 +38,7 @@ const ChatConversation = () => {
                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm transition-all duration-500 ease-out
                         ${step >= 3 ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}>
                         <img
-                            src="/src/assets/jobsi-mascota-jobito_render.png"
+                            src={mascotaJobsi}
                             alt="Mascota Jobsi"
                             className="h-8 w-8 object-contain"
                         />

@@ -7,6 +7,7 @@ import { PiBookOpenTextBold } from "react-icons/pi";
 import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
 import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
 import { useAuth } from "/src/context/AuthContext.jsx";
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
 
 const CATEGORIAS = [
     { label: "Todas",           value: "TODAS",          icon: <MdCategory /> },
@@ -50,7 +51,7 @@ return (
                 className="order-1 shrink-0 !rounded-none !border-0 !bg-transparent !p-0"
             >
                 <img
-                    src="/src/assets/Jobsi_home_logo.png"
+                    src={logoJobsi}
                     alt="Logo Jobsi Home"
                     className="h-10 w-auto object-contain lg:h-12"
                 />

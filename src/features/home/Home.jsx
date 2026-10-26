@@ -17,6 +17,7 @@ import Header from "../../components/layout/header.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ComingSoonModal from "../../components/ui/modals/ComingSoonModal.jsx";
+import mascotaJobsi from "../../assets/jobsi-mascota-jobito_render.png";
 
 const Home = () => {
 
@@ -143,7 +144,7 @@ return (
                         </Button>
 
                         <img
-                            src="/src/assets/jobsi-mascota-jobito_render.png"
+                            src={mascotaJobsi}
                             alt="Mascota Jobsi"
                             className="pointer-events-none absolute bottom-2 right-0 w-[150px] object-contain md:w-[180px]"
                         />

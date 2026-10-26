@@ -1,5 +1,7 @@
 import React from "react";
 
+import logoJobsi from "../../assets/Jobsi_home_logo.png";
+
 const ENLACES = [
     { label: "Inicio", href: "#" },
     { label: "Vacantes", href: "#" },
@@ -17,7 +19,7 @@ const Footer = ({ className = "mt-20" }) => {
                     {/* Columna 1 - Marca */}
                     <div>
                         <img
-                            src="/src/assets/Jobsi_home_logo.png"
+                            src={logoJobsi}
                             alt="Logo Jobsi Home"
                             className="h-16 w-auto object-contain"
                         />
