@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FiSearch, FiMenu, FiSliders, FiBell, FiChevronDown, FiUser, FiPlus } from "react-icons/fi";
+import { FiSearch, FiSliders, FiBell, FiChevronDown, FiPlus } from "react-icons/fi";
 import { MdSchool, MdBuild, MdSportsBasketball, MdWork, MdCategory } from "react-icons/md";
 import { PiBookOpenTextBold } from "react-icons/pi";
 
-import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
+import UserMenu from "./UserMenu.jsx";
 import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNotificacionesBadge.js";
 import { useAuth } from "/src/context/AuthContext.jsx";
 import logoJobsi from "../../assets/Jobsi_home_logo.png";
@@ -27,7 +27,6 @@ const Header = ({ onFilterClick, onCategoriaChange, categoriaSeleccionada, onPub
     const { user } = useAuth();
 
     const nombre = user?.nombre || "Usuario";
-    const rol = user?.role ? user.role.replace("ROLE_", "").toLowerCase() : "user";
 
     const handleFilterClick = () => {
         setFilterOpen(prev => !prev);
@@ -84,20 +83,30 @@ return (
                 </button>
 
                 {/* Menu de usuario, desaparece en mobile */}
-                <button
-                    type="button"
-                    onClick={() => setMenuOpen(true)}
-                    aria-label="Abrir menú de usuario"
-                    className="hidden md:flex h-10 items-center gap-2 !rounded-full !border-0 !bg-[#2c4a99] !py-1 !pl-1 !pr-2 text-white transition hover:!bg-[#3a5cb3] sm:!pr-3"
-                >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ffb906] text-[#1e3a8a]">
-                        <FiUser className="h-4 w-4" />
-                    </span>
-                    <span className="hidden text-left leading-tight sm:block">
-                        <span className="block max-w-[110px] truncate text-xs font-semibold text-white">{nombre}</span>
-                    </span>
-                    <FiChevronDown className="hidden h-4 w-4 text-white/70 sm:block" />
-                </button>
+                <div className="relative hidden md:block">
+                    <button
+                        type="button"
+                        onClick={() => setMenuOpen(true)}
+                        aria-haspopup="menu"
+                        aria-expanded={menuOpen}
+                        aria-label="Abrir menú de usuario"
+                        className="flex h-10 items-center gap-2 !rounded-full !border-0 !bg-[#2c4a99] !py-1 !pl-1 !pr-2 text-white transition hover:!bg-[#3a5cb3] sm:!pr-3"
+                    >
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ffb906] text-sm font-bold text-[#1e3a8a]">
+                            {nombre.charAt(0).toUpperCase()}
+                        </span>
+                        <span className="hidden text-left leading-tight sm:block">
+                            <span className="block max-w-[110px] truncate text-xs font-semibold text-white">{nombre}</span>
+                        </span>
+                        <FiChevronDown className="hidden h-4 w-4 text-white/70 sm:block" />
+                    </button>
+
+                    <UserMenu
+                        open={menuOpen}
+                        closeMenu={() => setMenuOpen(false)}
+                        navigate={navigate}
+                    />
+                </div>
             </div>
 
             {/* Buscador */}
@@ -149,13 +158,6 @@ return (
                 ))}
             </div>
         </div>
-
-        <SidebarMenu
-            open={menuOpen}
-            closeMenu={() => setMenuOpen(false)}
-            navigate={navigate}
-            notificacionesCount={notificacionesCount}
-        />
     </header>
 )
 }

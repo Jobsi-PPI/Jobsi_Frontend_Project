@@ -4,9 +4,9 @@ import { useNotificacionesBadge } from "/src/features/postulaciones/hooks/useNot
 import { FiMenu } from "react-icons/fi";
 import logoJobsi from "../../assets/Jobsi_home_logo.png";
 
-import SidebarMenu from "/src/features/home/layouts/SidebarMenu.jsx";
+import UserMenu from "./UserMenu.jsx";
 
-const Header = ({ }) => {
+const Header = () => {
 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ return (
                 </div>
 
                 {/* Menú */}
-                <div className="flex justify-center lg:justify-end">
+                <div className="relative flex justify-center lg:justify-end">
                     <button type="button" aria-label="Abrir menú"
                         onClick={() => setMenuOpen(true)}
                         className="relative p-2 text-white rounded-full">
@@ -45,16 +45,15 @@ return (
                             </span>
                         )}
                     </button>
+
+                    <UserMenu
+                        open={menuOpen}
+                        closeMenu={() => setMenuOpen(false)}
+                        navigate={navigate}
+                    />
                 </div>
             </div>
         </div>
-
-        <SidebarMenu
-            open={menuOpen}
-            closeMenu={() => setMenuOpen(false)}
-            navigate={navigate}
-            notificacionesCount={notificacionesCount}
-        />
     </div>
 )
 }

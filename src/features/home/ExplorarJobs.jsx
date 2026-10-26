@@ -11,7 +11,7 @@ import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 
 //Imports de componentes UI y layout
-import Header from "../../components/layout/Header.jsx"; //Ya el header importa sidebarMenu
+import Header from "../../components/layout/Header.jsx";
 import Footer from "../../components/layout/Footer.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";

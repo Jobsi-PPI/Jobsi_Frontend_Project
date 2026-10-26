@@ -1,22 +1,22 @@
 import { Drawer } from "vaul";
 import { FiBriefcase, FiBell, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
-import Swal from "sweetalert2";
-
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useModalState } from "../ui/modals/hooks/useModalState.js";
+import { useCerrarSesion } from "../../features/auth/hooks/useCerrarSesion.js";
 import ComingSoonModal from "../ui/modals/ComingSoonModal.jsx";
 
-// Los "!" son necesarios: index.css define estilos globales para <button> fuera de @layer y ganan sobre las utilidades
 // Vaul tarda 500ms en cerrarse y hasta entonces Radix bloquea los clics de la página: SweetAlert y el modal esperan a que termine
 const DURACION_CIERRE_MS = 550;
 
+// Los "!" son necesarios: index.css define estilos globales para <button> fuera de @layer y ganan sobre las utilidades
 const opcionBase =
     "flex w-full items-center gap-4 !rounded-lg !border-0 !bg-transparent !p-3 text-left !text-base !font-medium transition hover:!bg-gray-100";
 
 export default function MenuSheet({ open, onOpenChange, navigate, notificacionesCount = 0 }) {
 
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const { isOpen, closing, opening, openModal, closeModal } = useModalState();
+    const cerrarSesion = useCerrarSesion();
 
     const nombre = user?.nombre || "Usuario";
 
@@ -28,24 +28,6 @@ export default function MenuSheet({ open, onOpenChange, navigate, notificaciones
     const luegoDeCerrar = (accion) => {
         onOpenChange(false);
         setTimeout(accion, DURACION_CIERRE_MS);
-    };
-
-    const cerrarSesion = async () => {
-        const result = await Swal.fire({
-            title: "Cerrar sesión",
-            text: "¿Estás seguro de que quieres cerrar sesión?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#1e3a8a",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, salir",
-            cancelButtonText: "Cancelar",
-        });
-
-        if (result.isConfirmed) {
-            logout();
-            navigate("/login", { replace: true });
-        }
     };
 
     return (
