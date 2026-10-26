@@ -7,13 +7,14 @@ const EmptyState = ({
     title = "No hay nada por aquí",
     description = "Prueba otra búsqueda o crea tu primer elemento.",
     icon = <IoExtensionPuzzleSharp />,
+    iconClassName = "h-12 w-12 bg-zinc-100 text-xl",
     primaryAction,   
     secondaryAction,
 
 }) => {
     return (
         <div className="w-full rounded-2xl border border-dashed border-zinc-300 bg-white p-6 sm:p-8 text-center shadow-sm">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-xl">
+            <div className={`mx-auto mb-3 flex items-center justify-center rounded-full ${iconClassName}`}>
                 {icon}
             </div>
 
@@ -26,7 +27,7 @@ const EmptyState = ({
             </p>
 
             {(primaryAction || secondaryAction) && (
-                <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="mt-5 flex flex-row gap-3 justify-center">
                 {primaryAction && (
                     <Button
                     variant={primaryAction.variant || "primary"}
