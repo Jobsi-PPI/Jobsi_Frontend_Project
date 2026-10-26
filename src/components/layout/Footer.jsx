@@ -19,7 +19,7 @@ const Footer = ({ className = "mt-20" }) => {
                         <img
                             src="/src/assets/Jobsi_home_logo.png"
                             alt="Logo Jobsi Home"
-                            className="h-12 w-auto object-contain md:h-14"
+                            className="h-16 w-auto object-contain"
                         />
 
                         <p className="mt-5 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
@@ -31,10 +31,10 @@ const Footer = ({ className = "mt-20" }) => {
 
                     {/* Columna 2 - Enlaces */}
                     <div className="md:justify-self-center">
-                        <h3 className="text-xs font-semibold uppercase tracking-wider text-white/70">
+                        <h3 className="hidden md:block text-xs font-semibold uppercase tracking-wider text-white/70">
                             Enlaces
                         </h3>
-                        <ul className="mt-4 space-y-3 text-sm">
+                        <ul className="flex flex-row gap-4 md:mt-4 text-sm">
                             {ENLACES.map((enlace) => (
                                 <li key={enlace.label}>
                                     <a
@@ -55,8 +55,6 @@ const Footer = ({ className = "mt-20" }) => {
                         </h3>
                         <ul className="mt-4 space-y-3 text-sm text-white/80">
                             <li>jobsi_bsns@gmail.com</li>
-                            <li>+57 3226893515</li>
-                            <li>Politécnico Colombiano JIC</li>
                         </ul>
                     </div>
 
