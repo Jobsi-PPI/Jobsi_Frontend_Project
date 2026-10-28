@@ -59,7 +59,7 @@ export const useJobCard = (job, onPostulacion) => {
 
             if (onPostulacion) onPostulacion(response);
 
-        } catch (error) {
+        } catch {
             Swal.fire({
                 icon: "error",
                 title: "No se pudo enviar la postulación",

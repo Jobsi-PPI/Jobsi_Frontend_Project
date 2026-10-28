@@ -2,7 +2,6 @@
 import { useAuth } from "/src/context/AuthContext.jsx";
 import { useCreateJob } from "./hooks/useCreateJob";
 import { useNavigate } from "react-router-dom";
-import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
 import { FiBriefcase } from "react-icons/fi";
 
 //Imports de componentes
@@ -16,7 +15,6 @@ import Footer from "../../components/layout/Footer.jsx";
 import Header from "../../components/layout/Header.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
-import ComingSoonModal from "../../components/ui/modals/ComingSoonModal.jsx";
 import mascotaJobsi from "../../assets/jobsi-mascota-jobito_render.png";
 
 const Home = () => {
@@ -24,12 +22,6 @@ const Home = () => {
     const navigate = useNavigate();
     
     const { user } = useAuth();
-
-    const { 
-        isOpen: isOpenComingSoon, closing: closingComingSoon, 
-        opening: openingComingSoon, openModal: openComingSoon, 
-        closeModal: closeComingSoon 
-    } = useModalState(); // → para ComingSoonModal
 
     const nombre = user?.nombre || "Usuario";
     const genero = user?.genero;
@@ -160,17 +152,6 @@ return (
     </div>
 
     
-    <ComingSoonModal
-        isOpen={isOpenComingSoon}
-        onClose={closeComingSoon}
-        closing={closingComingSoon}
-        opening={openingComingSoon}
-        primaryAction={{
-            label: "Entendido",
-            onClick: closeComingSoon
-        }}
-    />
-
         <CreateJobModal
         show={showModal} // saber si se muestra
         closing={closing} // animación de cierre

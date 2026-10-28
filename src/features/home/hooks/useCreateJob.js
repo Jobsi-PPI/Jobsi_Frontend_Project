@@ -137,7 +137,7 @@ const handleCreateJob = async (e, onSuccess) => {
     if (onSuccess) onSuccess(nuevoJob);
 
     closeModal();
-    } catch (error) {
+    } catch {
     Swal.fire({
         icon: "error",
         title: "Error publicando el Job",

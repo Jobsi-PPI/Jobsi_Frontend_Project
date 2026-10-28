@@ -73,7 +73,7 @@ export const useVerMisJobs = () => {
             timer: 1500,
             showConfirmButton: false,
         });
-        } catch (error) {
+        } catch {
         Swal.fire({
             icon: "error",
             title: "Error al eliminar",
