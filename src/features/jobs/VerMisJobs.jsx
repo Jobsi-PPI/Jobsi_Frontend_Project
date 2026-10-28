@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { AiFillWarning } from "react-icons/ai";
+import { AiFillWarning} from "react-icons/ai";
 import { MdOutlineWorkHistory } from "react-icons/md";
+import { FiFilter } from "react-icons/fi";
 
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobPublicadoCard from "./misJobs/JobPublicadoCard";
 import JobPostuladoCard from "./misJobs/JobPostuladoCard";
+import FiltroEstadoSheet from "./misJobs/FiltroEstadoSheet";
+import FiltroSinResultados from "./misJobs/FiltroSinResultados";
 import CalificarModal from "../calificaciones/CalificarModal.jsx";
 
 import { useVerMisJobs } from "./hooks/useVerMisJobs";
 import { useCreateJob } from "../home/hooks/useCreateJob.js";
-import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
 import { useCalificarModal } from "../calificaciones/hooks/useCalificarModal.js";
 
 //Importación de componentes
@@ -18,57 +19,44 @@ import JobPublicadoSkeleton from "../../components/loaders/JobPublicadoSkeleton"
 import JobPostuladoSkeleton from "../../components/loaders/JobPostuladoSkeleton";
 import Header from "../../components/layout/Header.jsx";
 import Footer from "../../components/layout/Footer.jsx";
-import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ErrorBackendModal from "../../components/ui/modals/ErrorBackendModal.jsx";
+import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
 
 const VerMisJobs = () => {
     
     const navigate = useNavigate(); 
     
-    const { isOpen: isOpenError, closing: closingError, opening: openingError, 
-        openModal: openModalError, closeModal: closeModalError } = useModalState();
-
-    const [errorCode, setErrorCode] = useState(null);
-
-    const handleAbandonarConError = async (jobId) => {
-        const code = await handleAbandonarJob(jobId);
-        if (code) {
-            setErrorCode(code);
-            openModalError();
-        }
-    };
-    //Se importa la lógica del hook
-    const {
-        titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-        errors, showModal, closing, 
-
-        // setters
-        setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
-        handleCreateJob, closeModal, openModal
-    } = useCreateJob();
+    const { openModal, handleCreateJob, modalProps: createJobModalProps } = useCreateJob();
 
     const {
         misJobs,
         jobsTomados,
+        misJobsVisibles,
+        jobsTomadosVisibles,
         activeTab,
         loadingPublicados,
         loadingPostulados,
         agregarJob,
         setActiveTab,
         handleDeleteJob,
-        handleAbandonarJob,
+        handleAbandonarConError,
         actualizarEstadoJob,
+        errorModalProps,
+        filtro,
+        filtroSheetProps,
     } = useVerMisJobs();
 
-    const {
-        isOpen: isOpenCalificar, closing: closingCalificar, opening: openingCalificar,
-        puntuaciones, setPuntuacionCategoria,
-        hover, setHoverCategoria,
-        comentario, setComentario,
-        jobActual, categorias,
-        abrirModal: abrirCalificar, handleCerrar: cerrarCalificar, handleSubmit: submitCalificacion,
-    } = useCalificarModal();
+    const { abrirModal: abrirCalificar, modalProps: calificarModalProps } = useCalificarModal();
+
+    const tabs = [
+        { id: "publicados", label: "Publicados", cantidad: misJobs.length, cargando: loadingPublicados },
+        { id: "postulados", label: "Postulados", cantidad: jobsTomados.length, cargando: loadingPostulados },
+    ];
+
+    const vacio = activeTab === "publicados"
+        ? !loadingPublicados && misJobs.length === 0
+        : !loadingPostulados && jobsTomados.length === 0;
 
 return (
     <>
@@ -77,50 +65,78 @@ return (
             <Header onPublicarJob={openModal} />
         </div> 
 
-
         {/* Área de Jobs */}
-        <div className="w-full bg-white">
-            <div className="max-w-4xl mx-auto flex flex-col items-center text-center py-10 sm:py-14 lg:py-18 gap-4 sm:gap-5">
+        <div className="w-full bg-[#1e3a8a] overflow-x-hidden">
+            <div className="max-w-4xl mx-auto flex flex-col items-start py-5 px-4 sm:py-14 lg:py-18 gap-4 sm:gap-5">
                 
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                <h2 className="text-4xl lg:text-7xl font-bold">
                     <span className="text-yellow-400">Área de Jobs</span>
-                </h1>
+                </h2>
 
-                <h3 className="text-base sm:text-lg lg:text-xl font-light text-black max-w-3xl">
+                <h3 className="text-base font-semibold sm:text-lg lg:text-xl text-white max-w-3xl">
                     Aquí encontrarás los jobs que has publicado y también a los que te has postulado
                 </h3>
 
             </div>
         </div>
-
-
         
         {/* Apartado de los Jobs*/}
         <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
 
             {/* Botones de publicados y postulados */}
-            <div className="max-w-[900px] mx-auto py-8 flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 lg:gap-16">
+            <div role="tablist" className="max-w-auto mx-8 py-2 px-2 flex flex-row justify-center gap-1 rounded-2xl !bg-white/18 md:gap-8 lg:gap-16">
                 
-                <button className={`w-full sm:w-[200px] h-12 sm:h-14 flex items-center justify-center rounded-xl text-white font-semibold transition text-lg sm:text-xl lg:!text-[30px]
-                    ${activeTab === "publicados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
-                    type="button"
-                    onClick={() => setActiveTab("publicados")}
-                >
-                    Publicados
-                </button>
+                {tabs.map(({ id, label, cantidad, cargando }) => {
+                    const activo = activeTab === id;
 
-                <button className={`w-full sm:w-[200px] h-12 sm:h-14 flex items-center justify-center rounded-xl text-white font-semibold transition text-lg sm:text-xl lg:!text-[30px]
-                    ${activeTab === "postulados" ? "!bg-[#4468cf]" : "!bg-blue-900"}`}
-                    type="button"
-                    onClick={() => setActiveTab("postulados")}
-                >
-                    Postulados
-                </button>
+                    return (
+                        <button key={id}
+                            role="tab"
+                            aria-selected={activo}
+                            className={`w-full sm:w-[200px] h-11 sm:h-14 flex items-center justify-center gap-2 rounded-xl !font-bold transition text-lg sm:text-xl lg:!text-[30px]
+                                ${activo ? "!bg-white text-[#1e3a8a]" : "!bg-transparent text-[#dbe4ff]"}`}
+                            type="button"
+                            onClick={() => setActiveTab(id)}
+                        >
+                            {label}
+
+                            {cargando ? (
+                                <span className="h-6 w-6 animate-pulse rounded-full bg-white/20 md:hidden" />
+                            ) : (
+                                <span className={`flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-xs font-bold md:hidden
+                                    ${activo ? "bg-[#ffb906] text-[#1e3a8a]" : "bg-white/20 text-white"}`}>
+                                    {cantidad > 99 ? "99+" : cantidad}
+                                </span>
+                            )}
+                        </button>
+                    );
+                })}
+
             </div>
 
-            
-            <div className="w-full flex justify-center mt-6 pb-20">
-                <div className="w-full max-w-6xl bg-[#eef0f5] p-4 sm:p-6 lg:p-8 rounded-3xl flex flex-col gap-6">
+            <section className="mt-6 rounded-t-[40px] bg-white px-4 pb-10 pt-6 sm:px-3 lg:px-10">
+                    <div className={`mx-auto flex w-full max-w-6xl flex-col gap-4 rounded-2xl md:gap-6 md:bg-[#eef0f5] md:p-6 lg:p-8
+                        ${vacio ? "bg-[#f6f7fb] p-4" : ""}`}>
+
+                {!vacio && (
+                    <div className="flex items-center justify-between gap-3">
+                        <h2 className="text-xl font-bold text-gray-900">
+                            {activeTab === "publicados" ? "Mis publicaciones" : "Mis postulaciones"}
+                        </h2>
+
+                        {filtro.disponible && (
+                            <button
+                                type="button"
+                                onClick={filtro.abrir}
+                                className={`flex h-10 shrink-0 items-center gap-2 !rounded-full !border !bg-white !px-4 text-sm font-semibold !text-[#1e3a8a] transition hover:!bg-gray-50
+                                    ${filtro.activo ? "!border-[#1e3a8a] ring-1 ring-[#1e3a8a]" : "!border-gray-300"}`}
+                            >
+                                <FiFilter className="h-4 w-4" />
+                                {filtro.activo ? filtro.etiqueta : "Filtrar"}
+                            </button>
+                        )}
+                    </div>
+                )}
 
                 {/* Aquí se muestran los jobs publicados */}
                 {activeTab === "publicados" && (
@@ -133,12 +149,15 @@ return (
                                 title="Aún no has publicado ningún Job"
                                 description="Publica tu primer Job y empieza a recibir ayuda de otros estudiantes."
                                 icon = {<AiFillWarning  size={40} className="text-yellow-400" />}
-                                primaryAction={{ label: "Publicar Job", onClick: () => openModal(true) }}
-                                secondaryAction={{ label: "Explorar", onClick: () => navigate("/home"), variant: "secondary" }}
+                                primaryAction={{ label: "Publicar Job", onClick: () => openModal(true), variant: "warning" }}
+                                secondaryAction={{ label: "Explorar Jobs", onClick: () => navigate("/home"), variant: "secondary" }}
                             />
 
+                        ) : misJobsVisibles.length === 0 ? (
+                            <FiltroSinResultados etiqueta={filtro.etiqueta} onQuitar={filtro.limpiar} />
+
                         ) : (
-                            misJobs.map((job) => (
+                            misJobsVisibles.map((job) => (
                                 <JobPublicadoCard
                                     key={job.id}
                                     job={job}
@@ -163,8 +182,11 @@ return (
                                 icon = {<MdOutlineWorkHistory size={40} className="text-[#8B4513]" />}
                                 primaryAction={{ label: "Explorar", onClick: () => navigate("/home"), variant: "secondary" }}
                             />
+                        ) : jobsTomadosVisibles.length === 0 ? (
+                            <FiltroSinResultados etiqueta={filtro.etiqueta} onQuitar={filtro.limpiar} />
+
                         ) : (
-                            jobsTomados.map((job) => (
+                            jobsTomadosVisibles.map((job) => (
                                 <JobPostuladoCard
                                     key={job.id}
                                     job={job}
@@ -175,65 +197,22 @@ return (
                     </>
                 )}
                 </div>
-            </div>
+            </section>
 
-            <div className="max-w-6xl mx-auto px-4 pb-10">
-                <Button variant="secondary" size="sm" className=" lg:-ml-90" onClick={() => navigate("/home")}>
-                    Volver
-                </Button>
-            </div>
-
-            <div>
-                <Footer />
-            </div>
+            <Footer className="mt-0" />
+            <TabBarMobile onPublicar={openModal} />
 
         </div> {/* Fin apartado de los Jobs */}
         
-        <ErrorBackendModal
-            isOpen={isOpenError}
-            onClose={closeModalError}
-            closing={closingError}
-            opening={openingError}
-            errorCode={errorCode}
-            primaryAction={{ label: "Entendido", onClick: closeModalError }}
-        />
+        <ErrorBackendModal {...errorModalProps} />
 
-        <CalificarModal
-            isOpen={isOpenCalificar}
-            closing={closingCalificar}
-            opening={openingCalificar}
-            jobActual={jobActual}
-            categorias={categorias}
-            puntuaciones={puntuaciones}
-            setPuntuacionCategoria={setPuntuacionCategoria}
-            hover={hover}
-            setHoverCategoria={setHoverCategoria}
-            comentario={comentario}
-            setComentario={setComentario}
-            onCerrar={cerrarCalificar}
-            onSubmit={submitCalificacion}
-        />
+        <CalificarModal {...calificarModalProps} />
+
+        {filtro.disponible && <FiltroEstadoSheet {...filtroSheetProps} />}
 
         <CreateJobModal
-            show={showModal}
-            closing={closing}
-            closeModal={closeModal}
-            handleCreateJob={(e) => handleCreateJob(e, agregarJob)}    
-            
-            titulo={titulo}
-            setTitulo={setTitulo}
-            descripcion={descripcion}
-            setDescripcion={setDescripcion}
-            pago={pago}
-            setPago={setPago}
-            ubicacion={ubicacion}
-            setUbicacion={setUbicacion}
-            categoria={categoria}
-            setCategoria={setCategoria}
-            tipoPago={tipoPago}
-            setTipoPago={setTipoPago}
-    
-            errors={errors}
+            {...createJobModalProps}
+            handleCreateJob={(e) => handleCreateJob(e, agregarJob)}
         />
     </>
     )

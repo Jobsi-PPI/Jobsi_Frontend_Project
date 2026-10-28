@@ -83,12 +83,9 @@ const BirthdayCelebration = ({ userBirthDate, userIdentifier = 'guest' }) => {
                 localStorage.setItem(storageKey, 'true');
 
                 // Hide the confetti and banner after 10 seconds of showing it
-                const hideTimer = setTimeout(() => {
+                setTimeout(() => {
                     setShowAnimation(false);
                 }, 10000);
-
-                // Add hideTimer to the cleanup process internally if needed,
-                // but for simplicity we rely on the parent unmount if the user navigates away.
             }, 5000);
 
             // Cleanup the delay timer if the component unmounts before 5 seconds
