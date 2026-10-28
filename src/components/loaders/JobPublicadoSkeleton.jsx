@@ -1,12 +1,24 @@
 const JobPublicadoSkeleton = () => (
-    <div className="bg-gray-200 p-6 rounded-3xl animate-pulse space-y-4">
-        <div className="h-6 bg-gray-300 rounded w-2/3" />
-        <div className="h-4 bg-gray-300 rounded w-full" />
-        <div className="h-4 bg-gray-300 rounded w-5/6" />
+    <div className="flex animate-pulse flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4">
+        <div className="h-6 w-20 rounded-full bg-gray-200" />
+        <div className="h-6 w-2/3 rounded bg-gray-200" />
+        <div className="h-4 w-full rounded bg-gray-200" />
+        <div className="h-4 w-5/6 rounded bg-gray-200" />
 
-        <div className="flex gap-4 mt-4">
-            <div className="h-10 bg-gray-300 rounded-full w-32" />
-            <div className="h-10 bg-gray-300 rounded-full w-32" />
+        <div className="flex gap-2">
+            <div className="h-8 w-28 rounded-full bg-gray-200" />
+            <div className="h-8 w-24 rounded-full bg-gray-200" />
+        </div>
+
+        <div className="flex items-end justify-between border-t border-gray-100 pt-3">
+            <div className="h-8 w-24 rounded bg-gray-200" />
+            <div className="flex flex-col items-end gap-2">
+                <div className="flex gap-2">
+                    <div className="h-10 w-24 rounded-lg bg-gray-200" />
+                    <div className="h-10 w-10 rounded-lg bg-gray-200" />
+                </div>
+                <div className="h-10 w-32 rounded-lg bg-gray-200" />
+            </div>
         </div>
     </div>
 );
