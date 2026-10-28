@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import {obtenerMisJobs, obtenerJobsTomados, deleteJob, abandonarJob} from "../../../services/jobsServices/misJobsService";
 import { useAuth } from "/src/context/AuthContext.jsx";
+import { useModalState } from "/src/components/ui/modals/hooks/useModalState.js";
 
 export const useVerMisJobs = () => {
     const { token } = useAuth();
@@ -12,6 +13,9 @@ export const useVerMisJobs = () => {
     const [activeTab, setActiveTab] = useState("publicados");
     const [loadingPublicados, setLoadingPublicados] = useState(true);
     const [loadingPostulados, setLoadingPostulados] = useState(true);
+
+    const errorModal = useModalState();
+    const [errorCode, setErrorCode] = useState(null);
 
 
     //Publicados
@@ -108,6 +112,23 @@ export const useVerMisJobs = () => {
         setMisJobs(prev => [nuevoJob, ...prev]);
     };
 
+    const handleAbandonarConError = async (jobId) => {
+        const code = await handleAbandonarJob(jobId);
+        if (code) {
+            setErrorCode(code);
+            errorModal.openModal();
+        }
+    };
+
+    const errorModalProps = {
+        isOpen: errorModal.isOpen,
+        closing: errorModal.closing,
+        opening: errorModal.opening,
+        errorCode,
+        onClose: errorModal.closeModal,
+        primaryAction: { label: "Entendido", onClick: errorModal.closeModal },
+    };
+
 
     return {
         // estados
@@ -125,8 +146,11 @@ export const useVerMisJobs = () => {
 
         // handlers
         handleDeleteJob,
-        handleAbandonarJob,
+        handleAbandonarConError,
         actualizarEstadoJob,
         agregarJob,
+
+        // props listas para <ErrorBackendModal />
+        errorModalProps,
     };
 };

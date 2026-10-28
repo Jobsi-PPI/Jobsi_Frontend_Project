@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { AiFillWarning} from "react-icons/ai";
 import { MdOutlineWorkHistory } from "react-icons/md";
 import { FiFilter } from "react-icons/fi";
@@ -11,7 +10,6 @@ import CalificarModal from "../calificaciones/CalificarModal.jsx";
 
 import { useVerMisJobs } from "./hooks/useVerMisJobs";
 import { useCreateJob } from "../home/hooks/useCreateJob.js";
-import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
 import { useCalificarModal } from "../calificaciones/hooks/useCalificarModal.js";
 
 //Importación de componentes
@@ -27,28 +25,7 @@ const VerMisJobs = () => {
     
     const navigate = useNavigate(); 
     
-    const { isOpen: isOpenError, closing: closingError, opening: openingError, 
-        openModal: openModalError, closeModal: closeModalError } = useModalState();
-
-    const [errorCode, setErrorCode] = useState(null);
-
-    const handleAbandonarConError = async (jobId) => {
-        const code = await handleAbandonarJob(jobId);
-        if (code) {
-            setErrorCode(code);
-            openModalError();
-        }
-    };
-
-    //Se importa la lógica del hook
-    const {
-        titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-        errors, showModal, closing, 
-
-        // setters
-        setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
-        handleCreateJob, closeModal, openModal
-    } = useCreateJob();
+    const { openModal, handleCreateJob, modalProps: createJobModalProps } = useCreateJob();
 
     const {
         misJobs,
@@ -59,18 +36,12 @@ const VerMisJobs = () => {
         agregarJob,
         setActiveTab,
         handleDeleteJob,
-        handleAbandonarJob,
+        handleAbandonarConError,
         actualizarEstadoJob,
+        errorModalProps,
     } = useVerMisJobs();
 
-    const {
-        isOpen: isOpenCalificar, closing: closingCalificar, opening: openingCalificar,
-        puntuaciones, setPuntuacionCategoria,
-        hover, setHoverCategoria,
-        comentario, setComentario,
-        jobActual, categorias,
-        abrirModal: abrirCalificar, handleCerrar: cerrarCalificar, handleSubmit: submitCalificacion,
-    } = useCalificarModal();
+    const { abrirModal: abrirCalificar, modalProps: calificarModalProps } = useCalificarModal();
 
     const tabs = [
         { id: "publicados", label: "Publicados", cantidad: misJobs.length, cargando: loadingPublicados },
@@ -217,51 +188,13 @@ return (
 
         </div> {/* Fin apartado de los Jobs */}
         
-        <ErrorBackendModal
-            isOpen={isOpenError}
-            onClose={closeModalError}
-            closing={closingError}
-            opening={openingError}
-            errorCode={errorCode}
-            primaryAction={{ label: "Entendido", onClick: closeModalError }}
-        />
+        <ErrorBackendModal {...errorModalProps} />
 
-        <CalificarModal
-            isOpen={isOpenCalificar}
-            closing={closingCalificar}
-            opening={openingCalificar}
-            jobActual={jobActual}
-            categorias={categorias}
-            puntuaciones={puntuaciones}
-            setPuntuacionCategoria={setPuntuacionCategoria}
-            hover={hover}
-            setHoverCategoria={setHoverCategoria}
-            comentario={comentario}
-            setComentario={setComentario}
-            onCerrar={cerrarCalificar}
-            onSubmit={submitCalificacion}
-        />
+        <CalificarModal {...calificarModalProps} />
 
         <CreateJobModal
-            show={showModal}
-            closing={closing}
-            closeModal={closeModal}
-            handleCreateJob={(e) => handleCreateJob(e, agregarJob)}    
-            
-            titulo={titulo}
-            setTitulo={setTitulo}
-            descripcion={descripcion}
-            setDescripcion={setDescripcion}
-            pago={pago}
-            setPago={setPago}
-            ubicacion={ubicacion}
-            setUbicacion={setUbicacion}
-            categoria={categoria}
-            setCategoria={setCategoria}
-            tipoPago={tipoPago}
-            setTipoPago={setTipoPago}
-    
-            errors={errors}
+            {...createJobModalProps}
+            handleCreateJob={(e) => handleCreateJob(e, agregarJob)}
         />
     </>
     )
