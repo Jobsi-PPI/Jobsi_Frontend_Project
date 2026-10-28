@@ -6,6 +6,8 @@ import { FiFilter } from "react-icons/fi";
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 import JobPublicadoCard from "./misJobs/JobPublicadoCard";
 import JobPostuladoCard from "./misJobs/JobPostuladoCard";
+import FiltroEstadoSheet from "./misJobs/FiltroEstadoSheet";
+import FiltroSinResultados from "./misJobs/FiltroSinResultados";
 import CalificarModal from "../calificaciones/CalificarModal.jsx";
 
 import { useVerMisJobs } from "./hooks/useVerMisJobs";
@@ -30,6 +32,8 @@ const VerMisJobs = () => {
     const {
         misJobs,
         jobsTomados,
+        misJobsVisibles,
+        jobsTomadosVisibles,
         activeTab,
         loadingPublicados,
         loadingPostulados,
@@ -39,6 +43,8 @@ const VerMisJobs = () => {
         handleAbandonarConError,
         actualizarEstadoJob,
         errorModalProps,
+        filtro,
+        filtroSheetProps,
     } = useVerMisJobs();
 
     const { abrirModal: abrirCalificar, modalProps: calificarModalProps } = useCalificarModal();
@@ -118,13 +124,17 @@ return (
                             {activeTab === "publicados" ? "Mis publicaciones" : "Mis postulaciones"}
                         </h2>
 
-                        <button
-                            type="button"
-                            className="flex h-10 shrink-0 items-center gap-2 !rounded-full !border !border-gray-300 !bg-white !px-4 text-sm font-semibold !text-[#1e3a8a] transition hover:!bg-gray-50"
-                        >
-                            <FiFilter className="h-4 w-4" />
-                            Filtrar
-                        </button>
+                        {filtro.disponible && (
+                            <button
+                                type="button"
+                                onClick={filtro.abrir}
+                                className={`flex h-10 shrink-0 items-center gap-2 !rounded-full !border !bg-white !px-4 text-sm font-semibold !text-[#1e3a8a] transition hover:!bg-gray-50
+                                    ${filtro.activo ? "!border-[#1e3a8a] ring-1 ring-[#1e3a8a]" : "!border-gray-300"}`}
+                            >
+                                <FiFilter className="h-4 w-4" />
+                                {filtro.activo ? filtro.etiqueta : "Filtrar"}
+                            </button>
+                        )}
                     </div>
                 )}
 
@@ -143,8 +153,11 @@ return (
                                 secondaryAction={{ label: "Explorar Jobs", onClick: () => navigate("/home"), variant: "secondary" }}
                             />
 
+                        ) : misJobsVisibles.length === 0 ? (
+                            <FiltroSinResultados etiqueta={filtro.etiqueta} onQuitar={filtro.limpiar} />
+
                         ) : (
-                            misJobs.map((job) => (
+                            misJobsVisibles.map((job) => (
                                 <JobPublicadoCard
                                     key={job.id}
                                     job={job}
@@ -169,8 +182,11 @@ return (
                                 icon = {<MdOutlineWorkHistory size={40} className="text-[#8B4513]" />}
                                 primaryAction={{ label: "Explorar", onClick: () => navigate("/home"), variant: "secondary" }}
                             />
+                        ) : jobsTomadosVisibles.length === 0 ? (
+                            <FiltroSinResultados etiqueta={filtro.etiqueta} onQuitar={filtro.limpiar} />
+
                         ) : (
-                            jobsTomados.map((job) => (
+                            jobsTomadosVisibles.map((job) => (
                                 <JobPostuladoCard
                                     key={job.id}
                                     job={job}
@@ -191,6 +207,8 @@ return (
         <ErrorBackendModal {...errorModalProps} />
 
         <CalificarModal {...calificarModalProps} />
+
+        {filtro.disponible && <FiltroEstadoSheet {...filtroSheetProps} />}
 
         <CreateJobModal
             {...createJobModalProps}

@@ -1,10 +1,5 @@
 import { capitalizar } from "../../utils/formatUtils.js";
-
-const ESTADOS = {
-    PENDIENTE: { label: "Pendiente", clases: "bg-amber-100 text-amber-800" },
-    ASIGNADO: { label: "Asignado", clases: "bg-[#e6ecfb] text-[#1e3a8a]" },
-    FINALIZADO: { label: "Finalizado", clases: "bg-green-100 text-green-800" },
-};
+import { ESTADOS } from "../../utils/estadosJob.js";
 
 const EstadoBadge = ({ estado }) => {
     if (!estado) return null;

@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import {obtenerMisJobs, obtenerJobsTomados, deleteJob, abandonarJob} from "../../../services/jobsServices/misJobsService";
 import { useAuth } from "/src/context/AuthContext.jsx";
 import { useModalState } from "/src/components/ui/modals/hooks/useModalState.js";
+import { TODOS, OPCIONES_FILTRO, etiquetaEstado, filtrarPorEstado } from "../../../utils/estadosJob.js";
+import { useIsMobile } from "/src/components/ui/modals/hooks/useIsMobile.js";
 
 export const useVerMisJobs = () => {
     const { token } = useAuth();
@@ -16,6 +18,10 @@ export const useVerMisJobs = () => {
 
     const errorModal = useModalState();
     const [errorCode, setErrorCode] = useState(null);
+
+    const [filtros, setFiltros] = useState({ publicados: TODOS, postulados: TODOS });
+    const [filtroAbierto, setFiltroAbierto] = useState(false);
+    const filtroDisponible = useIsMobile();
 
 
     //Publicados
@@ -112,6 +118,35 @@ export const useVerMisJobs = () => {
         setMisJobs(prev => [nuevoJob, ...prev]);
     };
 
+    const misJobsVisibles = filtroDisponible ? filtrarPorEstado(misJobs, filtros.publicados) : misJobs;
+    const jobsTomadosVisibles = filtroDisponible ? filtrarPorEstado(jobsTomados, filtros.postulados) : jobsTomados;
+
+    const filtroActual = filtros[activeTab];
+
+    const seleccionarFiltro = (valor) => {
+        setFiltros((prev) => ({ ...prev, [activeTab]: valor }));
+        setFiltroAbierto(false);
+    };
+
+    const limpiarFiltro = () => seleccionarFiltro(TODOS);
+
+    const filtro = {
+        disponible: filtroDisponible,
+        activo: filtroActual !== TODOS,
+        etiqueta: etiquetaEstado(filtroActual),
+        abrir: () => setFiltroAbierto(true),
+        limpiar: limpiarFiltro,
+    };
+
+    const filtroSheetProps = {
+        open: filtroAbierto,
+        onOpenChange: setFiltroAbierto,
+        opciones: OPCIONES_FILTRO[activeTab].map((value) => ({ value, label: etiquetaEstado(value) })),
+        valor: filtroActual,
+        onChange: seleccionarFiltro,
+        onLimpiar: limpiarFiltro,
+    };
+
     const handleAbandonarConError = async (jobId) => {
         const code = await handleAbandonarJob(jobId);
         if (code) {
@@ -135,6 +170,8 @@ export const useVerMisJobs = () => {
         menuOpen,
         misJobs,
         jobsTomados,
+        misJobsVisibles,
+        jobsTomadosVisibles,
         activeTab,
 
         loadingPublicados,
@@ -152,5 +189,9 @@ export const useVerMisJobs = () => {
 
         // props listas para <ErrorBackendModal />
         errorModalProps,
+
+        // filtro por estado
+        filtro,
+        filtroSheetProps,
     };
 };
