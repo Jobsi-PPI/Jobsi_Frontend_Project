@@ -137,7 +137,7 @@ const handleCreateJob = async (e, onSuccess) => {
     if (onSuccess) onSuccess(nuevoJob);
 
     closeModal();
-    } catch (error) {
+    } catch {
     Swal.fire({
         icon: "error",
         title: "Error publicando el Job",
@@ -168,6 +168,18 @@ const jobsPorCategoria = categoriaSeleccionada === "TODAS"
 
 
 
+const modalProps = {
+    show: showModal,
+    closing, opening, closeModal, handleCreateJob,
+    titulo, setTitulo,
+    descripcion, setDescripcion,
+    pago, setPago,
+    ubicacion, setUbicacion,
+    categoria, setCategoria,
+    tipoPago, setTipoPago,
+    errors,
+};
+
 return {
     // States
     titulo, descripcion, pago, ubicacion, categoria, tipoPago,
@@ -176,6 +188,9 @@ return {
     // setters
     setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, setShowModal, setLoadingJobs, setCategoriaSeleccionada,
 
+
+    // props listas para <CreateJobModal />
+    modalProps,
 
     // funciones
     handleCreateJob,

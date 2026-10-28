@@ -52,7 +52,7 @@ return (
                 <img
                     src={logoJobsi}
                     alt="Logo Jobsi Home"
-                    className="h-10 w-auto object-contain lg:h-12"
+                    className="h-13 w-auto object-contain lg:h-12"
                 />
             </button>
 

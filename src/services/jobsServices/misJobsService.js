@@ -33,7 +33,7 @@ export const obtenerJobsTomados = async (token) => {
 
 //Eliminar un job publicado por el usuario 
 export const deleteJob = async (jobId, token) => {
-    const response = await api.delete(`/v1/jobs/published/delete/${jobId}`, {
+    await api.delete(`/v1/jobs/published/delete/${jobId}`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }

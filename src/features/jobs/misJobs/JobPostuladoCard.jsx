@@ -1,8 +1,9 @@
-import { FiUser } from "react-icons/fi";
-import { TbDoorExit } from "react-icons/tb";
+import { FiUser, FiClock, FiCreditCard } from "react-icons/fi";
 import Swal from "sweetalert2";
+import { capitalizar, formatearFechaCorta, formatearPesos } from "../../../utils/formatUtils.js";
 
-import Button from "../../../components/ui/Button.jsx";
+import EstadoBadge from "../../../components/ui/EstadoBadge.jsx";
+import InfoChip from "../../../components/ui/InfoChip.jsx";
 
 const JobPostuladoCard = ({ job, onAbandoned }) => {
 
@@ -23,45 +24,41 @@ const JobPostuladoCard = ({ job, onAbandoned }) => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-3xl shadow flex flex-col gap-3 border-2 border-black">
+        <article className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 
-            <h2 className="text-xl font-bold text-[#1e3a8a]">
-                {job.titulo}
-            </h2>
+            <EstadoBadge estado={job.estado} />
 
-            <p className="text-gray-700 flex items-center gap-2 whitespace-nowrap">
-                <span>Solicitado por:</span>
-                <FiUser className="text-lg" />
-                <span className="ml-1">{job.solicitanteCorreo}</span>
+            <h3 className="text-lg font-bold text-gray-900">{job.titulo}</h3>
+
+            <p className="text-sm text-gray-600">{job.descripcion}</p>
+
+            <p className="flex min-w-0 items-center gap-2 text-sm text-gray-600">
+                <FiUser className="h-4 w-4 shrink-0" />
+                <span className="truncate">Solicitado por {job.solicitanteCorreo}</span>
             </p>
 
-            <p className="text-gray-700">{job.descripcion}</p>
-
-            <div className="mt-2">
-                <p className="font-bold text-[#1e3a8a]">{job.tipoPago}</p>
-                <p className="text-lg font-semibold text-[#1e3a8a]">${job.pago.toLocaleString()}</p>
-            </div>
-
-            <div className="mt-2">
-                <p className="font-semibold text-[#1e3a8a]">Tiempo límite</p>
-                <p className="font-bold text-black">{job.fechaLimite}</p>
-            </div>
-
-            {/* Botones */}
-            <div className="flex flex-wrap gap-4 mt-4">
-                {job.estado !== "FINALIZADO" && (
-                    <Button
-                        variant="danger"
-                        size="md"
-                        className="rounded-full"
-                        onClick={handleAbandonarClick}
-                    >
-                        <TbDoorExit className="mr-2" /> Abandonar
-                    </Button>
+            <div className="flex flex-wrap gap-2">
+                {job.fechaLimite && (
+                    <InfoChip icon={FiClock}>Límite: {formatearFechaCorta(job.fechaLimite)}</InfoChip>
                 )}
-
+                <InfoChip icon={FiCreditCard}>{capitalizar(job.tipoPago)}</InfoChip>
             </div>
-        </div>
+
+            <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-3">
+                <p className="text-2xl font-bold text-[#1e3a8a]">{formatearPesos(job.pago)}</p>
+
+                {/* Los "!" son necesarios: index.css define estilos globales para <button> fuera de @layer */}
+                {job.estado !== "FINALIZADO" && (
+                    <button
+                        type="button"
+                        onClick={handleAbandonarClick}
+                        className="flex h-10 items-center justify-center !rounded-lg !border !border-red-200 !bg-white !px-4 text-sm font-bold !text-red-600 transition hover:!bg-red-50"
+                    >
+                        Abandonar
+                    </button>
+                )}
+            </div>
+        </article>
     );
 };
 

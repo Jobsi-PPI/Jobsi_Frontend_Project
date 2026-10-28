@@ -52,7 +52,7 @@ const Login = () => {
             });
             navigate("/home");
 
-        } catch (error) {
+        } catch {
             Swal.fire({
                 title: "Error",
                 text: "Error al iniciar sesión. Verifica tus datos.",

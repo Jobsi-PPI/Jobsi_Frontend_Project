@@ -75,12 +75,18 @@ export const useCalificarModal = () => {
     };
 
     return {
-        isOpen, closing, opening,
-        puntuaciones, setPuntuacionCategoria,
-        hover, setHoverCategoria,
-        comentario, setComentario,
-        jobActual,
-        categorias: CATEGORIAS,
-        abrirModal, handleCerrar, handleSubmit,
+        abrirModal,
+
+        // props listas para <CalificarModal />
+        modalProps: {
+            isOpen, closing, opening,
+            jobActual,
+            categorias: CATEGORIAS,
+            puntuaciones, setPuntuacionCategoria,
+            hover, setHoverCategoria,
+            comentario, setComentario,
+            onCerrar: handleCerrar,
+            onSubmit: handleSubmit,
+        },
     };
 };
