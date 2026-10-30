@@ -12,3 +12,6 @@ export const formatearFechaCorta = (fecha) => {
     const parsed = parseISO(fecha);
     return isValid(parsed) ? format(parsed, "d MMM yyyy", { locale: es }) : fecha;
 };
+
+// En la mitad exacta se redondea hacia abajo (4.5 → 4 estrellas), como en el diseño
+export const estrellasLlenas = (valor) => Math.min(5, Math.max(0, Math.ceil(valor - 0.5)));

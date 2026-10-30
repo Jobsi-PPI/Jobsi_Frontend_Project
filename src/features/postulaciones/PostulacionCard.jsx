@@ -1,33 +1,46 @@
-import { FiUser, FiMail, FiClock } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import Button from "../../components/ui/Button.jsx";
-import EstrellasCalificacion from "../../components/ui/EstrellasCalificacion.jsx";
-import { tiempoRelativo } from "../../utils/timeUtils.js";
+import ValoracionCandidato from "./ValoracionCandidato.jsx";
+import { fraseSePostulo } from "../../utils/timeUtils.js";
 
-const PostulacionCard = ({ postulacion, onElegir }) => {
+const PostulacionCard = ({ postulacion, esMejor, onElegir }) => {
     const { solicitudId, nombreUsuario, correoUsuario, fechaSolicitud } = postulacion;
 
     return (
-        <div className="bg-white rounded-xl border-2 border-black p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1e3a8a] flex items-center justify-center text-white flex-shrink-0">
-                    <FiUser size={20} />
-                </div>
-                <div className="flex flex-col gap-0.5">
-                    <p className="font-bold text-[#1e3a8a]">{nombreUsuario}</p>
-                    <p className="text-sm text-gray-600 flex items-center gap-1">
-                        <FiMail size={12} /> {correoUsuario}
-                    </p>
-                    <EstrellasCalificacion calificacion={postulacion.valoracionPromedio ?? null} />
-                    <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-                        <FiClock size={11} /> {tiempoRelativo(fechaSolicitud)}
-                    </p>
-                </div>
+        <article className="flex w-[80%] max-w-[360px] shrink-0 snap-start flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:w-auto md:max-w-none">
+
+            <div className="flex items-start justify-between gap-2">
+                {/* Placeholder de la foto de perfil */}
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#e6ecfb] text-[#1e3a8a]">
+                    <FiUser className="h-6 w-6" />
+                </span>
+
+                {esMejor && (
+                    <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">
+                        Mejor valorado
+                    </span>
+                )}
             </div>
 
-            <Button variant="primary" size="sm" onClick={() => onElegir(solicitudId)}>
-                Seleccionar
+            <div className="min-w-0">
+                <h4 className="truncate text-lg font-bold text-gray-900">{nombreUsuario}</h4>
+                <p className="truncate text-sm text-gray-500">{correoUsuario}</p>
+            </div>
+
+            <ValoracionCandidato candidato={postulacion} />
+
+            <p className="text-sm text-gray-500">{fraseSePostulo(fechaSolicitud)}</p>
+
+            <Button
+                variant="primary"
+                size="lg"
+                fullWidth
+                className="!rounded-xl !font-bold"
+                onClick={() => onElegir(solicitudId)}
+            >
+                Elegir candidato
             </Button>
-        </div>
+        </article>
     );
 };
 

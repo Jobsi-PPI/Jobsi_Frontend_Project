@@ -111,7 +111,6 @@ return (
                         </button>
                     );
                 })}
-
             </div>
 
             <section className="mt-6 rounded-t-[40px] bg-white px-4 pb-10 pt-6 sm:px-3 lg:px-10">
