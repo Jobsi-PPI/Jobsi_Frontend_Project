@@ -118,8 +118,8 @@ export const useVerMisJobs = () => {
         setMisJobs(prev => [nuevoJob, ...prev]);
     };
 
-    const misJobsVisibles = filtroDisponible ? filtrarPorEstado(misJobs, filtros.publicados) : misJobs;
-    const jobsTomadosVisibles = filtroDisponible ? filtrarPorEstado(jobsTomados, filtros.postulados) : jobsTomados;
+    const misJobsVisibles = filtrarPorEstado(misJobs, filtros.publicados);
+    const jobsTomadosVisibles = filtrarPorEstado(jobsTomados, filtros.postulados);
 
     const filtroActual = filtros[activeTab];
 
@@ -133,7 +133,9 @@ export const useVerMisJobs = () => {
     const filtro = {
         disponible: filtroDisponible,
         activo: filtroActual !== TODOS,
+        valor: filtroActual,
         etiqueta: etiquetaEstado(filtroActual),
+        seleccionar: seleccionarFiltro,
         abrir: () => setFiltroAbierto(true),
         limpiar: limpiarFiltro,
     };
