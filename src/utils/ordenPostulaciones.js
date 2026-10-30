@@ -5,14 +5,21 @@ export const ORDENES = [
 
 const fechaEnMs = (candidato) => new Date(candidato.fechaSolicitud).getTime() || 0;
 
-// Quien nunca ha sido calificado queda por debajo de cualquier calificación, incluso de 0
-const valoracion = (candidato) => {
-    const valor = Number(candidato.valoracionPromedio);
-    return candidato.valoracionPromedio == null || !Number.isFinite(valor) ? -1 : valor;
-};
+// Las calificaciones reales van de 1 a 5: un 0 o un valor ausente significa "sin calificación"
+export const tieneValoracion = (candidato) => Number(candidato.valoracionPromedio) > 0;
+
+const valoracion = (candidato) => (tieneValoracion(candidato) ? Number(candidato.valoracionPromedio) : -1);
 
 const porMasReciente = (a, b) => fechaEnMs(b) - fechaEnMs(a);
-const porMejorValorado = (a, b) => valoracion(b) - valoracion(a) || porMasReciente(a, b);
+
+// En un empate gana quien se postuló primero; sin fecha válida pierde el desempate
+const porMasAntiguo = (a, b) => (fechaEnMs(a) || Infinity) - (fechaEnMs(b) || Infinity);
+const porMejorValorado = (a, b) => valoracion(b) - valoracion(a) || porMasAntiguo(a, b);
 
 export const ordenarCandidatos = (candidatos, orden) =>
     [...candidatos].sort(orden === "mejorValorados" ? porMejorValorado : porMasReciente);
+
+export const mejorCandidato = (candidatos) => {
+    const [mejor] = [...candidatos].sort(porMejorValorado);
+    return candidatos.length > 1 && mejor && tieneValoracion(mejor) ? mejor : null;
+};

@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { FiBell } from "react-icons/fi";
-import { MdOutlineWorkHistory } from "react-icons/md";
+import { FiBell, FiMapPin, FiCreditCard } from "react-icons/fi";
 
 import { usePostulacionesRecibidas } from "./hooks/usePostulacionesRecibidas.js";
 import { useCreateJob} from "/src/features/home/hooks/useCreateJob.js";
 import { ORDENES } from "../../utils/ordenPostulaciones.js";
+import { capitalizar, formatearPesos } from "../../utils/formatUtils.js";
 
 import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
 
@@ -14,6 +14,7 @@ import Header from "../../components/layout/Header.jsx";
 import Footer from "../../components/layout/Footer.jsx";
 import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
+import InfoChip from "../../components/ui/InfoChip.jsx";
 
 const PostulacionesRecibidas = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const PostulacionesRecibidas = () => {
             <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
                 <section className="mt-4 rounded-t-[40px] bg-white px-4 pb-10 pt-6 sm:px-3 lg:px-10">
                     {!loading && postulacionesPorJob.length > 0 && (
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                             <p className="text-xl font-semibold text-gray-600">Ordenar por</p>
 
                             <div role="tablist" aria-label="Ordenar postulaciones" className="flex w-fit gap-1 rounded-2xl bg-[#f1f4f9] p-1">
@@ -68,14 +69,14 @@ const PostulacionesRecibidas = () => {
                         </div>
                     )}
 
-                    <div className="w-full flex justify-center mt-6 pb-20 px-4">
+                    <div className="mt-6 flex w-full flex-col gap-8 pb-20">
                             {loading ? (
                                 /* Skeletons de carga */
-                                <div className="flex flex-col gap-4">
-                                    {Array.from({ length: 5 }).map((_, i) => (
+                                <>
+                                    {Array.from({ length: 2 }).map((_, i) => (
                                         <PostulacionSkeleton key={i} />
                                     ))}
-                                </div>
+                                </>
                             ) : postulacionesPorJob.length === 0 ? (
                                 <EmptyState
                                     title="Aún no tienes postulaciones"
@@ -87,34 +88,32 @@ const PostulacionesRecibidas = () => {
                             ) : (
                                 /* Un bloque por cada Job con postulaciones */
                                 postulacionesPorJob.map((grupo) => (
-                                    <div key={grupo.jobId} className="bg-white rounded-2xl border-2 border-black overflow-hidden">
+                                    <section key={grupo.jobId} className="flex flex-col gap-3">
+                                        <div className="flex flex-col gap-2">
+                                            <h3 className="text-xl font-bold text-[#1e3a8a]">{grupo.jobTitulo}</h3>
 
-                                        {/* Cabecera del Job */}
-                                        <div className="bg-[#1e3a8a] px-5 py-4 flex items-center gap-3">
-                                            <MdOutlineWorkHistory size={22} className="text-yellow-400 flex-shrink-0" />
-                                            <div>
-                                                <h3 className="text-white font-bold text-lg leading-tight">
-                                                    {grupo.jobTitulo}
-                                                </h3>
-                                                <p className="text-blue-200 text-sm">
-                                                    {grupo.candidatos.length} postulante{grupo.candidatos.length !== 1 ? "s" : ""}
-                                                    {grupo.jobPago ? ` · $${grupo.jobPago.toLocaleString()} ${grupo.jobTipoPago ?? ""}` : ""}
-                                                    {grupo.jobUbicacion ? ` · ${grupo.jobUbicacion}` : ""}
-                                                </p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {grupo.jobUbicacion && <InfoChip icon={FiMapPin}>{grupo.jobUbicacion}</InfoChip>}
+                                                {grupo.jobPago > 0 && (
+                                                    <InfoChip icon={FiCreditCard}>
+                                                        {formatearPesos(grupo.jobPago)}
+                                                        {grupo.jobTipoPago && ` · ${capitalizar(grupo.jobTipoPago)}`}
+                                                    </InfoChip>
+                                                )}
                                             </div>
                                         </div>
 
-                                        {/* Lista de candidatos */}
-                                        <div className="p-4 flex flex-col gap-3">
+                                        <div key={orden} className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 lg:grid-cols-3">
                                             {grupo.candidatos.map((postulacion) => (
                                                 <PostulacionCard
-                                                    key={postulacion.id}
+                                                    key={postulacion.solicitudId}
                                                     postulacion={postulacion}
+                                                    esMejor={postulacion.solicitudId === grupo.mejorSolicitudId}
                                                     onElegir={handleElegirCandidato}
                                                 />
                                             ))}
                                         </div>
-                                    </div>
+                                    </section>
                                 ))
                             )}
                     </div>

@@ -14,3 +14,9 @@ export const tiempoRelativo = (fecha) => {
     if (diffDias < 7) return `Hace ${diffDias} días`;
     return publicado.toLocaleDateString("es-CO");
 };
+
+export const fraseSePostulo = (fecha) => {
+    const tiempo = tiempoRelativo(fecha);
+    if (/^\d/.test(tiempo)) return `Se postuló el ${tiempo}`;
+    return `Se postuló ${tiempo.charAt(0).toLowerCase()}${tiempo.slice(1)}`;
+};

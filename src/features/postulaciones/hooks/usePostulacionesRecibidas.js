@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "/src/context/AuthContext.jsx";
 import { obtenerPostulacionesPorJob, elegirCandidato } from "/src/services/jobsServices/postulacionesService.js";
 import { obtenerMisJobs } from "/src/services/jobsServices/misJobsService.js";
-import { ordenarCandidatos } from "/src/utils/ordenPostulaciones.js";
+import { ordenarCandidatos, mejorCandidato } from "/src/utils/ordenPostulaciones.js";
 import Swal from "sweetalert2";
 
 export const usePostulacionesRecibidas = () => {
@@ -81,6 +81,7 @@ export const usePostulacionesRecibidas = () => {
     const postulacionesPorJob = grupos.map((grupo) => ({
         ...grupo,
         candidatos: ordenarCandidatos(grupo.candidatos, orden),
+        mejorSolicitudId: mejorCandidato(grupo.candidatos)?.solicitudId,
     }));
 
     return { loading, postulacionesPorJob, handleElegirCandidato, orden, setOrden };
