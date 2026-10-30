@@ -1,5 +1,7 @@
 import api from "../apiService.js";
-const API_URL = "http://localhost:8080/v1";
+import { API_BASE_URL } from "../../config/env.js";
+
+const API_URL = `${API_BASE_URL}/v1`;
 
 //Crear un nuevo job público
 export const crearJob = async (data, token) => {
