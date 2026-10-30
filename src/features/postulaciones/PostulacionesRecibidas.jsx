@@ -18,7 +18,7 @@ import EmptyState from "../../components/ui/states/EmptyState.jsx";
 const PostulacionesRecibidas = () => {
     const navigate = useNavigate();
     const { loading, postulacionesPorJob, handleElegirCandidato, orden, setOrden } = usePostulacionesRecibidas();
-    const { openModal, handleCreateJob, modalProps: createJobModalProps } = useCreateJob();
+    const { openModal, modalProps: createJobModalProps } = useCreateJob();
 
     return (
         <>
@@ -39,8 +39,6 @@ const PostulacionesRecibidas = () => {
                     </h3>
                 </div>
             </div>
-
-            {/* Contenido principal */}
 
             {/* Apartado de los Jobs*/}
             <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
@@ -124,10 +122,7 @@ const PostulacionesRecibidas = () => {
                     <Footer className="mt-0" />
                     <TabBarMobile  onPublicar={openModal} />
 
-                    <CreateJobModal
-                    {...createJobModalProps}
-                    handleCreateJob={(e) => handleCreateJob(e, agregarJob)}
-                    />
+                    <CreateJobModal {...createJobModalProps} />
             </div>
 
             
