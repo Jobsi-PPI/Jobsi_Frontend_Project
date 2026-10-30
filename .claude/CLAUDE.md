@@ -35,7 +35,7 @@ npm run lint       # ESLint
 npm run preview    # Preview del build
 ```
 
-Backend corre en `http://localhost:8080` (configurado en `src/services/apiService.js`).
+La URL del backend se define en `VITE_API_URL` (archivo `.env`, ver `.env.example`; por defecto `http://localhost:8080`) y se lee **solo** desde `src/config/env.js` (`API_BASE_URL`). Nunca escribir la URL del backend a mano en servicios o componentes. Tras cambiar `.env` hay que reiniciar `npm run dev`.
 
 ---
 
@@ -44,6 +44,7 @@ Backend corre en `http://localhost:8080` (configurado en `src/services/apiServic
 ```
 src/
 ├── assets/            # Imágenes (se importan, ver "Imágenes e imports")
+├── config/            # env.js → API_BASE_URL (desde VITE_API_URL)
 ├── context/           # AuthContext (user, token, login, logout)
 ├── routes/            # Routes.jsx, PrivateRoute.jsx
 ├── services/          # Llamadas HTTP con Axios

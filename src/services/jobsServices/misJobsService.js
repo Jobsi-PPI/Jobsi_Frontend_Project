@@ -1,4 +1,4 @@
-import api from "../apiService";   // api baseURL de springboot: "http://localhost:8080"
+import api from "../apiService";
 
 //Mostrar todos los jobs publicados por el usuario autenticado
 export const obtenerMisJobs = async (token) => {

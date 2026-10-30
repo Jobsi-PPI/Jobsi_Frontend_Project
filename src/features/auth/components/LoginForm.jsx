@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Button from "../../../components/ui/Button.jsx";
+import { API_BASE_URL } from "../../../config/env.js";
 
 const LoginForm = ({
     email,
@@ -74,12 +75,13 @@ const LoginForm = ({
                     </h2>
 
                     <p className="text-sm text-center text-gray-600">
-                        <Link
-                        to="/forgot-password"
+                        {/* El flujo de recuperación lo sirve el backend (páginas Thymeleaf) */}
+                        <a
+                        href={`${API_BASE_URL}/auth/password/forgot`}
                         className="!text-[#1e3a8a] hover:underline"
                         >
                         ¿Olvidaste tu contraseña?
-                        </Link>
+                        </a>
                     </p>
                 </div>
 

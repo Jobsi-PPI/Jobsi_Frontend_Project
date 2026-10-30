@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:8080";
+import { API_BASE_URL } from "../config/env.js";
+
+const API_BASE = API_BASE_URL;
 const AUTH_API = `${API_BASE}/auth`;
 
 export const register = async (data) => {
