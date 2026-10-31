@@ -158,6 +158,8 @@ return (
                 ))}
             </div>
         </div>
+
+        <div className="border-t border-white/10"></div>
     </header>
 )
 }
