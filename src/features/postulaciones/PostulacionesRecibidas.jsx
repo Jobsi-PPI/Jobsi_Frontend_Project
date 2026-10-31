@@ -30,7 +30,7 @@ const PostulacionesRecibidas = () => {
 
             {/* Título */}
             <div className="w-full bg-[#1e3a8a]">
-                <div className="max-w-4xl mx-auto flex flex-col items-start py-4 px-4 sm:py-14 lg:py-18 gap-4 sm:gap-5">
+                <div className="max-w-2xl flex flex-col items-start py-5 px-4 md:py-8 px-9 gap-2">
                     <h2 className="text-4xl font-bold lg:text-5xl">
                         <span className="text-yellow-400">Postulaciones</span>{" "}
                         <span className="text-white">Recibidas</span>
