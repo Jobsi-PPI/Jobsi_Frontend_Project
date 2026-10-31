@@ -35,23 +35,26 @@ const JobPublicadoCard = ({ job, onDelete, onFinalizar }) => {
         };
 
     return (
-        <article className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <article className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between md:gap-8">
 
-            <EstadoBadge estado={job.estado} />
+            <div className="flex min-w-0 flex-col items-start gap-3 md:flex-1">
+                <EstadoBadge estado={job.estado} />
 
-            <h3 className="text-lg font-bold text-gray-900">{job.titulo}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{job.titulo}</h3>
 
-            <p className="text-sm text-gray-600">{job.descripcion}</p>
+                <p className="text-sm text-gray-600">{job.descripcion}</p>
 
-            <div className="flex flex-wrap gap-2">
-                <InfoChip icon={FiMapPin}>{job.ubicacion}</InfoChip>
-                <InfoChip icon={FiCreditCard}>{capitalizar(job.tipoPago)}</InfoChip>
+                <div className="flex flex-wrap gap-2">
+                    <InfoChip icon={FiMapPin}>{job.ubicacion}</InfoChip>
+                    <InfoChip icon={FiCreditCard}>{capitalizar(job.tipoPago)}</InfoChip>
+                </div>
             </div>
 
-            <div className="flex items-end justify-between gap-3 border-t border-gray-100 pt-3">
+            <div className="flex items-end justify-between gap-3 border-t border-gray-100 pt-3
+            md:shrink-0 md:flex-col md:justify-center md:gap-6 md:border-t-0 md:pt-0">
                 <p className="text-2xl font-bold text-[#1e3a8a]">{formatearPesos(job.pago)}</p>
 
-                <div className="flex flex-col items-end gap-2">
+                <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:gap-3">
                     <div className="flex gap-2">
                         <button
                             type="button"
