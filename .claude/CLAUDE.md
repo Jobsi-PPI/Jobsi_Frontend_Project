@@ -62,10 +62,9 @@ src/
 │   ├── jobs/          # VerMisJobs, JobPublicadoCard, JobPostuladoCard
 │   ├── postulaciones/
 │   ├── calificaciones/
-│   ├── perfil/
-│   └── configuracion/
+│   └── configuracion/ # Configuracion, components/ (ConfigContent), perfil/ (Perfil, hooks/usePerfil)
 ├── components/
-│   ├── layout/        # Header, HeaderConfiguracion, Footer, TabBarMobile, MenuSheet (móvil), UserMenu (escritorio)
+│   ├── layout/        # Header, Footer, TabBarMobile, MenuSheet (móvil), UserMenu (escritorio)
 │   ├── ui/            # Button, EstrellasCalificacion, Tooltip
 │   │   ├── modals/    # ComingSoonModal, ErrorBackendModal, NoInternetModal, hooks/ (useModalState, useIsMobile)
 │   │   └── states/    # EmptyState, ErrorState, LoadingState

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { obtenerPerfilUsuario } from "../../../services/usuariosService";
-import { useAuth } from "../../../context/AuthContext";
+import { obtenerPerfilUsuario } from "../../../../services/usuariosService";
+import { useAuth } from "../../../../context/AuthContext";
 
 export const usePerfil = () => {
     const { token } = useAuth();

@@ -1,83 +1,48 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiUser, FiLock, FiShield, FiTool } from "react-icons/fi";
+import { useCreateJob } from "/src/features/home/hooks/useCreateJob.js";
 
-import HeaderConfiguracion from "../../components/layout/HeaderConfiguracion.jsx";
+import CreateJobModal from "/src/features/home/layouts/CreateJobModal.jsx";
+
+/* Componentes*/
+import Header from "../../components/layout/Header.jsx";
 import Footer from "../../components/layout/Footer.jsx";
-import Button from "../../components/ui/Button.jsx";
-import Perfil from "../perfil/Perfil.jsx";
-
-const ITEMS = [
-    { id: "perfil",     label: "Perfil",     icon: <FiUser /> },
-    { id: "seguridad",  label: "Seguridad",  icon: <FiLock /> },
-    { id: "privacidad", label: "Privacidad", icon: <FiShield /> },
-];
-
-const ProximamenteSeccion = ({ titulo }) => (
-    <div className="flex flex-col items-center justify-center gap-3 py-20 text-center text-gray-500">
-        <FiTool size={40} className="text-[#1e3a8a]" />
-        <p className="text-lg font-semibold">{titulo}</p>
-        <p className="text-sm">Esta sección estará disponible próximamente.</p>
-    </div>
-);
+import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
+import ConfigContent from "./components/ConfigContent.jsx";
 
 const Configuracion = () => {
-    const navigate = useNavigate();
-    const [seccionActiva, setSeccionActiva] = useState("perfil");
+    const { openModal, modalProps: createJobModalProps } = useCreateJob();
 
-    const renderSeccion = () => {
-        switch (seccionActiva) {
-            case "perfil":     return <Perfil />;
-            case "seguridad":  return <ProximamenteSeccion titulo="Seguridad" />;
-            case "privacidad": return <ProximamenteSeccion titulo="Privacidad" />;
-            default:           return null;
-        }
-    };
 
     return (
         <>
-            <HeaderConfiguracion />
+            {/* Header */}
+            <div>
+                <Header onPublicarJob={openModal} />
+            </div>
 
+            {/* Título Configuración */}
+            <div className="w-full bg-[#1e3a8a]">
+                <div className="max-w-2xl flex flex-col items-start py-5 px-4 md:py-8 px-9 gap-2">
+                    <h2 className="text-3xl font-bold lg:text-5xl">
+                        <span className="text-yellow-400">Configuración</span>
+                    </h2>
+                    <h3 className="text-base sm:text-lg lg:text-xl font-light text-white max-w-3xl">
+                        Administra tu información personal y preferencias de cuenta.
+                    </h3>
+                </div>
+            </div>
 
             {/* Contenido */}
-            <div className="w-full bg-white relative overflow-x-hidden">
-                <div className="w-full max-w-screen-2xl	 mx-auto flex justify-center mt-6 pb-20">
-                    <div className="w-full bg-[#eef0f5] p-4 sm:p-6 lg:p-8 rounded-3xl flex flex-col sm:flex-row gap-6">
+            <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
+                <section className="mt-4 w-full rounded-t-[40px] bg-[#eef0f5] px-4 pb-10 pt-6 sm:px-3 lg:px-10">
+                    <ConfigContent />
 
-                        {/* Sidebar izquierdo */}
-                        <nav className="w-full sm:w-[200px] flex-shrink-0 flex flex-row sm:flex-col gap-2">
-                            {ITEMS.map(({ id, label, icon }) => (
-                                <button
-                                    key={id}
-                                    onClick={() => setSeccionActiva(id)}
-                                    className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm transition w-full text-left
-                                        ${seccionActiva === id
-                                            ? "!bg-[#1e3a8a] text-white"
-                                            : "text-gray-600 hover:!bg-gray-200"
-                                        }`}
-                                >
-                                    {icon} {label}
-                                </button>
-                            ))}
-                        </nav>
+                </section>
 
-                        {/* Divisor vertical */}
-                        <div className="hidden sm:block w-px bg-gray-300 self-stretch" />
+                <Footer className="mt-0" />
+                <TabBarMobile onPublicar={openModal} />
 
-                        {/* Sección activa */}
-                        <div className="flex-1 min-w-0">
-                            {renderSeccion()}
-                        </div>
-                    </div>
-                </div>
+                <CreateJobModal {...createJobModalProps} />
 
-                <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-                    <Button variant="primary" size="sm" onClick={() => navigate("/home")}>
-                        Volver
-                    </Button>
-                </div>
-
-                <Footer />
             </div>
         </>
     );
