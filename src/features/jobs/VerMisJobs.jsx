@@ -22,6 +22,7 @@ import Footer from "../../components/layout/Footer.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 import ErrorBackendModal from "../../components/ui/modals/ErrorBackendModal.jsx";
 import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
+import FiltrosDesktop from "./components/FiltrosDesktop.jsx";
 
 const VerMisJobs = () => {
     
@@ -67,13 +68,13 @@ return (
 
         {/* Área de Jobs */}
         <div className="w-full bg-[#1e3a8a] overflow-x-hidden">
-            <div className="max-w-4xl mx-auto flex flex-col items-start py-5 px-4 sm:py-14 lg:py-18 gap-4 sm:gap-5">
+            <div className="max-w-4xl flex flex-col items-start py-5 px-4 md:py-8 px-9 gap-2">
                 
-                <h2 className="text-4xl lg:text-7xl font-bold">
+                <h2 className="text-4xl lg:text-5xl font-bold">
                     <span className="text-yellow-400">Área de Jobs</span>
                 </h2>
 
-                <h3 className="text-base font-semibold sm:text-lg lg:text-xl text-white max-w-3xl">
+                <h3 className="text-base lg:text-lg text-white max-w-3xl">
                     Aquí encontrarás los jobs que has publicado y también a los que te has postulado
                 </h3>
 
@@ -84,7 +85,7 @@ return (
         <div className="w-full bg-[#1e3a8a] relative overflow-x-hidden">
 
             {/* Botones de publicados y postulados */}
-            <div role="tablist" className="max-w-auto mx-8 py-2 px-2 flex flex-row justify-center gap-1 rounded-2xl !bg-white/18 md:gap-8 lg:gap-16">
+            <div role="tablist" className="max-w-auto mx-8 py-2 px-2 flex flex-row justify-center gap-1 rounded-2xl !bg-white/18 md:hidden">
                 
                 {tabs.map(({ id, label, cantidad, cargando }) => {
                     const activo = activeTab === id;
@@ -113,13 +114,23 @@ return (
                 })}
             </div>
 
-            <section className="mt-6 rounded-t-[40px] bg-white px-4 pb-10 pt-6 sm:px-3 lg:px-10">
-                    <div className={`mx-auto flex w-full max-w-6xl flex-col gap-4 rounded-2xl md:gap-6 md:bg-[#eef0f5] md:p-6 lg:p-8
+            <section className="mt-6 rounded-t-[40px] bg-white text-black px-4 pb-10 pt-6 sm:px-3 lg:px-10">
+                    
+                    <FiltrosDesktop
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+                        vacio={vacio}
+                        valor={filtro.valor}
+                        onChange={filtro.seleccionar}
+                    />
+
+                    <div className={`mx-auto flex w-full max-w-6xl flex-col gap-4 rounded-2xl md:gap-6 md:bg-white md:p-6 lg:p-8
                         ${vacio ? "bg-[#f6f7fb] p-4" : ""}`}>
 
                 {!vacio && (
                     <div className="flex items-center justify-between gap-3">
-                        <h2 className="text-xl font-bold text-gray-900">
+                        <h2 className="text-xl font-bold text-gray-900 md:hidden">
                             {activeTab === "publicados" ? "Mis publicaciones" : "Mis postulaciones"}
                         </h2>
 
