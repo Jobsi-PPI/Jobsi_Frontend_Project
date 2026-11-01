@@ -1,6 +1,11 @@
 const EstrellasCalificacion = ({ calificacion }) => {
     if (!calificacion) {
-        return <span className="text-sm text-gray-400">Sin calificación aún</span>;
+        return (
+            <span className="flex items-center gap-2 text-sm text-gray-400">
+                <span className="text-gray-200" aria-hidden="true">★★★★★</span>
+                Sin calificación aún
+            </span>
+        );
     }
 
     const llenas = Math.round(calificacion);

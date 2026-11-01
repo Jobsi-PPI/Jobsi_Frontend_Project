@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { obtenerPerfilUsuario } from "../../../../services/usuariosService";
 import { useAuth } from "../../../../context/AuthContext";
+import { capitalizar } from "../../../../utils/formatUtils";
 
 export const usePerfil = () => {
-    const { token } = useAuth();
+    const { user, token } = useAuth();
     const [perfil, setPerfil] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -25,5 +26,19 @@ export const usePerfil = () => {
         cargarPerfil();
     }, [token]);
 
-    return { perfil, loading };
+    const nombre = perfil?.nombre ?? user?.nombre ?? "—";
+    const apellidos = [perfil?.primerApellido, perfil?.segundoApellido].filter(Boolean).join(" ");
+    const genero = perfil?.genero ?? user?.genero;
+
+    const datos = {
+        nombre,
+        apellidos: apellidos || "—",
+        nombreCompleto: [nombre, apellidos].filter(Boolean).join(" "),
+        correo: perfil?.correo ?? user?.email ?? "—",
+        celular: perfil?.celular ?? "—",
+        genero: genero ? capitalizar(genero) : "—",
+        calificacion: perfil?.valoracionPromedio ?? null,
+    };
+
+    return { loading, datos };
 };
