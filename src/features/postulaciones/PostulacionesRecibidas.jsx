@@ -35,7 +35,7 @@ const PostulacionesRecibidas = () => {
                         <span className="text-yellow-400">Postulaciones</span>{" "}
                         <span className="text-white">Recibidas</span>
                     </h2>
-                    <h3 className="text-base font-semibold sm:text-lg lg:text-xl font-light text-white max-w-3xl">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-light text-white max-w-3xl">
                         Aquí verás todos los estudiantes que se han postulado a tus Jobs. Elige al candidato ideal.
                     </h3>
                 </div>

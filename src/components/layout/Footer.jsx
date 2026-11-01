@@ -36,7 +36,7 @@ const Footer = ({ className = "mt-20" }) => {
                         <h3 className="hidden md:block text-xs font-semibold uppercase tracking-wider text-white/70">
                             Enlaces
                         </h3>
-                        <ul className="flex flex-row gap-4 md:mt-4 text-sm">
+                        <ul className="flex flex-row gap-4 md:flex md:flex-col mt-4 text-sm">
                             {ENLACES.map((enlace) => (
                                 <li key={enlace.label}>
                                     <a
