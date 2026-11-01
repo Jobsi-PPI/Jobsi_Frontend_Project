@@ -74,7 +74,7 @@ return (
                     <span className="text-yellow-400">Área de Jobs</span>
                 </h2>
 
-                <h3 className="text-base lg:text-lg text-white max-w-3xl">
+                <h3 className="text-base sm:text-lg lg:text-xl font-light text-white max-w-3xl">
                     Aquí encontrarás los jobs que has publicado y también a los que te has postulado
                 </h3>
 

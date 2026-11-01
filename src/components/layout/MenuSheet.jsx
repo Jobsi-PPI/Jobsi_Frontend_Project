@@ -80,7 +80,7 @@ export default function MenuSheet({ open, onOpenChange, navigate, notificaciones
                         <hr className="my-2 border-gray-200" />
 
                         <button type="button" onClick={() => luegoDeCerrar(cerrarSesion)} className={`${opcionBase} !text-red-600`}>
-                            <FiLogOut className="h-5 w-5" />
+                            <FiLogOut className="h-5 w-5 -scale-x-100" />
                             Cerrar Sesión
                         </button>
 

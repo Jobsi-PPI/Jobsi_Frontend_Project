@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { FiBriefcase, FiHelpCircle, FiSettings, FiLogOut } from "react-icons/fi";
 
 import { useModalState } from "../ui/modals/hooks/useModalState.js";
 import ComingSoonModal from "../ui/modals/ComingSoonModal.jsx";
@@ -40,10 +41,12 @@ const UserMenu = ({ open, closeMenu, navigate }) => {
                         className="absolute right-0 top-full z-50 mt-2 w-56 origin-top-right rounded-xl bg-white py-2 shadow-xl ring-1 ring-black/5 transition duration-150 starting:scale-95 starting:opacity-0"
                     >
                         <button role="menuitem" type="button" onClick={() => irA("/mis-jobs")} className={`${opcionBase} !text-gray-800`}>
+                            <FiBriefcase className="mr-2 inline-block" />
                             Ver mis Jobs
                         </button>
 
                         <button role="menuitem" type="button" onClick={() => irA("/configuracion")} className={`${opcionBase} !text-gray-800`}>
+                            <FiSettings className="mr-2 inline-block" />
                             Configuración
                         </button>
 
@@ -53,6 +56,7 @@ const UserMenu = ({ open, closeMenu, navigate }) => {
                             onClick={() => { closeMenu(); openModal(); }}
                             className={`${opcionBase} !text-gray-800`}
                         >
+                            <FiHelpCircle className="mr-2 inline-block" />
                             Ayuda
                         </button>
 
@@ -64,6 +68,7 @@ const UserMenu = ({ open, closeMenu, navigate }) => {
                             onClick={() => { closeMenu(); cerrarSesion(); }}
                             className={`${opcionBase} !text-red-600`}
                         >
+                            <FiLogOut className="mr-2 inline-block -scale-x-100" />
                             Cerrar Sesión
                         </button>
                     </div>
