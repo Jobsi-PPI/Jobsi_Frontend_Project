@@ -56,7 +56,7 @@ const Footer = ({ className = "mt-20" }) => {
                             Contacto
                         </h3>
                         <ul className="mt-4 space-y-3 text-sm text-white/80">
-                            <li>jobsi_bsns@gmail.com</li>
+                            <li>jobsioficial@gmail.com</li>
                         </ul>
                     </div>
 

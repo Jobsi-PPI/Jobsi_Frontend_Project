@@ -34,8 +34,8 @@ export const usePerfil = () => {
         nombre,
         apellidos: apellidos || "—",
         nombreCompleto: [nombre, apellidos].filter(Boolean).join(" "),
-        correo: perfil?.correo ?? user?.email ?? "—",
-        celular: perfil?.celular ?? "—",
+        correo: perfil?.email ?? user?.email ?? "—",
+        celular: perfil?.telefono ?? "—",
         genero: genero ? capitalizar(genero) : "—",
         calificacion: perfil?.valoracionPromedio ?? null,
     };
