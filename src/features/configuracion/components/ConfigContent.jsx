@@ -4,10 +4,10 @@ import { FiUser, FiLock, FiShield, FiLogOut, FiChevronRight } from "react-icons/
 import { usePerfil } from "../perfil/hooks/usePerfil.js";
 import { useCerrarSesion } from "../../auth/hooks/useCerrarSesion.js";
 
-// Seguridad y privacidad aún no tienen ruta: sus botones no hacen nada
+// Privacidad aún no tiene ruta: su botón no hace nada
 const ITEMS = [
     { id: "perfil",     label: "Perfil",     descripcion: "Nombre, celular y foto",         icon: <FiUser />,   ruta: "/configuracion/perfil" },
-    { id: "seguridad",  label: "Seguridad",  descripcion: "Contraseña y sesiones",          icon: <FiLock /> },
+    { id: "seguridad",  label: "Seguridad",  descripcion: "Contraseña y sesiones",          icon: <FiLock />,   ruta: "/configuracion/seguridad" },
     { id: "privacidad", label: "Privacidad", descripcion: "Visibilidad y notificaciones",   icon: <FiShield /> },
 ];
 
