@@ -19,6 +19,7 @@ Genera el mensaje de commit para los cambios recién implementados.
 | `fix`      | Corrección de un error                                              |
 | `refactor` | Reorganizar o limpiar código sin cambiar su comportamiento          |
 | `docs`     | Cambios solo de documentación (ej: `CLAUDE.md`, `.claude/`)         |
+| `chore`    | Configuración o mantenimiento sin código de la app (ej: `.gitignore`, ajustes locales) |
 
 ## Ejemplos del proyecto
 
