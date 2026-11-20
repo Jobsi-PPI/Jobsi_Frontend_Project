@@ -22,7 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
+brag-output/ 
+mockups/
 
 # Archivos de entorno
 .env
