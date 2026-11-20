@@ -8,6 +8,7 @@ import ExplorarJobs from "../features/home/ExplorarJobs";
 import PostulacionesRecibidas from "../features/postulaciones/PostulacionesRecibidas";
 import Configuracion from "../features/configuracion/Configuracion";
 import Perfil from "../features/configuracion/perfil/Perfil";
+import Seguridad from "../features/configuracion/seguridad/Seguridad";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -28,6 +29,7 @@ return (
             <Route path="/mis-postulaciones" element={<PostulacionesRecibidas />} />
             <Route path="/configuracion" element={<Configuracion />} />
             <Route path="/configuracion/perfil" element={<Perfil />} />
+            <Route path="/configuracion/seguridad" element={<Seguridad />} />
             </Route>
 
             {/* Fallback */}
