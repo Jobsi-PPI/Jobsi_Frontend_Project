@@ -6,3 +6,11 @@ export const obtenerPerfilUsuario = async (token) => {
     });
     return response.data;
 };
+
+export const cambiarContrasena = async ({ contrasenaActual, contrasenaNueva }, token) => {
+    await api.patch(
+        "/v1/usuarios/cambiar-contrasena",
+        { contrasenaActual, contrasenaNueva },
+        { headers: { Authorization: `Bearer ${token}` } },
+    );
+};
