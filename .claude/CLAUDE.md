@@ -175,7 +175,7 @@ Sin comentarios salvo que el WHY sea no obvio.
 
 - `main` está protegida: todo cambio entra por pull request. Flujo del equipo: rama de trabajo (`feat/...`, `fix/...`) → PR a `dev` → PR de `dev` a `main`.
 - Antes de reutilizar una rama ya mergeada: `git merge --ff-only origin/main`.
-- Commits en español con el formato `<tipo>(<scope>): Descripción`, donde el tipo es `feat`, `fix`, `refactor` o `docs` (ver `.claude/commands/commit.md`). Si cierra un issue, `Closes #N` al final (GitHub lo cierra cuando el commit llega a `main`).
+- Commits en español con el formato `<tipo>(<scope>): Descripción`, donde el tipo es `feat`, `fix`, `refactor`, `docs` o `chore` (ver `.claude/commands/commit.md`). Si cierra un issue, `Closes #N` al final (GitHub lo cierra cuando el commit llega a `main`).
 - Comandos del proyecto en `.claude/commands/`: `commit`, `nuevo-endpoint`, `nuevo-issue`.
 
 ---
