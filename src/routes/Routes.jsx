@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../features/home/Home";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
+import RecuperarContrasena from "../features/auth/RecuperarContrasena";
 import VerMisJobs from "../features/jobs/VerMisJobs";
 import ExplorarJobs from "../features/home/ExplorarJobs";
 import PostulacionesRecibidas from "../features/postulaciones/PostulacionesRecibidas";
@@ -20,6 +21,7 @@ return (
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
 
             {/* Privadas */}
             <Route element={<PrivateRoute />}>
