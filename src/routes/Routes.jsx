@@ -10,6 +10,7 @@ import PostulacionesRecibidas from "../features/postulaciones/PostulacionesRecib
 import Configuracion from "../features/configuracion/Configuracion";
 import Perfil from "../features/configuracion/perfil/Perfil";
 import Seguridad from "../features/configuracion/seguridad/Seguridad";
+import Privacidad from "../features/configuracion/privacidad/Privacidad";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -32,6 +33,7 @@ return (
             <Route path="/configuracion" element={<Configuracion />} />
             <Route path="/configuracion/perfil" element={<Perfil />} />
             <Route path="/configuracion/seguridad" element={<Seguridad />} />
+            <Route path="/configuracion/privacidad" element={<Privacidad />} />
             </Route>
 
             {/* Fallback */}
