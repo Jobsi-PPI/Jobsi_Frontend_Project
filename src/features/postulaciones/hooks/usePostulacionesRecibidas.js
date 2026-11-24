@@ -14,7 +14,6 @@ export const usePostulacionesRecibidas = () => {
     useEffect(() => {
         const cargar = async () => {
             try {
-                await new Promise((r) => setTimeout(r, 2500));
                 const misJobs = await obtenerMisJobs(token);
                 const pendientes = misJobs.filter((j) => j.estado === "PENDIENTE");
 
