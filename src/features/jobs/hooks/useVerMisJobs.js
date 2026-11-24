@@ -31,10 +31,7 @@ export const useVerMisJobs = () => {
             setLoadingPublicados(true);
 
             try {
-                await Promise.all([
-                    obtenerMisJobs(token).then(setMisJobs),
-                    new Promise(resolve => setTimeout(resolve, 2500)) // Simular latencia de skeleton loading
-                ]);
+                setMisJobs(await obtenerMisJobs(token));
             } catch (error) {
                 console.error("Error cargando mis jobs", error);
             } finally {
@@ -52,10 +49,7 @@ export const useVerMisJobs = () => {
             setLoadingPostulados(true);
 
             try {
-                await Promise.all([
-                    obtenerJobsTomados(token).then(setJobsTomados),
-                    new Promise(resolve => setTimeout(resolve, 2500)) // Simular latencia de skeleton loading
-                ]);
+                setJobsTomados(await obtenerJobsTomados(token));
             } catch (error) {
                 console.error("Error cargando jobs tomados", error);
             } finally {

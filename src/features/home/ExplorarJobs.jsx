@@ -1,6 +1,5 @@
 //Imports de librerías y hooks
 import { useNavigate } from "react-router-dom"
-import { useModalState } from "../../components/ui/modals/hooks/useModalState.js";
 import { useCreateJob } from "./hooks/useCreateJob";
 import { IoExtensionPuzzleSharp } from "react-icons/io5";
 
@@ -13,6 +12,7 @@ import JobCardSkeleton from "../../components/loaders/JobCardSkeleton.jsx";
 //Imports de componentes UI y layout
 import Header from "../../components/layout/Header.jsx";
 import Footer from "../../components/layout/Footer.jsx";
+import TabBarMobile from "../../components/layout/TabBarMobile.jsx";
 import Button from "../../components/ui/Button.jsx";
 import EmptyState from "../../components/ui/states/EmptyState.jsx";
 
@@ -22,25 +22,10 @@ const ExplorarJobs = () => {
 
     const {
         categoriaSeleccionada, setCategoriaSeleccionada,
-        jobsRecientes,
-        jobsMejorPagados,
-        jobsPorCategoria,
+        jobs, loadingJobs,
+        jobsRecientes, jobsMejorPagados, jobsPorCategoria,
+        handleTomarJob, openModal, modalProps,
     } = useCreateJob();
-
-
-    // Opciones de categorías para el filtro
-    const CATEGORIAS = ["TODAS", "ASESORIAS", "TAREAS", "MATERIALES", "ENTRENAMIENTOS", "OTRO"];
-
-
-    //Se importa la lógica del hook useCreateJob
-        const {
-            titulo, descripcion, pago, ubicacion, categoria, tipoPago,
-            errors, jobs, showModal, opening, closing, loadingJobs, 
-    
-            // setters
-            setTitulo, setDescripcion, setPago, setUbicacion, setCategoria, setTipoPago, 
-            handleCreateJob, handleTomarJob, closeModal, openModal
-        } = useCreateJob(); // → para CreateJobModal
 
     return (
         <>
@@ -180,11 +165,12 @@ const ExplorarJobs = () => {
                     </Button>
                 </div>
 
-                <div>
-                    <Footer />
-                </div>
-            
+                <Footer className="mt-0" />
+                <TabBarMobile onPublicar={openModal} />
+
             </div>
+
+            <CreateJobModal {...modalProps} />
         </>
     )
 }

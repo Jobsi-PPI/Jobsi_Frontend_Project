@@ -13,10 +13,7 @@ export const usePerfil = () => {
         const cargarPerfil = async () => {
             setLoading(true);
             try {
-                await Promise.all([
-                    obtenerPerfilUsuario(token).then(setPerfil),
-                    new Promise(resolve => setTimeout(resolve, 2500)),
-                ]);
+                setPerfil(await obtenerPerfilUsuario(token));
             } catch {
                 // Backend aún no disponible; se usa el fallback de AuthContext
             } finally {

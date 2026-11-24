@@ -122,7 +122,7 @@ export const miServicio = async (param, token) => {
 
 ### Skeletons
 
-Delay artificial de 2500–3000 ms con `setTimeout` antes de `setLoading(false)`.
+Se muestran solo mientras llega la respuesta real: no agregar esperas artificiales (se quitaron al salir a producción, #61).
 
 ### SweetAlert2
 

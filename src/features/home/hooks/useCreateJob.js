@@ -34,10 +34,7 @@ useEffect(() => {
         setLoadingJobs(true);
 
         try {
-            await Promise.all([
-                obtenerJobs().then(setJobs),
-                new Promise(resolve => setTimeout(resolve, 3000)) // Simular latencia de skeleton loading
-            ]);
+            setJobs(await obtenerJobs());
         } catch (error) {
             console.error(error);
         } finally {
