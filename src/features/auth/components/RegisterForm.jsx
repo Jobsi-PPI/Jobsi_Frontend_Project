@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../../components/ui/Button.jsx";
+import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal.jsx";
+import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
 import FormField from "./FormField.jsx";
 import PasswordField from "./PasswordField.jsx";
 import RegisterStepHeader from "./RegisterStepHeader.jsx";
@@ -30,9 +32,11 @@ const RegisterForm = ({
     step, totalSteps, nextStep, prevStep
 }) => {
     const navigate = useNavigate();
+    const { isOpen, closing, opening, openModal, closeModal } = useModalState();
     const soloEnPaso = (...pasos) => (pasos.includes(step) ? "" : "max-md:hidden");
 
     return (
+        <>
         <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="flex items-center justify-between gap-4 mb-6 max-md:hidden">
                 <h2 className="text-black sm:text-lg lg:text-3xl font-bold">
@@ -59,7 +63,7 @@ const RegisterForm = ({
             <Button
                 className={`relative !bg-white !text-black !border !border-gray-500 hover:!bg-gray-100 ${soloEnPaso(1)}`}
                 fullWidth
-                /* onClick={() => navigate("/register-google")} */
+                onClick={openModal}
             >
                 <FcGoogle className="pr-2 w-8 h-5 md:w-10 md:h-6" />
                 Registrarse con Google
@@ -211,6 +215,15 @@ const RegisterForm = ({
                 )}
             </div>
         </form>
+
+        <ComingSoonModal
+            isOpen={isOpen}
+            onClose={closeModal}
+            closing={closing}
+            opening={opening}
+            primaryAction={{ label: "Entendido", onClick: closeModal }}
+        />
+        </>
     );
 };
 

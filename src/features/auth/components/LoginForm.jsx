@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Button from "../../../components/ui/Button.jsx";
+import ComingSoonModal from "../../../components/ui/modals/ComingSoonModal.jsx";
+import { useModalState } from "../../../components/ui/modals/hooks/useModalState.js";
 
 const LoginForm = ({
     email,
@@ -17,6 +19,7 @@ const LoginForm = ({
     }) => {
 
     const navigate = useNavigate();
+    const { isOpen, closing, opening, openModal, closeModal } = useModalState();
 
     return (
         <div>
@@ -102,7 +105,7 @@ const LoginForm = ({
                     <Button
                         className="relative !bg-white !text-black !border !border-gray-500 hover:!bg-gray-100"
                         fullWidth
-                        /* onClick={() => navigate("/register-google")} */
+                        onClick={openModal}
                     >
                         <FcGoogle className="absolute left-4 w-5 h-5 md:w-6 md:h-6" />
                         Continuar con Google
@@ -134,6 +137,14 @@ const LoginForm = ({
                 </div>
 
             </form>
+
+            <ComingSoonModal
+                isOpen={isOpen}
+                onClose={closeModal}
+                closing={closing}
+                opening={opening}
+                primaryAction={{ label: "Entendido", onClick: closeModal }}
+            />
         </div>
     )
     }
