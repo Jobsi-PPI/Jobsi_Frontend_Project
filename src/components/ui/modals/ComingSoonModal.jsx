@@ -22,7 +22,7 @@ const ComingSoonModal = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4" onClick={onClose}>
 
             {/* Contenedor del modal */}
-            <div className={`w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center border border-dashed border-zinc-300 transition-all duration-300
+            <div className={`w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center border border-dashed border-zinc-300 transition-all duration-300
                 ${closing ? "scale-90 opacity-0" : opening ? "scale-90 opacity-0" : "scale-100 opacity-100"}`}
                 onClick={(e) => e.stopPropagation()}
             >

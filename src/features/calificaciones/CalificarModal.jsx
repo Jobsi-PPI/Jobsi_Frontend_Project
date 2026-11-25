@@ -18,13 +18,16 @@ const CalificarModal = ({
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onCerrar} />
 
             {/* Modal */}
-            <div className={`relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 flex flex-col gap-5 transition-all duration-300
+            <div className={`relative bg-white rounded-3xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto p-5 sm:p-8 flex flex-col gap-4 sm:gap-5 transition-all duration-300
                 ${closing ? "scale-90 opacity-0" : opening ? "scale-90 opacity-0" : "scale-100 opacity-100"}`}
             >
                 {/* Cerrar */}
+                {/* Los "!" son necesarios: index.css define estilos globales para <button> fuera de @layer y ganan sobre las utilidades */}
                 <button
+                    type="button"
                     onClick={onCerrar}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition"
+                    aria-label="Cerrar"
+                    className="absolute top-3 right-3 !border-0 !bg-transparent !p-1.5 !text-gray-400 transition hover:!text-red-500"
                 >
                     <FiX size={24} />
                 </button>
@@ -36,11 +39,11 @@ const CalificarModal = ({
                 </div>
 
                 {/* Categorías */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 sm:gap-4">
                     {categorias.map((categoria) => (
                         <div key={categoria}>
                             <p className="font-semibold text-gray-700 mb-1 text-sm">{categoria}</p>
-                            <div className="flex gap-1">
+                            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <button
                                         key={star}
@@ -48,7 +51,8 @@ const CalificarModal = ({
                                         onClick={() => setPuntuacionCategoria(categoria, star)}
                                         onMouseEnter={() => setHoverCategoria(categoria, star)}
                                         onMouseLeave={() => setHoverCategoria(categoria, 0)}
-                                        className="text-3xl transition-transform hover:scale-110 focus:outline-none"
+                                        aria-label={`${star} de 5 en ${categoria}`}
+                                        className="flex h-10 items-center justify-center !rounded-xl !border-0 !bg-gray-50 !p-0 text-2xl transition hover:!bg-gray-100 focus-visible:ring-2 focus-visible:ring-[#1e3a8a]/40 sm:h-11 sm:text-3xl"
                                     >
                                         <span className={star <= (hover[categoria] || puntuaciones[categoria]) ? "text-yellow-400" : "text-gray-300"}>
                                             ★
@@ -69,7 +73,7 @@ const CalificarModal = ({
                         value={comentario}
                         onChange={(e) => setComentario(e.target.value)}
                         placeholder="Cuéntanos cómo fue tu experiencia..."
-                        rows={3}
+                        rows={2}
                         maxLength={300}
                         className="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-700 resize-none focus:outline-none focus:border-[#1e3a8a] transition"
                     />
@@ -78,10 +82,10 @@ const CalificarModal = ({
 
                 {/* Botones */}
                 <div className="flex gap-3 justify-end">
-                    <Button variant="secondary" size="md" onClick={onCerrar}>
+                    <Button variant="secondary" size="md" className="max-sm:flex-1" onClick={onCerrar}>
                         Cancelar
                     </Button>
-                    <Button variant="primary" size="md" onClick={onSubmit}>
+                    <Button variant="primary" size="md" className="max-sm:flex-1" onClick={onSubmit}>
                         Finalizar Job
                     </Button>
                 </div>
