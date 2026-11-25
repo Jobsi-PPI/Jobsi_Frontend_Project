@@ -17,7 +17,7 @@ const EliminarCuentaModal = ({ isOpen, onClose, closing, opening }) => {
                 aria-modal="true"
                 aria-labelledby="eliminar-cuenta-titulo"
                 onClick={(e) => e.stopPropagation()}
-                className={`w-full max-w-md rounded-2xl bg-white p-6 shadow-xl transition-all duration-300 sm:p-8
+                className={`w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl transition-all duration-300 sm:p-8
                     ${closing || opening ? "scale-90 opacity-0" : "scale-100 opacity-100"}`}
             >
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-2xl text-red-600">
